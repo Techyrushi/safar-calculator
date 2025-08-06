@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculate My Safar</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #4361ee;
+        --secondary-color: #3f37c9;
+        --accent-color: #4895ef;
+        --light-color: #f8f9fa;
+        --dark-color: #212529;
+        --success-color: #4cc9f0;
+        --warning-color: #f72585;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        color: var(--dark-color);
+        padding: 0;
+        margin: 0;
+      }
+
+      .navbar {
+        background-color: var(--primary-color);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar-brand {
+        font-weight: 700;
+        color: white !important;
+      }
+
+      .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      .card {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 2rem;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 12px 12px 0 0 !important;
+        padding: 1rem 1.5rem;
+        font-weight: 600;
+      }
+
+      .form-label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: var(--dark-color);
+      }
+
+      .form-control,
+      .form-select {
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        border: 1px solid #dee2e6;
+        transition: all 0.3s ease;
+      }
+
+      .form-control:focus,
+      .form-select:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+      }
+
+      .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        transform: translateY(-2px);
+      }
+
+      .result-card {
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .result-header {
+        background-color: var(--success-color);
+        color: white;
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      .result-body {
+        padding: 1.5rem;
+        background-color: white;
+      }
+
+      .price-display {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .detail-label {
+        font-weight: 500;
+        color: #6c757d;
+      }
+
+      .detail-value {
+        font-weight: 600;
+      }
+
+      .car-selector {
+        max-height: 300px;
+        overflow-y: auto;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+      }
+
+      .car-option {
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .car-option:hover {
+        background-color: #f8f9fa;
+      }
+
+      .car-option.selected {
+        background-color: rgba(67, 97, 238, 0.1);
+        border-left: 4px solid var(--primary-color);
+      }
+
+      .car-name {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .car-details {
+        font-size: 0.9rem;
+        color: #6c757d;
+      }
+
+      .car-price {
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      .feature-icon {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .error-message {
+        color: var(--warning-color);
+        font-weight: 500;
+        margin-top: 0.5rem;
+      }
+
+      footer {
+        background-color: var(--dark-color);
+        color: white;
+        padding: 2rem 0;
+        margin-top: 3rem;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      @media (max-width: 768px) {
+        .main-container {
+          padding: 1rem;
+        }
+
+        .card {
+          margin-bottom: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <i class="fas fa-car-side me-2"></i>
+          Calculate My Safar
+        </a>
+      </div>
+    </nav>
+
+    <div class="main-container">
+      <div class="row">
+        <!-- Left Column - Form -->
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-route me-2"></i> Plan Your Journey
+            </div>
+            <div class="card-body">
+              <form id="safarForm">
+                <!-- Trip Dates -->
+                <div class="row mb-4">
+                  <div class="col-md-6 mb-3 mb-md-0">
+                    <label for="startDate" class="form-label"
+                      >Trip Start Date</label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="far fa-calendar-alt"></i
+                      ></span>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="startDate"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="endDate" class="form-label"
+                      >Trip End Date</label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="far fa-calendar-alt"></i
+                      ></span>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="endDate"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Locations -->
+                <div class="row mb-4">
+                  <div class="col-md-6 mb-3 mb-md-0">
+                    <label for="pickup" class="form-label"
+                      >Pick-up Location</label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-map-marker-alt"></i
+                      ></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="pickup"
+                        placeholder="e.g., Nashik"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="drop" class="form-label">Drop Location</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-map-marker-alt"></i
+                      ></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="drop"
+                        placeholder="e.g., Shirdi"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Trip Type -->
+                <div class="row mb-4">
+                  <div class="col-md-6 mb-3 mb-md-0">
+                    <label for="tripType" class="form-label">Trip Type</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-exchange-alt"></i
+                      ></span>
+                      <select class="form-select" id="tripType" required>
+                        <option value="single">Single Side</option>
+                        <option value="round">Round Trip</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="persons" class="form-label"
+                      >Number of Passengers</label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fas fa-users"></i
+                      ></span>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="persons"
+                        min="1"
+                        max="24"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Car Selection -->
+                <div class="mb-4">
+                  <label class="form-label">Select Vehicle Type</label>
+                  <div class="car-selector" id="carSelector">
+                    <!-- Car options will be populated by JavaScript -->
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                  <i class="fas fa-calculator me-2"></i> Calculate Price
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Features -->
+          <!-- <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+              <div class="card h-100 text-center p-3">
+                <div class="feature-icon">
+                  <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <h5>Fast & Reliable</h5>
+                <p class="text-muted">
+                  Quick booking process with reliable service
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4 mb-4 mb-md-0">
+              <div class="card h-100 text-center p-3">
+                <div class="feature-icon">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <h5>Safe Travel</h5>
+                <p class="text-muted">
+                  Professional drivers and well-maintained vehicles
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card h-100 text-center p-3">
+                <div class="feature-icon">
+                  <i class="fas fa-wallet"></i>
+                </div>
+                <h5>Transparent Pricing</h5>
+                <p class="text-muted">
+                  No hidden charges, pay only for what you see
+                </p>
+              </div>
+            </div>
+          </div> -->
+        </div>
+
+        <!-- Right Column - Results -->
+        <div class="col-lg-4">
+          <div id="result" class="d-none">
+            <div class="card result-card">
+              <div class="result-header">
+                <h4 class="mb-0">Journey Details</h4>
+              </div>
+              <div class="result-body">
+                <div class="price-display" id="priceDisplay"></div>
+                <div id="journeyDetails">
+                  <!-- Journey details will be populated by JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-content text-center">
+        <p>&copy; 2025 Calculate My Safar. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const orsApiKey =
+        "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjRlZTQ1ZjExMzI2NzRmMTE5YmUwMTMxZWVkNDkwODY4IiwiaCI6Im11cm11cjY0In0=";
+
+      // Car data with all details
+      const carData = [
+        {
+          id: "swift_cng",
+          name: "Swift Desizre AC",
+          fuel: "CNG",
+          rate: 12,
+          capacity: "4 + Driver",
+        },
+        {
+          id: "swift_diesel",
+          name: "Swift Desizre AC",
+          fuel: "Diesel",
+          rate: 13,
+          capacity: "4 + Driver",
+        },
+        {
+          id: "swift_petrol",
+          name: "Swift Desizre AC",
+          fuel: "Petrol",
+          rate: 14,
+          capacity: "4 + Driver",
+        },
+        {
+          id: "wagonr_cng",
+          name: "Wagon R AC",
+          fuel: "CNG",
+          rate: 12,
+          capacity: "4 + Driver",
+        },
+        {
+          id: "wagonr_petrol",
+          name: "Wagon R AC",
+          fuel: "Petrol",
+          rate: 14,
+          capacity: "4 + Driver",
+        },
+        {
+          id: "aura_cng",
+          name: "Aura AC",
+          fuel: "CNG",
+          rate: 12,
+          capacity: "4 + Driver",
+        },
+        {
+          id: "aura_petrol",
+          name: "Aura AC",
+          fuel: "Petrol",
+          rate: 14,
+          capacity: "4 + Driver",
+        },
+        {
+          id: "etios_diesel",
+          name: "Etios AC",
+          fuel: "Diesel",
+          rate: 13,
+          capacity: "4 + Driver",
+        },
+        {
+          id: "ertiga_cng",
+          name: "Ertiga AC",
+          fuel: "CNG",
+          rate: 15,
+          capacity: "6 + Driver",
+        },
+        {
+          id: "ertiga_diesel",
+          name: "Ertiga AC",
+          fuel: "Diesel",
+          rate: 15,
+          capacity: "6 + Driver",
+        },
+        {
+          id: "ertiga_petrol",
+          name: "Ertiga AC",
+          fuel: "Petrol",
+          rate: 16,
+          capacity: "6 + Driver",
+        },
+        {
+          id: "innova_bucket",
+          name: "Innova Bucket Seat AC",
+          fuel: "Diesel",
+          rate: 17,
+          capacity: "6/7 + Driver",
+        },
+        {
+          id: "innova_regular",
+          name: "Innova Regular AC",
+          fuel: "Diesel",
+          rate: 17,
+          capacity: "6/7 + Driver",
+        },
+        {
+          id: "innova_crysta",
+          name: "Innova Crysta AC",
+          fuel: "Diesel",
+          rate: 17,
+          capacity: "6/7 + Driver",
+        },
+        {
+          id: "kia_carens",
+          name: "Kia Carens AC",
+          fuel: "Diesel",
+          rate: 16,
+          capacity: "6 + Driver",
+        },
+        {
+          id: "tavera",
+          name: "Tavera AC",
+          fuel: "Diesel",
+          rate: 17,
+          capacity: "9 + Driver",
+        },
+        {
+          id: "traveller_ac",
+          name: "Force Traveller AC",
+          fuel: "Diesel",
+          rate: 27,
+          capacity: "14/17 Seater",
+        },
+        {
+          id: "traveller_nonac",
+          name: "Force Traveller Non AC",
+          fuel: "Diesel",
+          rate: 23,
+          capacity: "14/17 Seater",
+        },
+        {
+          id: "winger_ac",
+          name: "TATA Winger AC",
+          fuel: "Diesel",
+          rate: 27,
+          capacity: "10/15 Seater",
+        },
+        {
+          id: "winger_nonac",
+          name: "TATA Winger Non AC",
+          fuel: "Diesel",
+          rate: 23,
+          capacity: "10/15 Seater",
+        },
+        {
+          id: "arbenia_ac",
+          name: "Arbenia AC",
+          fuel: "Diesel",
+          rate: 38,
+          capacity: "17 + Driver",
+        },
+        {
+          id: "arbenia_luxury",
+          name: "Arbenia Luxury",
+          fuel: "Diesel",
+          rate: 42,
+          capacity: "17 + Driver",
+        },
+      ];
+
+      // Populate car selector
+      function populateCarSelector() {
+        const carSelector = document.getElementById("carSelector");
+        carData.forEach((car) => {
+          const carOption = document.createElement("div");
+          carOption.className = "car-option";
+          carOption.dataset.carId = car.id;
+          carOption.dataset.rate = car.rate;
+          carOption.innerHTML = `
+          <div class="car-name">${car.name} (${car.fuel})</div>
+          <div class="car-details">
+            <span><i class="fas fa-users me-1"></i> ${car.capacity}</span>
+          </div>
+          <div class="car-price">₹${car.rate} per km</div>
+        `;
+          carSelector.appendChild(carOption);
+        });
+
+        // Add click event to car options
+        document.querySelectorAll(".car-option").forEach((option) => {
+          option.addEventListener("click", function () {
+            document
+              .querySelectorAll(".car-option")
+              .forEach((opt) => opt.classList.remove("selected"));
+            this.classList.add("selected");
+          });
+        });
+      }
+
+      async function getCoordinates(place) {
+        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+          place
+        )}&format=json&limit=1`;
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.length === 0) throw new Error(`Location not found: ${place}`);
+        return [parseFloat(data[0].lon), parseFloat(data[0].lat)];
+      }
+
+      async function getDistance(fromCoords, toCoords) {
+        const url =
+          "https://api.openrouteservice.org/v2/directions/driving-car/geojson";
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            Authorization: orsApiKey,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            coordinates: [fromCoords, toCoords],
+          }),
+        });
+        const data = await response.json();
+        const distanceInMeters = data.features[0].properties.summary.distance;
+        return distanceInMeters / 1000;
+      }
+
+      // Format date for display
+      function formatDate(dateString) {
+        const options = {
+          weekday: "short",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        };
+        return new Date(dateString).toLocaleDateString("en-US", options);
+      }
+
+      // Initialize the page
+      document.addEventListener("DOMContentLoaded", function () {
+        populateCarSelector();
+
+        // Set default dates
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        document.getElementById("startDate").valueAsDate = today;
+        document.getElementById("endDate").valueAsDate = tomorrow;
+
+        // Select first car by default
+        if (document.querySelector(".car-option")) {
+          document.querySelector(".car-option").classList.add("selected");
+        }
+      });
+
+      document
+        .getElementById("safarForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const pickup = document.getElementById("pickup").value;
+          const drop = document.getElementById("drop").value;
+          const tripType = document.getElementById("tripType").value;
+          const persons = parseInt(document.getElementById("persons").value);
+          const startDate = document.getElementById("startDate").value;
+          const endDate = document.getElementById("endDate").value;
+
+          // Get selected car
+          const selectedCar = document.querySelector(".car-option.selected");
+          if (!selectedCar) {
+            alert("Please select a vehicle");
+            return;
+          }
+
+          const carId = selectedCar.dataset.carId;
+          const rate = parseFloat(selectedCar.dataset.rate);
+          const carName = selectedCar.querySelector(".car-name").textContent;
+          const carCapacity = selectedCar
+            .querySelector(".car-details span")
+            .textContent.trim();
+
+          const resultDiv = document.getElementById("result");
+          const journeyDetailsDiv = document.getElementById("journeyDetails");
+          const priceDisplay = document.getElementById("priceDisplay");
+
+          // Show loading state
+          resultDiv.classList.remove("d-none");
+          journeyDetailsDiv.innerHTML = `<div class="text-center py-4"><div class="loading-spinner"></div><p class="mt-3">Calculating your journey...</p></div>`;
+
+          try {
+            const fromCoords = await getCoordinates(pickup);
+            const toCoords = await getCoordinates(drop);
+
+            let distance = await getDistance(fromCoords, toCoords);
+            console.log(`One-way distance: ${distance.toFixed(2)} km`);
+            let tripTypeText = "One-way journey";
+
+            if (tripType === "round") {
+              distance *= 2;
+              tripTypeText = "Round trip";
+              console.log(`Round trip distance: ${distance.toFixed(2)} km`);
+            }
+
+            const finalDistance = distance < 300 ? 300 : distance;
+            console.log(`Billed distance (after 300 km rule): ${finalDistance.toFixed(2)} km`);
+            const total = finalDistance * rate;
+
+            // Format dates
+            const formattedStartDate = formatDate(startDate);
+            const formattedEndDate = formatDate(endDate);
+
+            // Calculate days
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+
+            priceDisplay.innerHTML = `₹${total.toFixed(2)}`;
+            journeyDetailsDiv.innerHTML = `
+          <div class="detail-row">
+            <span class="detail-label">Journey Type</span>
+            <span class="detail-value">${tripTypeText}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">From</span>
+            <span class="detail-value">${pickup}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">To</span>
+            <span class="detail-value">${drop}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Start Date</span>
+            <span class="detail-value">${formattedStartDate}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">End Date</span>
+            <span class="detail-value">${formattedEndDate}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Duration</span>
+            <span class="detail-value">${days} day${days > 1 ? "s" : ""}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Distance</span>
+            <span class="detail-value">${finalDistance.toFixed(2)} km</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Vehicle</span>
+            <span class="detail-value">${carName}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Rate</span>
+            <span class="detail-value">₹${rate}/km</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Passengers</span>
+            <span class="detail-value">${persons} person${
+              persons > 1 ? "s" : ""
+            }</span>
+          </div>
+          <div class="alert alert-info mt-3">
+            <small><i class="fas fa-info-circle me-1"></i> Minimum billable distance is 300 km.</small>
+          </div>
+          <div class="alert alert-warning mt-2">
+            <small><i class="fas fa-exclamation-circle me-1"></i> <strong>Note:</strong> The given rates are based only on the kilometres distance. Extra charges like toll, parking, driver allowance, permit, and state taxes will be added separately if applicable.</small>
+          </div>
+        `;
+          } catch (error) {
+            journeyDetailsDiv.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle me-2"></i>${error.message}</div>`;
+          }
+        });
+    </script>
+  </body>
+</html>
