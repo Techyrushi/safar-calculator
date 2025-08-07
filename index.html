@@ -688,13 +688,33 @@
         }
       });
 
+      // Function to capitalize first letter of a string
+      function capitalizeFirstLetter(string) {
+        if (!string) return string;
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
+
+      // Add input event listeners to capitalize first letter
+      document.addEventListener("DOMContentLoaded", function() {
+        const pickupInput = document.getElementById("pickup");
+        const dropInput = document.getElementById("drop");
+        
+        pickupInput.addEventListener("input", function() {
+          this.value = capitalizeFirstLetter(this.value);
+        });
+        
+        dropInput.addEventListener("input", function() {
+          this.value = capitalizeFirstLetter(this.value);
+        });
+      });
+
       document
         .getElementById("safarForm")
         .addEventListener("submit", async function (e) {
           e.preventDefault();
 
-          const pickup = document.getElementById("pickup").value;
-          const drop = document.getElementById("drop").value;
+          const pickup = capitalizeFirstLetter(document.getElementById("pickup").value);
+          const drop = capitalizeFirstLetter(document.getElementById("drop").value);
           const tripType = document.getElementById("tripType").value;
           const persons = parseInt(document.getElementById("persons").value);
           const startDate = document.getElementById("startDate").value;
@@ -736,18 +756,31 @@
               console.log(`Round trip distance: ${distance.toFixed(2)} km`);
             }
 
-            const finalDistance = distance < 300 ? 300 : distance;
+            // Calculate days
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const days = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1);
+            
+            let finalDistance = distance < 300 ? 300 : distance;
             console.log(`Billed distance (after 300 km rule): ${finalDistance.toFixed(2)} km`);
-            const total = finalDistance * rate;
+            
+            // Calculate total price based on distance and days
+            let total;
+            if (distance < 300) {
+              // For distances less than 300 KM, multiply by number of days
+              total = finalDistance * rate * days;
+              console.log(`Total price (${finalDistance.toFixed(2)} km × ₹${rate} × ${days} days): ₹${total.toFixed(2)}`);
+            } else {
+              // For distances >= 300 KM, use regular calculation
+              total = finalDistance * rate;
+              console.log(`Total price (${finalDistance.toFixed(2)} km × ₹${rate}): ₹${total.toFixed(2)}`);
+            }
 
             // Format dates
             const formattedStartDate = formatDate(startDate);
             const formattedEndDate = formatDate(endDate);
 
-            // Calculate days
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-            const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+            // This section is now handled earlier in the code
 
             priceDisplay.innerHTML = `₹${total.toFixed(2)}`;
             journeyDetailsDiv.innerHTML = `
@@ -794,7 +827,7 @@
             }</span>
           </div>
           <div class="alert alert-info mt-3">
-            <small><i class="fas fa-info-circle me-1"></i> Minimum billable distance is 300 km.</small>
+            <small><i class="fas fa-info-circle me-1"></i> Minimum billable distance is 300 km. ${distance < 300 ? `For trips under 300 km, the price is calculated as: 300 km × ₹${rate} × ${days} day${days > 1 ? 's' : ''}` : `For trips over 300 km, the price is calculated as: ${finalDistance.toFixed(2)} km × ₹${rate}`}</small>
           </div>
           <div class="alert alert-warning mt-2">
             <small><i class="fas fa-exclamation-circle me-1"></i> <strong>Note:</strong> The given rates are based only on the kilometres distance. Extra charges like toll, parking, driver allowance, permit, and state taxes will be added separately if applicable.</small>
