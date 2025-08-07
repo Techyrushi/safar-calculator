@@ -809,16 +809,19 @@
             const formattedEndDate = formatDate(endDate);
 
             // This section is now handled earlier in the code
-
+            
             priceDisplay.innerHTML = `₹${total.toFixed(2)}`;
             
             // Prepare pricing method explanation text
-            let pricingMethodText;
-            if (distance < 300) {
-              pricingMethodText = `For trips under 300 km, the price is calculated as: 300 km × ₹${rate} × ${days} day${days > 1 ? 's' : ''}`;
-            } else {
-              pricingMethodText = `For trips over 300 km, the price is calculated as: ${finalDistance.toFixed(2)} km × ₹${rate} × ${days} day${days > 1 ? 's' : ''}`;
+            let pricingNoteHTML = '';
+            if (distance >= 300) {
+              pricingNoteHTML = `
+                <div class="alert alert-info mt-3">
+                  <small><i class="fas fa-info-circle me-1"></i>Minimum billable distance is 300 km.</small>
+                </div>
+              `;
             }
+            
             journeyDetailsDiv.innerHTML = `
           <div class="detail-row">
             <span class="detail-label">Journey Type</span>
@@ -862,12 +865,7 @@
               persons > 1 ? "s" : ""
             }</span>
           </div>
-          <div class="alert alert-info mt-3">
-            <small><i class="fas fa-info-circle me-1"></i> Minimum billable distance is 300 km.</small>
-          </div>
-          <div class="alert alert-info mt-2" id="pricingMethod">
-            <small><i class="fas fa-calculator me-1"></i> ${pricingMethodText}</small>
-          </div>
+          ${pricingNoteHTML}
           <div class="alert alert-warning mt-2">
             <small><i class="fas fa-exclamation-circle me-1"></i> <strong>Note:</strong> The given rates are based only on the kilometres distance. Extra charges like toll, parking, driver allowance, permit, and state taxes will be added separately if applicable.</small>
           </div>
