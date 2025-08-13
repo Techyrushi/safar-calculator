@@ -775,13 +775,15 @@
             const toCoords = await getCoordinates(drop);
 
             let distance = await getDistance(fromCoords, toCoords);
-            console.log(`One-way distance: ${distance.toFixed(2)} km`);
+            // Round off the distance first
+            distance = Math.round(distance);
+            console.log(`One-way distance: ${distance} km`);
             let tripTypeText = "One-way journey";
 
             if (tripType === "round") {
               distance *= 2;
               tripTypeText = "Round trip";
-              console.log(`Round trip distance: ${distance.toFixed(2)} km`);
+              console.log(`Round trip distance: ${distance} km`);
             }
 
             // Calculate days
@@ -789,20 +791,25 @@
             const end = new Date(endDate);
             const days = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1);
             
-            let finalDistance = distance < 300 ? 300 : distance;
-            console.log(`Billed distance (after 300 km rule): ${finalDistance.toFixed(2)} km`);
+            let finalDistance;
+            // let pricingExplanation = "";
+            
+            // Apply different calculation logic based on trip type and distance
+            if (tripType === "single" && distance >= 300) {
+              // For single trips over 300km: full distance + half return distance
+              finalDistance = distance + Math.round(distance * 0.5);
+              // pricingExplanation = `Single trip (${distance} km) + 50% return (${Math.round(distance * 0.5)} km)`;
+              console.log(`Billed distance (single trip > 300km with half return): ${finalDistance} km`);
+            } else {
+              // Apply minimum 300km rule for other cases
+              finalDistance = distance < 300 ? 300 : distance;
+              // pricingExplanation = distance < 300 ? "Minimum billable distance is 300 km" : "";
+              console.log(`Billed distance (after 300 km rule): ${finalDistance} km`);
+            }
             
             // Calculate total price based on distance and days
-            let total;
-            if (distance < 300) {
-              // For distances less than 300 KM, multiply by number of days
-              total = finalDistance * rate * days;
-              console.log(`Total price (${finalDistance.toFixed(2)} km × ₹${rate} × ${days} days): ₹${total.toFixed(2)}`);
-            } else {
-              // For distances >= 300 KM, use regular calculation
-              total = finalDistance * rate * days;
-              console.log(`Total price (${finalDistance.toFixed(2)} km × ₹${rate} × ${days} days): ₹${total.toFixed(2)}`);
-            }
+            const total = finalDistance * rate * days;
+            console.log(`Total price (${finalDistance} km × ₹${rate} × ${days} days): ₹${Math.round(total)}`);
 
             // Format dates
             const formattedStartDate = formatDate(startDate);
@@ -810,7 +817,7 @@
 
             // This section is now handled earlier in the code
             
-            priceDisplay.innerHTML = `₹${total.toFixed(2)}`;
+            priceDisplay.innerHTML = `₹${Math.round(total)}`;
             
             // Prepare pricing method explanation text
             let pricingNoteHTML = '';
@@ -849,7 +856,7 @@
           </div>
           <div class="detail-row">
             <span class="detail-label">Distance</span>
-            <span class="detail-value">${finalDistance.toFixed(2)} km</span>
+            <span class="detail-value">${finalDistance} km</span>
           </div>
           <div class="detail-row">
             <span class="detail-label">Vehicle</span>
