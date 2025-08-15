@@ -270,7 +270,7 @@
                         type="date"
                         class="form-control"
                         id="startDate"
-                        min="" 
+                        min=""
                         required
                       />
                     </div>
@@ -680,28 +680,28 @@
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
-        
+
         // Format today's date as YYYY-MM-DD for min attribute
-        const todayFormatted = today.toISOString().split('T')[0];
-        const tomorrowFormatted = tomorrow.toISOString().split('T')[0];
-        
+        const todayFormatted = today.toISOString().split("T")[0];
+        const tomorrowFormatted = tomorrow.toISOString().split("T")[0];
+
         // Set min attributes to prevent selecting dates before today
         const startDateInput = document.getElementById("startDate");
         const endDateInput = document.getElementById("endDate");
-        
+
         startDateInput.min = todayFormatted;
         endDateInput.min = todayFormatted;
-        
+
         // Set default values
         startDateInput.valueAsDate = today;
         endDateInput.valueAsDate = tomorrow;
-        
+
         // Add event listener to update end date min value when start date changes
-        startDateInput.addEventListener('change', function() {
+        startDateInput.addEventListener("change", function () {
           // Ensure end date is not before start date
           const newStartDate = new Date(this.value);
           endDateInput.min = this.value;
-          
+
           // If current end date is before new start date, update it
           if (new Date(endDateInput.value) < newStartDate) {
             const nextDay = new Date(newStartDate);
@@ -723,15 +723,15 @@
       }
 
       // Add input event listeners to capitalize first letter
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         const pickupInput = document.getElementById("pickup");
         const dropInput = document.getElementById("drop");
-        
-        pickupInput.addEventListener("input", function() {
+
+        pickupInput.addEventListener("input", function () {
           this.value = capitalizeFirstLetter(this.value);
         });
-        
-        dropInput.addEventListener("input", function() {
+
+        dropInput.addEventListener("input", function () {
           this.value = capitalizeFirstLetter(this.value);
         });
       });
@@ -741,8 +741,12 @@
         .addEventListener("submit", async function (e) {
           e.preventDefault();
 
-          const pickup = capitalizeFirstLetter(document.getElementById("pickup").value);
-          const drop = capitalizeFirstLetter(document.getElementById("drop").value);
+          const pickup = capitalizeFirstLetter(
+            document.getElementById("pickup").value
+          );
+          const drop = capitalizeFirstLetter(
+            document.getElementById("drop").value
+          );
           const tripType = document.getElementById("tripType").value;
           const persons = parseInt(document.getElementById("persons").value);
           const startDate = document.getElementById("startDate").value;
@@ -789,46 +793,89 @@
             // Calculate days
             const start = new Date(startDate);
             const end = new Date(endDate);
-            const days = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1);
-            
+            const days = Math.max(
+              1,
+              Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1
+            );
+
             let finalDistance;
             // let pricingExplanation = "";
-            
+
             // Apply different calculation logic based on trip type and distance
-            if (tripType === "single" && distance >= 300) {
-              // For single trips over 300km: full distance + half return distance
-              finalDistance = distance + Math.round(distance * 0.5);
-              // pricingExplanation = `Single trip (${distance} km) + 50% return (${Math.round(distance * 0.5)} km)`;
-              console.log(`Billed distance (single trip > 300km with half return): ${finalDistance} km`);
+            if (tripType === "single") {
+              // SINGLE TRIP LOGIC (keep original)
+              if (distance >= 300) {
+                // For single trips over 300km: full distance + half return distance
+                finalDistance = (distance + Math.round(distance * 0.5)) * days;
+                pricingExplanation = `Single trip (${distance} km) + 50% return (${Math.round(
+                  distance * 0.5
+                )} km (${finalDistance} km))`;
+              } else {
+                // Apply minimum 300km rule
+                finalDistance = distance < 300 ? 300 * days : distance * days;
+                pricingExplanation =
+                  distance < 300 ? "Minimum billable distance is 300 km" : "";
+              }
             } else {
-              // Apply minimum 300km rule for other cases
-              finalDistance = distance < 300 ? 300 : distance;
-              // pricingExplanation = distance < 300 ? "Minimum billable distance is 300 km" : "";
-              console.log(`Billed distance (after 300 km rule): ${finalDistance} km`);
+              // ROUND TRIP LOGIC (new daily km rules)
+              const roundTripDistance = distance; // Calculate full round trip distance
+              tripTypeText = "Round trip";
+              console.log(`Round trip distance: ${roundTripDistance} km`);
+
+              // Apply minimum 300km rule for round trips
+              const effectiveRoundTripDistance =
+                roundTripDistance < 300 ? 300 : roundTripDistance;
+
+              if (days === 1) {
+                // Single day round trip - charge effective distance (with minimum 300km)
+                finalDistance = effectiveRoundTripDistance;
+                pricingExplanation =
+                  roundTripDistance < 300
+                    ? "Round trip < 300km - minimum 300km charged"
+                    : "Single day round trip - charged exact distance";
+              } else {
+                // Multi-day round trip
+                const perDayKm = effectiveRoundTripDistance / days;
+
+                if (perDayKm > 300) {
+                  // If daily average > 300km, charge actual distance (with minimum)
+                  finalDistance = effectiveRoundTripDistance;
+                  pricingExplanation = `Multi-day round trip (${days} days) - charged ${effectiveRoundTripDistance} km`;
+                } else {
+                  // If daily average ≤ 300km, charge 300km per day
+                  finalDistance = 300 * days;
+                  pricingExplanation = `Multi-day round trip (${days} days) - charged 300km per day`;
+                }
+              }
             }
-            
+
             // Calculate total price based on distance and days
-            const total = finalDistance * rate * days;
-            console.log(`Total price (${finalDistance} km × ₹${rate} × ${days} days): ₹${Math.round(total)}`);
+            const total = finalDistance * rate;
+            console.log(
+              `Total price (${finalDistance} km × ₹${rate}): ₹${Math.round(
+                total
+              )}`
+            );
+            console.log(`Pricing logic: ${pricingExplanation}`);
 
             // Format dates
             const formattedStartDate = formatDate(startDate);
             const formattedEndDate = formatDate(endDate);
 
             // This section is now handled earlier in the code
-            
+
             priceDisplay.innerHTML = `₹${Math.round(total)}`;
-            
+
             // Prepare pricing method explanation text
-            let pricingNoteHTML = '';
-            if (distance >= 300) {
+            let pricingNoteHTML = "";
+            if (distance < 300) {
               pricingNoteHTML = `
                 <div class="alert alert-info mt-3">
                   <small><i class="fas fa-info-circle me-1"></i>Minimum billable distance is 300 km.</small>
                 </div>
               `;
             }
-            
+
             journeyDetailsDiv.innerHTML = `
           <div class="detail-row">
             <span class="detail-label">Journey Type</span>
