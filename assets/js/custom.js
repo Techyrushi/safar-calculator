@@ -29,6 +29,76 @@ $( document ).ready(function() {
   $('.home-banner').css( 'padding-top', $PositionheaderHeight );
   $('.inner-baner-container').css( 'padding-top', $PositionheaderHeight );
   
+  /* Enhanced scroll animation for package items */
+  // $(document).ready(function() {
+  //   // Set custom property for each item's index for CSS animations
+  //   $('.package-item').each(function(index) {
+  //     $(this).css('--item-index', index);
+  //     console.log('Set index ' + index + ' for package item');
+  //   });
+    
+  //   // Function to check if element is in viewport with more generous threshold
+  //   function isInViewport(element) {
+  //     var elementTop = $(element).offset().top;
+  //     var elementBottom = elementTop + $(element).outerHeight();
+  //     var viewportTop = $(window).scrollTop();
+  //     var viewportBottom = viewportTop + $(window).height();
+  //     // Even more generous threshold for earlier animation triggering (200px)
+  //     return elementBottom > viewportTop && elementTop < viewportBottom - 200;
+  //   }
+    
+  //   // Function to animate package items with improved timing
+  //   function animatePackageItems() {
+  //     $('.package-item').each(function(index) {
+  //       var $this = $(this);
+        
+  //       // Only animate if in viewport and not already animated
+  //       if (isInViewport(this) && !$this.hasClass('animate')) {
+  //         // Force browser to recognize the element before animation (critical for smooth transitions)
+  //         void $this[0].offsetHeight;
+          
+  //         // Add animate class with enhanced staggered delay
+  //         setTimeout(function() {
+  //           $this.addClass('animate');
+  //           console.log('Animating package item ' + index + ' (odd/even: ' + (index % 2 === 0 ? 'even' : 'odd') + ')');
+  //         }, index * 150); // Increased delay between items for more pronounced staggering
+  //       }
+  //     });
+  //   }
+    
+  //   // Initial animation check with a delay to ensure DOM is fully loaded
+  //   setTimeout(function() {
+  //     animatePackageItems();
+  //     console.log('Initial animation check complete');
+  //   }, 800); // Increased delay for more reliable initial animation
+    
+  //   // Improved debounced scroll handler for smoother performance
+  //   var scrollTimer;
+  //   var lastScrollTop = 0;
+  //   $(window).on('scroll', function() {
+  //     var st = $(this).scrollTop();
+  //     var scrollDirection = st > lastScrollTop ? 'down' : 'up';
+  //     lastScrollTop = st;
+      
+  //     if (scrollTimer) clearTimeout(scrollTimer);
+  //     scrollTimer = setTimeout(function() {
+  //       console.log('Scroll direction: ' + scrollDirection);
+  //       animatePackageItems();
+  //     }, 30); // Reduced timeout for more responsive animations
+  //   });
+    
+  //   // Handle resize events with debounce
+  //   var resizeTimer;
+  //   $(window).on('resize', function() {
+  //     if (resizeTimer) clearTimeout(resizeTimer);
+  //     resizeTimer = setTimeout(function() {
+  //       animatePackageItems();
+  //     }, 100);
+  //   });
+    
+  //   console.log('Enhanced scroll animation initialized with ' + $('.package-item').length + ' items');
+  // });
+  
   /* Date picker */
   // $( ".input-date-picker" ).datepicker();
 

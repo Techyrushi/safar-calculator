@@ -227,7 +227,7 @@
                 </nav>
               </div>
               <div class="header-btn">
-                <a href="#" class="round-btn">Book Now</a>
+                <a href="#" class="round-btn">Book My Safar</a>
               </div>
             </div>
           </div>
@@ -312,15 +312,27 @@
                   <div class="contact-from-wrap primary-bg">
                     <form method="get" class="contact-from">
                       <p>
-                        <label>First Name..</label>
+                        <label
+                          >Full Name<span style="color: red">*</span></label
+                        >
                         <input
                           type="text"
                           name="name"
                           placeholder="Your Name*"
+                          required
                         />
                       </p>
                       <p>
-                        <label>Email Address</label>
+                        <label>Mobile Number<span style="color:red;">*</span></label>
+                        <input
+                          type="number"
+                          name="mobile"
+                          placeholder="Your Mobile Number*"
+                          required
+                        />
+                      </p>
+                      <p>
+                        <label>Email Address<span style="color:red;">*</span></label>
                         <input
                           type="email"
                           name="email"
