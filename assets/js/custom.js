@@ -24,10 +24,19 @@ document.addEventListener("DOMContentLoaded", function(){
 }); 
 
 $( document ).ready(function() {
-  /* header postion absolute to banner */
-  $PositionheaderHeight = $( '#masthead' ).outerHeight();
-  $('.home-banner').css( 'padding-top', $PositionheaderHeight );
-  $('.inner-baner-container').css( 'padding-top', $PositionheaderHeight );
+  /* Only adjust inner banner padding, not home banner */
+  function adjustInnerBannerPadding() {
+    $PositionheaderHeight = $( '#masthead' ).outerHeight();
+    $('.inner-baner-container').css( 'padding-top', $PositionheaderHeight );
+  }
+  
+  // Initial adjustment
+  adjustInnerBannerPadding();
+  
+  // Adjust on window resize
+  $(window).resize(function() {
+    adjustInnerBannerPadding();
+  });
   
   /* Enhanced scroll animation for package items */
   // $(document).ready(function() {
@@ -151,12 +160,20 @@ $('#navigation').slicknav({
 $('.home-banner-slider').slick({
   dots: true,
   infinite: true,
-  autoplay: false,
+  autoplay: true,
+  autoplaySpeed: 5000,
   speed: 1200,
   fade: true,
   slidesToShow: 1,
   slidesToScroll: 1,
-  adaptiveHeight: false,
+  adaptiveHeight: true,
+  responsive: [{
+    breakpoint: 767,
+    settings: {
+      arrows: false,
+      dots: true
+    }
+  }]
 });
 
 /* Home client slider */

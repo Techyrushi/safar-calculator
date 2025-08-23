@@ -58,19 +58,21 @@
     />
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="footer-styles.css" />
     <title>Safar – Pickup & Drop Services</title>
   </head>
   <body class="home">
     <div id="siteLoader" class="site-loader">
       <div class="preloader-content">
         <img src="assets/images/loader1.gif" alt="" />
-        <div class="loading-text">Loading Safar...</div>
+        <!-- <div class="loading-text">Loading Safar...</div> -->
       </div>
     </div>
     <div id="page" class="page">
       <!-- site header html start  -->
       <header id="masthead" class="site-header">
         <!-- header html start -->
+             <div class="header-overlay"></div>
         <div class="top-header">
           <div class="container">
             <div class="top-header-inner">
@@ -110,7 +112,7 @@
             <div
               class="bottom-header-inner d-flex justify-content-between align-items-center"
             >
-              <div class="header-social social-icon">
+                 <div class="header-social social-icon">
                 <ul>
                   <li>
                     <a href="https://www.facebook.com/" target="_blank">
@@ -123,8 +125,8 @@
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.youtube.com/" target="_blank">
-                      <i class="fab fa-youtube" aria-hidden="true"></i>
+                    <a href="https://www.instagram.com/" target="_blank">
+                      <i class="fab fa-instagram" aria-hidden="true"></i>
                     </a>
                   </li>
                 </ul>
@@ -239,27 +241,32 @@
       <main id="content" class="site-main">
         <!-- ***home banner html start form here*** -->
         <section class="home-banner-section home-banner-slider">
+          <!-- Slide 1 -->
           <div
             class="home-banner d-flex flex-wrap align-items-center"
             style="background-image: url(assets/images/Website_Banner_1.png)"
           >
-            <div class="overlay"></div>
             <div class="container">
-              <div class="banner-content text-center">
-                <div class="row">
-                  <div class="col-lg-8 offset-lg-2">
-                    <h2 class="banner-title">Safar Transfers</h2>
-                    <p>
-                      Seamless rides, airport transfers, and custom tours –
-                      Safar makes every journey memorable.
-                    </p>
-                    <div class="banner-btn">
-                      <a href="about.html" class="round-btn">LEARN MORE</a>
-                      <!-- <a href="#" class="outline-btn outline-btn-white">BOOK NOW</a> -->
-                    </div>
-                  </div>
-                </div>
-              </div>
+            </div>
+          </div>
+          <!-- Slide 2 -->
+          <div
+            class="home-banner d-flex flex-wrap align-items-center"
+            style="background-image: url(assets/images/img7.jpg)"
+          >
+  
+            <div class="container">
+        
+            </div>
+          </div>
+          <!-- Slide 3 -->
+          <div
+            class="home-banner d-flex flex-wrap align-items-center"
+            style="background-image: url(assets/images/img1.jpg)"
+          >
+         
+            <div class="container">
+             
             </div>
           </div>
         </section>
@@ -305,7 +312,7 @@
                   type="text"
                   id="startDate"
                   name="s"
-                  placeholder="MM / DD / YY"
+                  placeholder="DD / MM / YY"
                   autocomplete="off"
                   readonly="readonly"
                 />
@@ -319,7 +326,7 @@
                   type="text"
                   id="endDate"
                   name="s"
-                  placeholder="MM / DD / YY"
+                  placeholder="DD / MM / YY"
                   autocomplete="off"
                   readonly="readonly"
                 />
@@ -1350,58 +1357,81 @@
       <footer id="colophon" class="site-footer footer-primary">
         <div class="top-footer">
           <div class="container">
+            <!-- Wave decoration at top of footer -->
+            <div class="footer-wave">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+                <path fill="#ffffff" fill-opacity="1" d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,48C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+              </svg>
+            </div>
+            
             <div class="upper-footer">
               <div class="row">
-                <div class="col-lg-3 col-sm-6">
+                <div class="col-lg-4 col-md-6">
                   <aside class="widget widget_text">
                     <div class="footer-logo">
-                      <a href="index.html"
-                        ><img src="assets/images/site_logos.png" alt=""
-                      /></a>
+                      <a href="index.html">
+                        <img src="assets/images/site_logos.png" alt="Safar Logo" class="img-fluid">
+                      </a>
                     </div>
                     <div class="textwidget widget-text">
-                      At Safar, we make travel simple, safe, and stress-free.
-                      From daily pick & drop services and airport transfers to
-                      city tours, outstation trips, and customized tour
-                      packages, we provide reliable and affordable travel
-                      solutions for every need.
+                      <p>At Safar, we make travel simple, safe, and stress-free. From daily pick & drop services and airport transfers to city tours, outstation trips, and customized tour packages, we provide reliable and affordable travel solutions for every need.</p>
+                    </div>
+                    <div class="header-social footer-social-icons">
+                      <a href="https://www.facebook.com/" target="_blank" class="social-icons">
+                        <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                      </a>
+                      <a href="https://www.twitter.com/" target="_blank" class="social-icons">
+                        <i class="fab fa-twitter" aria-hidden="true"></i>
+                      </a>
+                      <a href="https://www.instagram.com/" target="_blank" class="social-icons">
+                        <i class="fab fa-instagram" aria-hidden="true"></i>
+                      </a>
+                      <a href="https://www.linkedin.com/" target="_blank" class="social-icons">
+                        <i class="fab fa-linkedin" aria-hidden="true"></i>
+                      </a>
+                      <a href="https://www.youtube.com/" target="_blank" class="social-icons">
+                        <i class="fab fa-youtube" aria-hidden="true"></i>
+                      </a>
                     </div>
                   </aside>
                 </div>
-                <div class="col-lg-3 col-sm-6">
+                
+                <div class="col-lg-4 col-md-6">
                   <aside class="widget widget_latest_post widget-post-thumb">
-                    <h3 class="widget-title">RECENT PACKAGES</h3>
-                    <ul>
+                    <h3 class="widget-title">Popular Destinations</h3>
+                    <ul class="modern-post-list">
                       <li>
                         <figure class="post-thumb">
-                          <a href="#"
-                            ><img src="assets/images/img21.jpg" alt=""
-                          /></a>
+                          <a href="#">
+                            <img src="assets/images/img21.jpg" alt="Peaceful Places" class="img-fluid rounded">
+                          </a>
                         </figure>
                         <div class="post-content">
                           <h6>
-                            <a href="#">BEST JOURNEY TO PEACEFUL PLACES</a>
+                            <a href="#">Journey to Peaceful Places</a>
                           </h6>
                           <div class="entry-meta">
                             <span class="posted-on">
-                              <a href="#">February 17, 2022</a>
+                              <i class="far fa-calendar-alt"></i>
+                              <a href="#">February 17, 2023</a>
                             </span>
                           </div>
                         </div>
                       </li>
                       <li>
                         <figure class="post-thumb">
-                          <a href="#"
-                            ><img src="assets/images/img22.jpg" alt=""
-                          /></a>
+                          <a href="#">
+                            <img src="assets/images/img22.jpg" alt="Travel with Friends" class="img-fluid rounded">
+                          </a>
                         </figure>
                         <div class="post-content">
                           <h6>
-                            <a href="#">TRAVEL WITH FRIENDS IS BEST</a>
+                            <a href="#">Travel with Friends</a>
                           </h6>
                           <div class="entry-meta">
                             <span class="posted-on">
-                              <a href="#">February 17, 2022</a>
+                              <i class="far fa-calendar-alt"></i>
+                              <a href="#">March 5, 2023</a>
                             </span>
                           </div>
                         </div>
@@ -1409,160 +1439,62 @@
                     </ul>
                   </aside>
                 </div>
-                <div class="col-lg-3 col-sm-6">
+                
+                <div class="col-lg-4 col-md-12">
                   <aside class="widget widget_text">
-                    <h3 class="widget-title">CONTACT US</h3>
-                    <div class="textwidget widget-text">
-                      <p>
-                        Feel free to contact and<br />
-                        reach us !!
-                      </p>
+                    <h3 class="widget-title">Get In Touch</h3>
+                    <div class="textwidget widget-text contact-info">
                       <ul>
                         <li>
-                          <a href="tel:+919823059704">
-                            <i aria-hidden="true" class="icon icon-phone1"></i>
-                            +91 (982) 305 9704
+                          <a href="tel:+919823059704" class="contact-item">
+                            <div class="icon-wrapper">
+                              <i aria-hidden="true" class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                              <span>Call Us</span>
+                              +91 (982) 305 9704
+                            </div>
                           </a>
                         </li>
                         <li>
-                          <a href="mailtop:crushikesh74@gmail.com">
-                            <i
-                              aria-hidden="true"
-                              class="icon icon-envelope1"
-                            ></i>
-                            crushikesh74@gmail.com
+                          <a href="mailto:crushikesh74@gmail.com" class="contact-item">
+                            <div class="icon-wrapper">
+                              <i aria-hidden="true" class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                              <span>Email Us</span>
+                              crushikesh74@gmail.com
+                            </div>
                           </a>
                         </li>
-                        <li>
-                          <i
-                            aria-hidden="true"
-                            class="icon icon-map-marker1"
-                          ></i>
-                          Bunglow No 25 Shreeraj Society, HAL Colony Indira
-                          Nagar, Nashik-422009
+                        <li class="contact-item">
+                          <div class="icon-wrapper">
+                            <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
+                          </div>
+                          <div class="contact-text">
+                            <span>Visit Us</span>
+                            Bunglow No 25 Shreeraj Society, HAL Colony Indira Nagar, Nashik-422009
+                          </div>
                         </li>
                       </ul>
                     </div>
                   </aside>
                 </div>
-                <div class="col-lg-3 col-sm-6">
-                  <aside class="widget">
-                    <h3 class="widget-title">Gallery</h3>
-                    <div class="gallery gallery-colum-3">
-                      <figure class="gallery-item">
-                        <a
-                          href="assets/images/img10.jpg"
-                          data-fancybox="gallery-1"
-                        >
-                          <img src="assets/images/img21.jpg" alt="" />
-                        </a>
-                      </figure>
-                      <figure class="gallery-item">
-                        <a
-                          href="assets/images/img28.jpg"
-                          data-fancybox="gallery-1"
-                        >
-                          <img src="assets/images/img22.jpg" alt="" />
-                        </a>
-                      </figure>
-                      <figure class="gallery-item">
-                        <a
-                          href="assets/images/img14.jpg"
-                          data-fancybox="gallery-1"
-                        >
-                          <img src="assets/images/img23.jpg" alt="" />
-                        </a>
-                      </figure>
-                      <figure class="gallery-item">
-                        <a
-                          href="assets/images/img15.jpg"
-                          data-fancybox="gallery-1"
-                        >
-                          <img src="assets/images/img24.jpg" alt="" />
-                        </a>
-                      </figure>
-                      <figure class="gallery-item">
-                        <a
-                          href="assets/images/img12.jpg"
-                          data-fancybox="gallery-1"
-                        >
-                          <img src="assets/images/img25.jpg" alt="" />
-                        </a>
-                      </figure>
-                      <figure class="gallery-item">
-                        <a
-                          href="assets/images/img13.jpg"
-                          data-fancybox="gallery-1"
-                        >
-                          <img src="assets/images/img26.jpg" alt="" />
-                        </a>
-                      </figure>
-                    </div>
-                  </aside>
-                </div>
               </div>
             </div>
+            
             <div class="lower-footer">
-              <div class="row align-items-center">
-                <div class="col-lg-6">
-                  <div class="footer-newsletter">
-                    <p>Subscribe our newsletter for more update & news !!</p>
-                    <form class="newsletter">
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="Enter Your Email"
-                      />
-                      <button
-                        type="submit"
-                        class="outline-btn outline-btn-white"
-                      >
-                        Subscribe
-                      </button>
-                    </form>
-                  </div>
-                </div>
-                <div class="col-lg-6 text-right">
-                  <div class="social-icon">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="footer-menu quick-links">
+                    <h4>Quick Links</h4>
                     <ul>
-                      <li>
-                        <a href="https://www.facebook.com/" target="_blank">
-                          <i class="fab fa-facebook-f" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://www.twitter.com/" target="_blank">
-                          <i class="fab fa-twitter" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://www.youtube.com/" target="_blank">
-                          <i class="fab fa-youtube" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://www.instagram.com/" target="_blank">
-                          <i class="fab fa-instagram" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://www.linkedin.com/" target="_blank">
-                          <i class="fab fa-linkedin" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="footer-menu">
-                    <ul>
-                      <li>
-                        <a href="about.html">About Us</a>
-                      </li>
-                      <li>
-                        <a href="package.html">Packages</a>
-                      </li>
-                      <li>
-                        <a href="contact.html">Contact Us</a>
-                      </li>
+                      <li><a href="index.html">Home</a></li>
+                      <li><a href="about.html">About Us</a></li>
+                      <li><a href="package.html">Packages</a></li>
+                      <li><a href="contact.html">Contact Us</a></li>
+                      <!-- <li><a href="#">FAQ</a></li>
+                      <li><a href="#">Privacy Policy</a></li> -->
                     </ul>
                   </div>
                 </div>
@@ -1570,10 +1502,11 @@
             </div>
           </div>
         </div>
+        
         <div class="bottom-footer">
           <div class="container">
             <div class="copy-right text-center">
-              Copyright &copy; 2025 Safar. All rights reserved.
+              <p>Copyright &copy; 2023 Safar. All rights reserved. | Designed with <i class="fas fa-heart"></i> for travelers</p>
             </div>
           </div>
         </div>
@@ -2007,7 +1940,7 @@
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
 
-        // Format as MM/DD/YY to match your placeholder
+      
         function formatDate(date) {
           const month = (date.getMonth() + 1).toString().padStart(2, "0");
           const day = date.getDate().toString().padStart(2, "0");
@@ -2018,6 +1951,31 @@
         // Set initial values
         $("#startDate").datepicker("setDate", today);
         $("#endDate").datepicker("setDate", today);
+
+        // Function to toggle endDate field based on trip type
+        function toggleEndDateField() {
+          const tripType = $("#tripType").val();
+          const endDateField = $("#endDate");
+          const endDateContainer = endDateField.closest('.group-input');
+          
+          if (tripType === "single") {
+            // Disable end date for one-way trips
+            endDateField.prop("disabled", true);
+            endDateContainer.addClass("disabled-date-field");
+          } else {
+            // Enable end date for round trips
+            endDateField.prop("disabled", false);
+            endDateContainer.removeClass("disabled-date-field");
+          }
+        }
+
+        // Initialize end date field state based on default trip type
+        toggleEndDateField();
+
+        // Listen for trip type changes
+        $("#tripType").on("change", function() {
+          toggleEndDateField();
+        });
 
         // Update end date constraints when start date changes
         $("#startDate").on("change", function () {
