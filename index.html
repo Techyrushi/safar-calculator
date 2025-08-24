@@ -72,7 +72,7 @@
       <!-- site header html start  -->
       <header id="masthead" class="site-header">
         <!-- header html start -->
-             <div class="header-overlay"></div>
+        <div class="header-overlay"></div>
         <div class="top-header">
           <div class="container">
             <div class="top-header-inner">
@@ -88,7 +88,11 @@
               <div class="site-logo text-center">
                 <h1 class="site-title">
                   <a href="index.html">
-                    <img src="assets/images/safar_logos.png" alt="Logo" />
+                    <img
+                      src="assets/images/Safar_Logo_White-removebg-preview.png"
+                      style="mix-blend-mode: color-burn"
+                      alt="Logo"
+                    />
                   </a>
                 </h1>
               </div>
@@ -112,7 +116,7 @@
             <div
               class="bottom-header-inner d-flex justify-content-between align-items-center"
             >
-                 <div class="header-social social-icon">
+              <div class="header-social social-icon">
                 <ul>
                   <li>
                     <a href="https://www.facebook.com/" target="_blank">
@@ -244,41 +248,46 @@
           <!-- Slide 1 -->
           <div
             class="home-banner d-flex flex-wrap align-items-center"
-            style="background-image: url(assets/images/Website_Banner_1.png)"
+            style="
+              background-image: url(assets/images/SAFAR\ HOME\ BANNER\ 1.png);
+            "
           >
-            <div class="container">
-            </div>
+            <div class="container"></div>
           </div>
           <!-- Slide 2 -->
           <div
             class="home-banner d-flex flex-wrap align-items-center"
-            style="background-image: url(assets/images/img7.jpg)"
+            style="
+              background-image: url(assets/images/SAFAR\ HOME\ BANNER\ 2.png);
+            "
           >
-  
-            <div class="container">
-        
-            </div>
+            <div class="container"></div>
           </div>
           <!-- Slide 3 -->
           <div
             class="home-banner d-flex flex-wrap align-items-center"
-            style="background-image: url(assets/images/img1.jpg)"
+            style="
+              background-image: url(assets/images/SAFAR\ HOME\ BANNER\ 3.png);
+            "
           >
-         
-            <div class="container">
-             
-            </div>
+            <div class="container"></div>
           </div>
         </section>
         <!-- ***home banner html end here*** -->
         <!-- ***Home search field html start from here*** -->
         <div class="home-trip-search primary-bg">
           <div class="decorative-car"></div>
-          <div class="decorative-car" style="left: auto; right: 5%; transform: scaleX(-1);"></div>
+          <div
+            class="decorative-car"
+            style="left: auto; right: 5%; transform: scaleX(-1)"
+          ></div>
           <div class="container">
             <div class="search-title-section text-center">
               <h2>Calculate My Safar</h2>
-              <p>Plan your journey with ease and get instant price estimates for your travel needs</p>
+              <p>
+                Plan your journey with ease and get instant price estimates for
+                your travel needs
+              </p>
             </div>
             <form id="safarForm" class="trip-search-inner d-flex">
               <!-- Pickup Location -->
@@ -662,11 +671,27 @@
               <article class="package-item">
                 <figure
                   class="package-image"
-                  style="background-image: url(assets/images/Package\ Tour\ 1.png)"
+                  style="
+                    background-image: url('assets/images/Package\ Tour\ 1.png');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    aspect-ratio: 1/1; /* makes it a square box */
+                    width: 100%;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+                  "
                 ></figure>
                 <div class="package-content">
                   <h3>
-                    <a href="package.html"> MAHABALESHWAR WEEKEND GETAWAY </a>
+                    <a
+                      href="javascript:void(0)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#packageModal"
+                    >
+                      MAHABALESHWAR WEEKEND GETAWAY
+                    </a>
                   </h3>
                   <p>
                     Escape the city and enjoy cool weather, strawberry farms,
@@ -689,10 +714,16 @@
                       </li>
                     </ul>
                   </div>
+                  <!-- ✅ PDF Download Button -->
+                   <div class="package-meta">
+                    <a href="assets/pdfs/mahabaleshwar.pdf" download>
+                      <i class="fas fa-file-pdf"></i> Download Itinerary
+                     </a>
+                  </div>
                 </div>
                 <div class="package-price">
                   <div class="review-area">
-                    <span class="review-text">(25 reviews)</span>
+                    <!-- <span class="review-text">(25 reviews)</span> -->
                     <div class="rating-start-wrap d-inline-block">
                       <div class="rating-start">
                         <span style="width: 80%"></span>
@@ -703,13 +734,73 @@
                     <span>₹750</span>
                     / per person
                   </h6>
+
+                  <div class="trip-start-label">Let's Start your trip</div>
                   <a href="#" class="outline-btn outline-btn-white">Book now</a>
                 </div>
               </article>
+              <!-- ✅ Modal Popup -->
+              <div class="modal fade" id="packageModal" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                  <div
+                    class="modal-content"
+                    style="border-radius: 12px; overflow: hidden"
+                  >
+                    <div
+                      class="modal-header"
+                      style="background: #f9ab30; color: #fff"
+                    >
+                      <h5 class="modal-title">Mahabaleshwar Weekend Getaway</h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px">
+                      <p>
+                        🌿 Escape to the hills of Mahabaleshwar for a refreshing
+                        weekend getaway. Enjoy strawberry picking, scenic
+                        viewpoints, boating at Venna Lake, and the cool mountain
+                        breeze.
+                      </p>
+                      <ul>
+                        <li>Duration: 2 Days / 1 Night</li>
+                        <li>Inclusions: Stay, Meals, Sightseeing</li>
+                        <li>Best Season: October – June</li>
+                      </ul>
+                    </div>
+                    <div
+                      class="modal-footer"
+                      style="padding: 15px; border-top: 1px solid #eee"
+                    >
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                      <a href="#" class="btn btn-primary">Book Now</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <article class="package-item">
                 <figure
                   class="package-image"
-                  style="background-image: url(assets/images/Package\ Tour\ 2.png)"
+                  style="
+                    background-image: url(assets/images/Package\ Tour\ 2.png);
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    aspect-ratio: 1/1; /* makes it a square box */
+                    width: 100%;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+                  "
                 ></figure>
                 <div class="package-content">
                   <h3>
@@ -736,10 +827,16 @@
                       </li>
                     </ul>
                   </div>
+                  <!-- PDF Download Button -->
+                  <div class="package-meta">
+                    <a href="assets/pdfs/goa.pdf" download>
+                      <i class="fas fa-file-pdf"></i> Download Itinerary
+                    </a>
+                  </div>
                 </div>
                 <div class="package-price">
                   <div class="review-area">
-                    <span class="review-text">(12 reviews)</span>
+                    <!-- <span class="review-text">(12 reviews)</span> -->
                     <div class="rating-start-wrap d-inline-block">
                       <div class="rating-start">
                         <span style="width: 80%"></span>
@@ -750,13 +847,24 @@
                     <span>₹5200</span>
                     / per person
                   </h6>
+                  <div class="trip-start-label">Let's Start your trip</div>
                   <a href="#" class="outline-btn outline-btn-white">Book now</a>
                 </div>
               </article>
               <article class="package-item">
                 <figure
                   class="package-image"
-                  style="background-image: url(assets/images/Package\ Tour\ 3.png)"
+                  style="
+                    background-image: url(assets/images/Package\ Tour\ 3.png);
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    aspect-ratio: 1/1; /* makes it a square box */
+                    width: 100%;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+                  "
                 ></figure>
                 <div class="package-content">
                   <h3>
@@ -785,10 +893,16 @@
                       </li>
                     </ul>
                   </div>
+                  <!-- PDF Download Button -->
+                  <div class="package-meta">
+                    <a href="assets/pdfs/shirdi.pdf" download>
+                      <i class="fas fa-file-pdf"></i> Download Itinerary
+                    </a>
+                  </div>
                 </div>
                 <div class="package-price">
                   <div class="review-area">
-                    <span class="review-text">(43 reviews)</span>
+                    <!-- <span class="review-text">(43 reviews)</span> -->
                     <div class="rating-start-wrap d-inline-block">
                       <div class="rating-start">
                         <span style="width: 80%"></span>
@@ -799,6 +913,7 @@
                     <span>₹660</span>
                     / per person
                   </h6>
+                  <div class="trip-start-label">Let's Start your trip</div>
                   <a href="#" class="outline-btn outline-btn-white">Book now</a>
                 </div>
               </article>
@@ -1312,9 +1427,14 @@
         </section>
         <!-- ***Home testimonial html end here*** -->
         <!-- ***Home callback html start from here*** -->
-        <section class="home-callback bg-color-callback home-trip-search primary-bg">
+        <section
+          class="home-callback bg-color-callback home-trip-search primary-bg"
+        >
           <div class="decorative-car"></div>
-          <div class="decorative-car" style="left: auto; right: 5%; transform: scaleX(-1);"></div>
+          <div
+            class="decorative-car"
+            style="left: auto; right: 5%; transform: scaleX(-1)"
+          ></div>
           <div class="container">
             <div class="row align-items-center">
               <div class="col-md-8">
@@ -1359,43 +1479,78 @@
           <div class="container">
             <!-- Wave decoration at top of footer -->
             <div class="footer-wave">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
-                <path fill="#ffffff" fill-opacity="1" d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,48C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1440 100"
+                preserveAspectRatio="none"
+              >
+                <path
+                  fill="#ffffff"
+                  fill-opacity="1"
+                  d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,48C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
+                ></path>
               </svg>
             </div>
-            
+
             <div class="upper-footer">
               <div class="row">
                 <div class="col-lg-4 col-md-6">
                   <aside class="widget widget_text">
                     <div class="footer-logo">
                       <a href="index.html">
-                        <img src="assets/images/Safar Logo.png" alt="Safar Logo" class="img-fluid">
+                        <img
+                          src="assets/images/Safar_Logo_White-removebg-preview.png"
+                          style="mix-blend-mode: color-burn"
+                          alt="Safar Logo"
+                          class="img-fluid"
+                        />
                       </a>
                     </div>
                     <div class="textwidget widget-text">
-                      <p>At Safar, we make travel simple, safe, and stress-free. From daily pick & drop services and airport transfers to city tours, outstation trips, and customized tour packages, we provide reliable and affordable travel solutions for every need.</p>
+                      <p>
+                        At Safar, we make travel simple, safe, and stress-free.
+                        From daily pick & drop services and airport transfers to
+                        city tours, outstation trips, and customized tour
+                        packages, we provide reliable and affordable travel
+                        solutions for every need.
+                      </p>
                     </div>
                     <div class="header-social footer-social-icons">
-                      <a href="https://www.facebook.com/" target="_blank" class="social-icons">
+                      <a
+                        href="https://www.facebook.com/"
+                        target="_blank"
+                        class="social-icons"
+                      >
                         <i class="fab fa-facebook-f" aria-hidden="true"></i>
                       </a>
                       <!-- <a href="https://www.twitter.com/" target="_blank" class="social-icons">
                         <i class="fab fa-twitter" aria-hidden="true"></i>
                       </a> -->
-                      <a href="https://www.instagram.com/" target="_blank" class="social-icons">
+                      <a
+                        href="https://www.instagram.com/"
+                        target="_blank"
+                        class="social-icons"
+                      >
                         <i class="fab fa-instagram" aria-hidden="true"></i>
                       </a>
-                      <a href="https://www.linkedin.com/" target="_blank" class="social-icons">
+                      <a
+                        href="https://www.linkedin.com/"
+                        target="_blank"
+                        class="social-icons"
+                      >
                         <i class="fab fa-linkedin" aria-hidden="true"></i>
                       </a>
-                      <a href="https://www.youtube.com/" target="_blank" class="social-icons">
+                      <a
+                        href="https://www.youtube.com/"
+                        target="_blank"
+                        class="social-icons"
+                      >
                         <i class="fab fa-youtube" aria-hidden="true"></i>
                       </a>
                     </div>
                   </aside>
                 </div>
-                
+
                 <div class="col-lg-4 col-md-6">
                   <aside class="widget widget_latest_post widget-post-thumb">
                     <h3 class="widget-title">Popular Destinations</h3>
@@ -1403,7 +1558,11 @@
                       <li>
                         <figure class="post-thumb">
                           <a href="#">
-                            <img src="assets/images/img21.jpg" alt="Peaceful Places" class="img-fluid rounded">
+                            <img
+                              src="assets/images/img21.jpg"
+                              alt="Peaceful Places"
+                              class="img-fluid rounded"
+                            />
                           </a>
                         </figure>
                         <div class="post-content">
@@ -1421,7 +1580,11 @@
                       <li>
                         <figure class="post-thumb">
                           <a href="#">
-                            <img src="assets/images/img22.jpg" alt="Travel with Friends" class="img-fluid rounded">
+                            <img
+                              src="assets/images/img22.jpg"
+                              alt="Travel with Friends"
+                              class="img-fluid rounded"
+                            />
                           </a>
                         </figure>
                         <div class="post-content">
@@ -1439,7 +1602,7 @@
                     </ul>
                   </aside>
                 </div>
-                
+
                 <div class="col-lg-4 col-md-12">
                   <aside class="widget widget_text">
                     <h3 class="widget-title">Get In Touch</h3>
@@ -1448,7 +1611,10 @@
                         <li>
                           <a href="tel:+919823059704" class="contact-item">
                             <div class="icon-wrapper">
-                              <i aria-hidden="true" class="fas fa-phone-alt"></i>
+                              <i
+                                aria-hidden="true"
+                                class="fas fa-phone-alt"
+                              ></i>
                             </div>
                             <div class="contact-text">
                               <span>Call Us</span>
@@ -1457,7 +1623,10 @@
                           </a>
                         </li>
                         <li>
-                          <a href="mailto:crushikesh74@gmail.com" class="contact-item">
+                          <a
+                            href="mailto:crushikesh74@gmail.com"
+                            class="contact-item"
+                          >
                             <div class="icon-wrapper">
                               <i aria-hidden="true" class="fas fa-envelope"></i>
                             </div>
@@ -1469,11 +1638,15 @@
                         </li>
                         <li class="contact-item">
                           <div class="icon-wrapper">
-                            <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
+                            <i
+                              aria-hidden="true"
+                              class="fas fa-map-marker-alt"
+                            ></i>
                           </div>
                           <div class="contact-text">
                             <span>Visit Us</span>
-                            Bunglow No 25 Shreeraj Society, HAL Colony Indira Nagar, Nashik-422009
+                            Bunglow No 25 Shreeraj Society, HAL Colony Indira
+                            Nagar, Nashik-422009
                           </div>
                         </li>
                       </ul>
@@ -1482,7 +1655,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="lower-footer">
               <div class="row">
                 <div class="col-md-12">
@@ -1502,11 +1675,14 @@
             </div>
           </div>
         </div>
-        
+
         <div class="bottom-footer">
           <div class="container">
             <div class="copy-right text-center">
-              <p>Copyright &copy; 2023 Safar. All rights reserved. | Designed with <i class="fas fa-heart"></i> for travelers</p>
+              <p>
+                Copyright &copy; 2023 Safar. All rights reserved. | Designed
+                with <i class="fas fa-heart"></i> for travelers
+              </p>
             </div>
           </div>
         </div>
@@ -1940,7 +2116,6 @@
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
 
-      
         function formatDate(date) {
           const month = (date.getMonth() + 1).toString().padStart(2, "0");
           const day = date.getDate().toString().padStart(2, "0");
@@ -1956,8 +2131,8 @@
         function toggleEndDateField() {
           const tripType = $("#tripType").val();
           const endDateField = $("#endDate");
-          const endDateContainer = endDateField.closest('.group-input');
-          
+          const endDateContainer = endDateField.closest(".group-input");
+
           if (tripType === "single") {
             // Disable end date for one-way trips
             endDateField.prop("disabled", true);
@@ -1973,7 +2148,7 @@
         toggleEndDateField();
 
         // Listen for trip type changes
-        $("#tripType").on("change", function() {
+        $("#tripType").on("change", function () {
           toggleEndDateField();
         });
 
