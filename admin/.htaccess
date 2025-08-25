@@ -1,0 +1,11 @@
+RewriteEngine on
+
+# Check if the requested URL is not a directory
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Check if the requested URL with ".php" appended is an existing file
+RewriteCond %{REQUEST_FILENAME}\.php -f
+
+# Rewrite the URL by removing the ".php" extension
+RewriteRule ^(.*)$ $1.php [NC,L]
+
