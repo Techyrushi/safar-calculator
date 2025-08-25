@@ -3560,7 +3560,7 @@ body.home .home-banner {
 
 @media screen and (max-width: 767px) {
   .home-banner {
-    min-height: 650px;
+    min-height: 400px;
     padding-top: 100px;
     margin-top: 0;
     -webkit-background-size: 100% 100%;
@@ -3572,14 +3572,14 @@ body.home .home-banner {
   }
 
   body.home .home-banner {
-    margin-top: 140px;
+    margin-top: 170px;
     padding-top: 0;
   }
 }
 
 @media screen and (max-width: 575px) {
   .home-banner {
-    min-height: 550px;
+    min-height: 280px;
     padding-top: 80px;
     margin-top: 0;
     -webkit-background-size: 100% 100%;
@@ -3591,7 +3591,7 @@ body.home .home-banner {
   }
 
   body.home .home-banner {
-    margin-top: 145px;
+    margin-top: 197px;
     padding-top: 0;
   }
 }
