@@ -1,654 +1,695 @@
+<?php
+session_start();
+include("config.php");
+
+$seo_query = mysqli_query($con, "SELECT * FROM seo_settings WHERE page_type='contact' LIMIT 1");
+$seo_data = mysqli_fetch_assoc($seo_query);
+
+$page_title = isset($seo_data['title']) ? $seo_data['title'] : "Mahalaxmi Construction | Building Your Dreams";
+$meta_keywords = isset($seo_data['keywords']) ? $seo_data['keywords'] : "construction, building, real estate, mahalaxmi, home builders";
+$meta_description = isset($seo_data['description']) ? $seo_data['description'] : "Mahalaxmi Construction is a leading construction company specializing in residential and commercial projects.";
+
+$msg = "";
+$error = "";
+
+// Check if form is submitted
+if (isset($_POST['submit'])) {
+  // Retrieve and sanitize form data
+  $name = mysqli_real_escape_string($con, $_POST['name']);
+  $email = mysqli_real_escape_string($con, $_POST['email']);
+  $number = mysqli_real_escape_string($con, $_POST['number']);
+  $message = mysqli_real_escape_string($con, $_POST['message']);
+  $redirectPage = $_POST['redirectPage'];
+
+  // Insert data into database
+  $query1 = mysqli_query($con, "INSERT INTO contacts (name,email,phone,message) VALUES ('$name','$email','$number','$message')");
+
+  if ($query1) {
+    $msg = "Enquiry Details successfully submitted!";
+  } else {
+    $error = "Something went wrong. Please try again.";
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
 
-    <!-- favicon -->
-    <link rel="icon" type="image/ico" href="assets/images/favicon.ico" />
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="assets/vendors/bootstrap/css/bootstrap.min.css"
-      media="all"
-    />
-    <!-- jquery-ui css -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="assets/vendors/jquery-ui/jquery-ui.min.css"
-    />
-    <!-- fancybox box css -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="assets/vendors/fancybox/dist/jquery.fancybox.min.css"
-    />
-    <!-- Fonts Awesome CSS -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="assets/vendors/fontawesome/css/all.min.css"
-    />
-    <!-- Elmentkit Icon CSS -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="assets/vendors/elementskit-icon-pack/assets/css/ekiticons.css"
-    />
-    <!-- slick slider css -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="assets/vendors/slick/slick.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="assets/vendors/slick/slick-theme.css"
-    />
-    <!-- google fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&amp;family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&amp;display=swap"
-      rel="stylesheet"
-    />
-    <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <link rel="stylesheet" type="text/css" href="footer-styles.css" />
-    <title>Contact | Safar – Pickup & Drop Services</title>
-  </head>
-  <body>
-    <div id="siteLoader" class="site-loader">
-      <div class="preloader-content">
-        <img src="assets/images/loader1.gif" alt="" />
-      </div>
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+ <meta name="keywords" content="<?php echo htmlspecialchars($meta_keywords); ?>">
+  <meta name="description" content="<?php echo htmlspecialchars($meta_description); ?>">
+  <!-- favicon -->
+  <link rel="icon" type="image/ico" href="assets/images/favicon.ico" />
+  <!-- Bootstrap CSS -->
+  <link
+    rel="stylesheet"
+    href="assets/vendors/bootstrap/css/bootstrap.min.css"
+    media="all" />
+  <!-- jquery-ui css -->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="assets/vendors/jquery-ui/jquery-ui.min.css" />
+  <!-- fancybox box css -->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="assets/vendors/fancybox/dist/jquery.fancybox.min.css" />
+  <!-- Fonts Awesome CSS -->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="assets/vendors/fontawesome/css/all.min.css" />
+  <!-- Elmentkit Icon CSS -->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="assets/vendors/elementskit-icon-pack/assets/css/ekiticons.css" />
+  <!-- slick slider css -->
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="assets/vendors/slick/slick.css" />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="assets/vendors/slick/slick-theme.css" />
+  <!-- google fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&amp;family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&amp;display=swap"
+    rel="stylesheet" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="footer-styles.css" />
+  <title><?php echo htmlspecialchars($page_title); ?></title>
+</head>
+
+<body>
+  <div id="siteLoader" class="site-loader">
+    <div class="preloader-content">
+      <img src="assets/images/loader1.gif" alt="" />
     </div>
-    <div id="page" class="page">
-      <!-- site header html start  -->
-      <header id="masthead" class="site-header">
-        <!-- header html start -->
-        <div class="header-overlay"></div>
-        <div class="top-header">
-          <div class="container">
-            <div class="top-header-inner">
-              <div class="header-contact text-left">
-                <a href="tel:+919823059704">
-                  <i aria-hidden="true" class="icon icon-phone-call2"></i>
-                  <div class="header-contact-details d-none d-sm-block">
-                    <span class="contact-label">For Further Inquires :</span>
-                    <h5 class="header-contact-no">+91 (982) 305 9704</h5>
-                  </div>
+  </div>
+  <div id="page" class="page">
+    <!-- site header html start  -->
+    <header id="masthead" class="site-header">
+      <!-- header html start -->
+      <div class="header-overlay"></div>
+      <div class="top-header">
+        <div class="container">
+          <div class="top-header-inner">
+            <div class="header-contact text-left">
+              <a href="tel:+919823059704">
+                <i aria-hidden="true" class="icon icon-phone-call2"></i>
+                <div class="header-contact-details d-none d-sm-block">
+                  <span class="contact-label">For Further Inquires :</span>
+                  <h5 class="header-contact-no">+91 (982) 305 9704</h5>
+                </div>
+              </a>
+            </div>
+            <div class="site-logo text-center">
+              <h1 class="site-title">
+                <a href="index">
+                  <img src="assets/images/Safar_Logo_White-removebg-preview.png" style="mix-blend-mode: color-burn" alt="Logo" />
                 </a>
-              </div>
-              <div class="site-logo text-center">
-                <h1 class="site-title">
-                  <a href="index">
-                    <img src="assets/images/Safar_Logo_White-removebg-preview.png" style="mix-blend-mode: color-burn" alt="Logo" />
-                  </a>
-                </h1>
-              </div>
-              <div class="header-icon text-right">
-                <!-- <div class="header-search-icon d-inline-block">
+              </h1>
+            </div>
+            <div class="header-icon text-right">
+              <!-- <div class="header-search-icon d-inline-block">
                   <a href="#">
                     <i aria-hidden="true" class="fas fa-search"></i>
                   </a>
                 </div> -->
-                <div class="offcanvas-menu d-inline-block">
-                  <a href="#">
-                    <i aria-hidden="true" class="icon icon-burger-menu"></i>
-                  </a>
-                </div>
+              <div class="offcanvas-menu d-inline-block">
+                <a href="#">
+                  <i aria-hidden="true" class="icon icon-burger-menu"></i>
+                </a>
               </div>
             </div>
           </div>
         </div>
-        <div class="bottom-header">
-          <div class="container">
-            <div
-              class="bottom-header-inner d-flex justify-content-between align-items-center"
-            >
-              <div class="header-social social-icon">
+      </div>
+      <div class="bottom-header">
+        <div class="container">
+          <div
+            class="bottom-header-inner d-flex justify-content-between align-items-center">
+            <div class="header-social social-icon">
+              <ul>
+                <li>
+                  <a href="https://www.facebook.com/" target="_blank">
+                    <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.linkedin.com/" target="_blank">
+                    <i class="fab fa-linkedin" aria-hidden="true"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.instagram.com/" target="_blank">
+                    <i class="fab fa-instagram" aria-hidden="true"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="navigation-container d-none d-lg-block">
+              <nav id="navigation" class="navigation">
                 <ul>
                   <li>
-                    <a href="https://www.facebook.com/" target="_blank">
-                      <i class="fab fa-facebook-f" aria-hidden="true"></i>
-                    </a>
-                  </li>
-                 <li>
-                    <a href="https://www.linkedin.com/" target="_blank">
-                      <i class="fab fa-linkedin" aria-hidden="true"></i>
-                    </a>
+                    <a href="index">Home</a>
                   </li>
                   <li>
-                    <a href="https://www.instagram.com/" target="_blank">
-                      <i class="fab fa-instagram" aria-hidden="true"></i>
-                    </a>
+                    <a href="about">About Us</a>
+                  </li>
+                  <li>
+                    <a href="package">Packages</a>
+                  </li>
+                  <li class="menu-active">
+                    <a href="contact">Contact Us</a>
                   </li>
                 </ul>
-              </div>
-              <div class="navigation-container d-none d-lg-block">
-                <nav id="navigation" class="navigation">
-                  <ul>
-                    <li>
-                      <a href="index">Home</a>
-                    </li>
-                    <li>
-                      <a href="about">about us</a>
-                    </li>
-                    <li>
-                      <a href="package">Packages</a>
-                    </li>
-                    <li class="menu-active">
-                      <a href="contact">contact us</a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-              <div class="header-btn">
-                <a href="#" class="round-btn">Book My Safar</a>
+              </nav>
+            </div>
+            <div class="header-btn">
+              <a href="#" class="round-btn">Book My Safar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-menu-container"></div>
+    </header>
+    <!-- site header html end  -->
+    <!-- ***site header html end*** -->
+    <main id="content" class="site-main">
+      <section class="contact-inner-page">
+        <!-- ***Inner Banner html start form here*** -->
+        <div class="inner-banner-wrap">
+          <div
+            class="inner-baner-container"
+            style="background-image: url(assets/images/Contact_Banner_Image.png)">
+            <div class="container">
+              <div class="inner-banner-content">
+                <h1 class="page-title">Contact US</h1>
               </div>
             </div>
           </div>
         </div>
-        <div class="mobile-menu-container"></div>
-      </header>
-      <!-- site header html end  -->
-      <!-- ***site header html end*** -->
-      <main id="content" class="site-main">
-        <section class="contact-inner-page">
-          <!-- ***Inner Banner html start form here*** -->
-          <div class="inner-banner-wrap">
-            <div
-              class="inner-baner-container"
-              style="background-image: url(assets/images/img7.jpg)"
-            >
-              <div class="container">
-                <div class="inner-banner-content">
-                  <h1 class="page-title">Contact US</h1>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- ***Inner Banner html end here*** -->
-          <!-- ***contact section html start form here*** -->
-          <div class="inner-contact-wrap">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="section-heading">
-                    <h5 class="sub-title">GET IN TOUCH</h5>
-                    <h2 class="section-title">REACH & CONTACT US!</h2>
-                    <p>
-                      Have questions or want to book your ride? We’re here to
-                      help! Reach out to Safar Pick & Drop Services for
-                      bookings, inquiries, or customized tour plans. Our team is
-                      just a call or message away – ready to make your journey
-                      smooth and hassle-free.
-                    </p>
-                    <div class="social-icon">
-                      <ul>
-                        <li>
-                          <a href="https://www.facebook.com/" target="_blank">
-                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="https://www.linkedin.com/" target="_blank">
-                            <i class="fab fa-linkedin" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="https://www.youtube.com/" target="_blank">
-                            <i class="fab fa-youtube" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="https://www.instagram.com/" target="_blank">
-                            <i class="fab fa-instagram" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <!-- <li>
+        <!-- ***Inner Banner html end here*** -->
+        <!-- ***contact section html start form here*** -->
+        <div class="inner-contact-wrap">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="section-heading">
+                  <h5 class="sub-title">GET IN TOUCH</h5>
+                  <h2 class="section-title">REACH & CONTACT US!</h2>
+                  <p>
+                    Have questions or want to book your ride? We’re here to
+                    help! Reach out to Safar Pick & Drop Services for
+                    bookings, inquiries, or customized tour plans. Our team is
+                    just a call or message away – ready to make your journey
+                    smooth and hassle-free.
+                  </p>
+                  <div class="social-icon">
+                    <ul>
+                      <li>
+                        <a href="https://www.facebook.com/" target="_blank">
+                          <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://www.linkedin.com/" target="_blank">
+                          <i class="fab fa-linkedin" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://www.youtube.com/" target="_blank">
+                          <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://www.instagram.com/" target="_blank">
+                          <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <!-- <li>
                           <a href="https://www.pinterest.com/" target="_blank">
                             <i class="fab fa-pinterest" aria-hidden="true"></i>
                           </a>
                         </li> -->
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="contact-map">
-                    <iframe
-                      src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3749.8781648134714!2d73.78179807522825!3d19.971625381426215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTnCsDU4JzE3LjkiTiA3M8KwNDcnMDMuNyJF!5e0!3m2!1sen!2sin!4v1755442590864!5m2!1sen!2sin"
-                      width="600"
-                      height="450"
-                      style="border: 0"
-                      allowfullscreen=""
-                      loading="lazy"
-                    ></iframe>
+                    </ul>
                   </div>
                 </div>
-                <div class="col-lg-6">
-                  <div class="contact-from-wrap primary-bg">
-                    <form method="get" class="contact-from">
-                      <p>
-                        <label
-                          >Full Name<span style="color: red">*</span></label
-                        >
-                        <input
-                          type="text"
-                          name="name"
-                          placeholder="Your Name*"
-                          required
-                        />
-                      </p>
-                      <p>
-                        <label>Mobile Number<span style="color:red;">*</span></label>
-                        <input
-                          type="number"
-                          name="mobile"
-                          placeholder="Your Mobile Number*"
-                          required
-                        />
-                      </p>
-                      <p>
-                        <label>Email Address<span style="color:red;">*</span></label>
-                        <input
-                          type="email"
-                          name="email"
-                          placeholder="Your Email*"
-                        />
-                      </p>
-                      <p>
-                        <label>Comments / Questions</label>
-                        <textarea
-                          rows="8"
-                          placeholder="Your Message*"
-                        ></textarea>
-                      </p>
-                      <p>
-                        <input
-                          type="submit"
-                          name="submit"
-                          value="SUBMIT MESSAGE"
-                        />
-                      </p>
-                    </form>
-                  </div>
+                <div class="contact-map">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3749.8781648134714!2d73.78179807522825!3d19.971625381426215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTnCsDU4JzE3LjkiTiA3M8KwNDcnMDMuNyJF!5e0!3m2!1sen!2sin!4v1755442590864!5m2!1sen!2sin"
+                    width="600"
+                    height="450"
+                    style="border: 0"
+                    allowfullscreen=""
+                    loading="lazy"></iframe>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="contact-from-wrap primary-bg">
+                  <!-- Success Message -->
+                  <?php if ($msg) { ?>
+                    <div class="alert alert-success" role="alert" style="margin-bottom: 30px; background-color: #dff0d8; border-color: #d6e9c6; color: #3c763d; height: 60px; display: flex; align-items: center; justify-content: center;">
+                      <strong>Well done!&nbsp;</strong>
+                      <?php echo htmlentities($msg); ?>
+                      <script>
+                        setTimeout(function() {
+                          window.location.href = 'contact';
+                        }, 5000);
+                      </script>
+                    </div>
+                  <?php } ?>
+
+                  <!-- Error Message -->
+                  <?php if ($error) { ?>
+                    <div class="alert alert-danger" role="alert" style="margin-bottom: 30px; background-color: #f2dede; border-color: #ebccd1; color: #a94442; height: 60px; display: flex; align-items: center; justify-content: center;">
+                      <strong>Oh snap!&nbsp;</strong>
+                      <?php echo htmlentities($error); ?>
+                      <script>
+                        setTimeout(function() {
+                          window.location.href = 'contact';
+                        }, 5000);
+                      </script>
+                    </div>
+                  <?php } ?>
+                  <form method="post" action="" enctype="multipart/form-data" class="contact-from">
+                  
+                    <p>
+                      <label>Full Name<span style="color: red">*</span></label>
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="Your Name*"
+                        required />
+                    </p>
+                    <p>
+                      <label>Mobile Number<span style="color:red;">*</span></label>
+                      <input
+                        type="tel"
+                        name="number"
+                        maxlength="10"
+                        placeholder="Your Mobile Number*"
+                        required />
+                    </p>
+                    <p>
+                      <label>Email Address<span style="color:red;">*</span></label>
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Your Email*" />
+                    </p>
+                    <p>
+                      <label>Comments / Questions</label>
+                      <textarea
+                        rows="8"
+                        name="message"
+                        placeholder="Your Message*"></textarea>
+                    </p>
+                    <p>
+                      <input
+                        type="submit"
+                        name="submit"
+                        value="SUBMIT MESSAGE" />
+                    </p>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
-          <!-- ***contact section html start form here*** -->
-          <!-- ***iconbox section html start form here*** -->
-          <div class="contact-details-section bg-light-grey">
-            <div class="container">
-              <div class="row align-items-center">
-                <div class="col-lg-4">
-                  <div class="icon-box border-icon-box">
-                    <div class="box-icon">
-                      <i
-                        aria-hidden="true"
-                        class="fas fa-envelope-open-text"
-                      ></i>
-                    </div>
-                    <div class="icon-box-content">
-                      <h4>EMAIL ADDRESS</h4>
-                      <ul>
-                        <li>
-                          <a href="mailto:support@gmail.com"
-                            >support@gmail.com</a
-                          >
-                        </li>
-                        <!-- <li>
+        </div>
+        <!-- ***contact section html start form here*** -->
+        <!-- ***iconbox section html start form here*** -->
+        <div class="contact-details-section bg-light-grey">
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-lg-4">
+                <div class="icon-box border-icon-box">
+                  <div class="box-icon">
+                    <i
+                      aria-hidden="true"
+                      class="fas fa-envelope-open-text"></i>
+                  </div>
+                  <div class="icon-box-content">
+                    <h4>EMAIL ADDRESS</h4>
+                    <ul>
+                      <li>
+                        <a href="mailto:support@gmail.com">support@gmail.com</a>
+                      </li>
+                      <!-- <li>
                           <a href="mailto:name@comapny.com">name@comapny.com</a>
                         </li> -->
-                        <li>
-                          <a href="mailto:test@gmail.com">test@gmail.com</a>
-                        </li>
-                      </ul>
-                    </div>
+                      <li>
+                        <a href="mailto:test@gmail.com">test@gmail.com</a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
-                <div class="col-lg-4">
-                  <div class="icon-box border-icon-box">
-                    <div class="box-icon">
-                      <i aria-hidden="true" class="fas fa-phone-alt"></i>
-                    </div>
-                    <div class="icon-box-content">
-                      <h4>PHONE NUMBER</h4>
-                      <ul>
-                        <li>
-                          <a href="tel:+919823059704">+91 (982) 305 9704</a>
-                        </li>
-                        <li>
-                          <a href="tel:+918446225859">+91 (844) 622 5859</a>
-                        </li>
-                        <!-- <li>
+              </div>
+              <div class="col-lg-4">
+                <div class="icon-box border-icon-box">
+                  <div class="box-icon">
+                    <i aria-hidden="true" class="fas fa-phone-alt"></i>
+                  </div>
+                  <div class="icon-box-content">
+                    <h4>PHONE NUMBER</h4>
+                    <ul>
+                      <li>
+                        <a href="tel:+919823059704">+91 (982) 305 9704</a>
+                      </li>
+                      <li>
+                        <a href="tel:+918446225859">+91 (844) 622 5859</a>
+                      </li>
+                      <!-- <li>
                           <a href="callto:01977259912">+91 (977) 2599 12</a>
                         </li> -->
-                      </ul>
-                    </div>
+                    </ul>
                   </div>
                 </div>
-                <div class="col-lg-4">
-                  <div class="icon-box border-icon-box">
-                    <div class="box-icon">
-                      <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="icon-box-content">
-                      <h4>ADDRESS LOCATION</h4>
-                      <ul>
-                        <li>Bunglow No 25 Shreeraj Society</li>
-                        <li>HAL Colony Indira Nagar</li>
-                        <li>Nashik-422009</li>
-                      </ul>
-                    </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="icon-box border-icon-box">
+                  <div class="box-icon">
+                    <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
+                  </div>
+                  <div class="icon-box-content">
+                    <h4>ADDRESS LOCATION</h4>
+                    <ul>
+                      <li>Bunglow No 25 Shreeraj Society</li>
+                      <li>HAL Colony Indira Nagar</li>
+                      <li>Nashik-422009</li>
+                    </ul>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <!-- ***iconbox section html end here*** -->
-        </section>
-        <a
-          href="https://wa.me/919823059704?text=Hi%20Safar%2C%20I%27d%20like%20to%20book%20a%20ride."
-          class="whatsapp-float"
-          target="_blank"
-          rel="noopener"
-          aria-label="Chat on WhatsApp"
-        >
-          <!-- WhatsApp SVG Icon -->
-          <svg viewBox="0 0 32 32" aria-hidden="true">
-            <path
-              d="M19.11 17.27c-.26-.13-1.54-.76-1.78-.85-.24-.09-.41-.13-.58.13-.17.26-.67.85-.82 1.02-.15.17-.3.2-.56.07-.26-.13-1.1-.4-2.1-1.27-.78-.7-1.3-1.56-1.45-1.82-.15-.26-.02-.4.11-.53.11-.11.26-.3.39-.45.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45-.07-.13-.58-1.39-.8-1.9-.21-.5-.42-.43-.58-.44l-.5-.01c-.17 0-.45.06-.69.32-.24.26-.9.88-.9 2.14 0 1.26.93 2.48 1.06 2.65.13.17 1.84 2.8 4.46 3.93.62.27 1.11.43 1.49.55.63.2 1.21.17 1.67.1.51-.08 1.54-.63 1.76-1.25.22-.62.22-1.15.15-1.27-.07-.12-.23-.19-.49-.32zM16 3c7.18 0 13 5.82 13 13 0 7.18-5.82 13-13 13-2.29 0-4.44-.6-6.31-1.64L3 29l1.71-6.52A12.93 12.93 0 0 1 3 16C3 8.82 8.82 3 16 3zm0 2.5C10.22 5.5 5.5 10.22 5.5 16c0 2.17.7 4.18 1.89 5.82l-.97 3.71 3.8-.99A10.45 10.45 0 0 0 16 26.5c5.78 0 10.5-4.72 10.5-10.5S21.78 5.5 16 5.5z"
-            />
-          </svg>
-        </a>
-      </main>
-         <!-- ***site footer html start form here*** -->
-      <footer id="colophon" class="site-footer footer-primary">
-        <div class="top-footer">
-          <div class="container">
-            <!-- Wave decoration at top of footer -->
-            <div class="footer-wave">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
-                <path fill="#ffffff" fill-opacity="1" d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,48C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
-              </svg>
-            </div>
-            
-            <div class="upper-footer">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <aside class="widget widget_text">
-                    <div class="footer-logo">
-                      <a href="index">
-                        <img src="assets/images/Safar_Logo_White-removebg-preview.png" style="mix-blend-mode: color-burn" alt="Safar Logo" class="img-fluid">
-                      </a>
-                    </div>
-                    <div class="textwidget widget-text">
-                      <p>At Safar, we make travel simple, safe, and stress-free. From daily pick & drop services and airport transfers to city tours, outstation trips, and customized tour packages, we provide reliable and affordable travel solutions for every need.</p>
-                    </div>
-                    <div class="header-social footer-social-icons">
-                      <a href="https://www.facebook.com/" target="_blank" class="social-icons">
-                        <i class="fab fa-facebook-f" aria-hidden="true"></i>
-                      </a>
-                      <!-- <a href="https://www.twitter.com/" target="_blank" class="social-icons">
+        </div>
+        <!-- ***iconbox section html end here*** -->
+      </section>
+      <a
+        href="https://wa.me/919823059704?text=Hi%20Safar%2C%20I%27d%20like%20to%20book%20a%20ride."
+        class="whatsapp-float"
+        target="_blank"
+        rel="noopener"
+        aria-label="Chat on WhatsApp">
+        <!-- WhatsApp SVG Icon -->
+        <svg viewBox="0 0 32 32" aria-hidden="true">
+          <path
+            d="M19.11 17.27c-.26-.13-1.54-.76-1.78-.85-.24-.09-.41-.13-.58.13-.17.26-.67.85-.82 1.02-.15.17-.3.2-.56.07-.26-.13-1.1-.4-2.1-1.27-.78-.7-1.3-1.56-1.45-1.82-.15-.26-.02-.4.11-.53.11-.11.26-.3.39-.45.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45-.07-.13-.58-1.39-.8-1.9-.21-.5-.42-.43-.58-.44l-.5-.01c-.17 0-.45.06-.69.32-.24.26-.9.88-.9 2.14 0 1.26.93 2.48 1.06 2.65.13.17 1.84 2.8 4.46 3.93.62.27 1.11.43 1.49.55.63.2 1.21.17 1.67.1.51-.08 1.54-.63 1.76-1.25.22-.62.22-1.15.15-1.27-.07-.12-.23-.19-.49-.32zM16 3c7.18 0 13 5.82 13 13 0 7.18-5.82 13-13 13-2.29 0-4.44-.6-6.31-1.64L3 29l1.71-6.52A12.93 12.93 0 0 1 3 16C3 8.82 8.82 3 16 3zm0 2.5C10.22 5.5 5.5 10.22 5.5 16c0 2.17.7 4.18 1.89 5.82l-.97 3.71 3.8-.99A10.45 10.45 0 0 0 16 26.5c5.78 0 10.5-4.72 10.5-10.5S21.78 5.5 16 5.5z" />
+        </svg>
+      </a>
+    </main>
+    <!-- ***site footer html start form here*** -->
+    <footer id="colophon" class="site-footer footer-primary">
+      <div class="top-footer">
+        <div class="container">
+          <!-- Wave decoration at top of footer -->
+          <div class="footer-wave">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+              <path fill="#ffffff" fill-opacity="1" d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,48C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+            </svg>
+          </div>
+
+          <div class="upper-footer">
+            <div class="row">
+              <div class="col-lg-4 col-md-6">
+                <aside class="widget widget_text">
+                  <div class="footer-logo">
+                    <a href="index">
+                      <img src="assets/images/Safar_Logo_White-removebg-preview.png" style="mix-blend-mode: color-burn" alt="Safar Logo" class="img-fluid">
+                    </a>
+                  </div>
+                  <div class="textwidget widget-text">
+                    <p>At Safar, we make travel simple, safe, and stress-free. From daily pick & drop services and airport transfers to city tours, outstation trips, and customized tour packages, we provide reliable and affordable travel solutions for every need.</p>
+                  </div>
+                  <div class="header-social footer-social-icons">
+                    <a href="https://www.facebook.com/" target="_blank" class="social-icons">
+                      <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                    </a>
+                    <!-- <a href="https://www.twitter.com/" target="_blank" class="social-icons">
                         <i class="fab fa-twitter" aria-hidden="true"></i>
                       </a> -->
-                      <a href="https://www.instagram.com/" target="_blank" class="social-icons">
-                        <i class="fab fa-instagram" aria-hidden="true"></i>
-                      </a>
-                      <a href="https://www.linkedin.com/" target="_blank" class="social-icons">
-                        <i class="fab fa-linkedin" aria-hidden="true"></i>
-                      </a>
-                      <a href="https://www.youtube.com/" target="_blank" class="social-icons">
-                        <i class="fab fa-youtube" aria-hidden="true"></i>
-                      </a>
-                    </div>
-                  </aside>
-                </div>
-                
-                <div class="col-lg-4 col-md-6">
-                  <aside class="widget widget_latest_post widget-post-thumb">
-                    <h3 class="widget-title">Popular Destinations</h3>
-                    <ul class="modern-post-list">
-                      <li>
-                        <figure class="post-thumb">
-                          <a href="#">
-                            <img src="assets/images/img21.jpg" alt="Peaceful Places" class="img-fluid rounded">
-                          </a>
-                        </figure>
-                        <div class="post-content">
-                          <h6>
-                            <a href="#">Journey to Peaceful Places</a>
-                          </h6>
-                          <div class="entry-meta">
-                            <span class="posted-on">
-                              <i class="far fa-calendar-alt"></i>
-                              <a href="#">February 17, 2023</a>
-                            </span>
-                          </div>
+                    <a href="https://www.instagram.com/" target="_blank" class="social-icons">
+                      <i class="fab fa-instagram" aria-hidden="true"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/" target="_blank" class="social-icons">
+                      <i class="fab fa-linkedin" aria-hidden="true"></i>
+                    </a>
+                    <a href="https://www.youtube.com/" target="_blank" class="social-icons">
+                      <i class="fab fa-youtube" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </aside>
+              </div>
+
+              <div class="col-lg-4 col-md-6">
+                <aside class="widget widget_latest_post widget-post-thumb">
+                  <h3 class="widget-title">Popular Destinations</h3>
+                  <ul class="modern-post-list">
+                    <li>
+                      <figure class="post-thumb">
+                        <a href="#">
+                          <img src="assets/images/img21.jpg" alt="Peaceful Places" class="img-fluid rounded">
+                        </a>
+                      </figure>
+                      <div class="post-content">
+                        <h6>
+                          <a href="#">Journey to Peaceful Places</a>
+                        </h6>
+                        <div class="entry-meta">
+                          <span class="posted-on">
+                            <i class="far fa-calendar-alt"></i>
+                            <a href="#">February 17, 2023</a>
+                          </span>
                         </div>
-                      </li>
-                      <li>
-                        <figure class="post-thumb">
-                          <a href="#">
-                            <img src="assets/images/img22.jpg" alt="Travel with Friends" class="img-fluid rounded">
-                          </a>
-                        </figure>
-                        <div class="post-content">
-                          <h6>
-                            <a href="#">Travel with Friends</a>
-                          </h6>
-                          <div class="entry-meta">
-                            <span class="posted-on">
-                              <i class="far fa-calendar-alt"></i>
-                              <a href="#">March 5, 2023</a>
-                            </span>
-                          </div>
+                      </div>
+                    </li>
+                    <li>
+                      <figure class="post-thumb">
+                        <a href="#">
+                          <img src="assets/images/img22.jpg" alt="Travel with Friends" class="img-fluid rounded">
+                        </a>
+                      </figure>
+                      <div class="post-content">
+                        <h6>
+                          <a href="#">Travel with Friends</a>
+                        </h6>
+                        <div class="entry-meta">
+                          <span class="posted-on">
+                            <i class="far fa-calendar-alt"></i>
+                            <a href="#">March 5, 2023</a>
+                          </span>
                         </div>
-                      </li>
-                    </ul>
-                  </aside>
-                </div>
-                
-                <div class="col-lg-4 col-md-12">
-                  <aside class="widget widget_text">
-                    <h3 class="widget-title">Get In Touch</h3>
-                    <div class="textwidget widget-text contact-info">
-                      <ul>
-                        <li>
-                          <a href="tel:+919823059704" class="contact-item">
-                            <div class="icon-wrapper">
-                              <i aria-hidden="true" class="fas fa-phone-alt"></i>
-                            </div>
-                            <div class="contact-text">
-                              <span>Call Us</span>
-                              +91 (982) 305 9704
-                            </div>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="mailto:crushikesh74@gmail.com" class="contact-item">
-                            <div class="icon-wrapper">
-                              <i aria-hidden="true" class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-text">
-                              <span>Email Us</span>
-                              crushikesh74@gmail.com
-                            </div>
-                          </a>
-                        </li>
-                        <li class="contact-item">
+                      </div>
+                    </li>
+                  </ul>
+                </aside>
+              </div>
+
+              <div class="col-lg-4 col-md-12">
+                <aside class="widget widget_text">
+                  <h3 class="widget-title">Get In Touch</h3>
+                  <div class="textwidget widget-text contact-info">
+                    <ul>
+                      <li>
+                        <a href="tel:+919823059704" class="contact-item">
                           <div class="icon-wrapper">
-                            <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
+                            <i aria-hidden="true" class="fas fa-phone-alt"></i>
                           </div>
                           <div class="contact-text">
-                            <span>Visit Us</span>
-                            Bunglow No 25 Shreeraj Society, HAL Colony Indira Nagar, Nashik-422009
+                            <span>Call Us</span>
+                            +91 (982) 305 9704
                           </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </aside>
-                </div>
-              </div>
-            </div>
-            
-            <div class="lower-footer">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="footer-menu quick-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                      <li><a href="index">Home</a></li>
-                      <li><a href="about">About Us</a></li>
-                      <li><a href="package">Packages</a></li>
-                      <li><a href="contact">Contact Us</a></li>
-                      <!-- <li><a href="#">FAQ</a></li>
-                      <li><a href="#">Privacy Policy</a></li> -->
+                        </a>
+                      </li>
+                      <li>
+                        <a href="mailto:crushikesh74@gmail.com" class="contact-item">
+                          <div class="icon-wrapper">
+                            <i aria-hidden="true" class="fas fa-envelope"></i>
+                          </div>
+                          <div class="contact-text">
+                            <span>Email Us</span>
+                            crushikesh74@gmail.com
+                          </div>
+                        </a>
+                      </li>
+                      <li class="contact-item">
+                        <div class="icon-wrapper">
+                          <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                          <span>Visit Us</span>
+                          Bunglow No 25 Shreeraj Society, HAL Colony Indira Nagar, Nashik-422009
+                        </div>
+                      </li>
                     </ul>
                   </div>
-                </div>
+                </aside>
               </div>
             </div>
           </div>
-        </div>
-        
-        <div class="bottom-footer">
-          <div class="container">
-            <div class="copy-right text-center">
-              <p>Copyright &copy; 2023 Safar. All rights reserved. | Designed with <i class="fas fa-heart"></i> for travelers</p>
+
+          <div class="lower-footer">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="footer-menu quick-links">
+                  <h4>Quick Links</h4>
+                  <ul>
+                    <li><a href="index">Home</a></li>
+                    <li><a href="about">About Us</a></li>
+                    <li><a href="package">Packages</a></li>
+                    <li><a href="contact">Contact Us</a></li>
+                    <!-- <li><a href="#">FAQ</a></li>
+                      <li><a href="#">Privacy Policy</a></li> -->
+                  </ul>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </footer>
-      <!-- ***site footer html end*** -->
-      <a id="backTotop" href="#" class="to-top-icon">
-        <i class="fas fa-chevron-up"></i>
-      </a>
-      <!-- ***custom search field html*** -->
-      <div class="header-search-form">
-        <div class="container">
-          <div class="header-search-container">
-            <form class="search-form" role="search" method="get">
-              <input type="text" name="s" placeholder="Enter your text..." />
-            </form>
-            <a href="#" class="search-close">
-              <i class="fas fa-times"></i>
-            </a>
           </div>
         </div>
       </div>
-      <!-- ***custom search field html*** -->
-      <!-- ***custom top bar offcanvas html*** -->
-      <div id="offCanvas" class="offcanvas-container">
-        <div class="offcanvas-inner">
-          <div class="offcanvas-sidebar">
-            <aside class="widget author_widget">
-              <h3 class="widget-title">OUR PROPRIETOR</h3>
-              <div class="widget-content text-center">
-                <div class="profile">
-                  <figure class="avatar">
-                    <img src="assets/images/img21.jpg" alt="" />
-                  </figure>
-                  <div class="text-content">
-                    <div class="name-title">
-                      <h4>Nitin Kulkarni</h4>
-                    </div>
-                    <p>
-                      Safar Pick & Drop Services is proudly managed by Me. With
-                      a vision to provide safe, reliable, and affordable travel
-                      solutions, Safar has become a trusted name for daily pick
-                      & drop, airport transfers, city tours, and outstation
-                      trips.
-                    </p>
+
+      <div class="bottom-footer">
+        <div class="container">
+          <div class="copy-right text-center">
+            <p>Copyright &copy; 2023 Safar. All rights reserved. | Designed with <i class="fas fa-heart"></i> for travelers</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- ***site footer html end*** -->
+    <a id="backTotop" href="#" class="to-top-icon">
+      <i class="fas fa-chevron-up"></i>
+    </a>
+    <!-- ***custom search field html*** -->
+    <div class="header-search-form">
+      <div class="container">
+        <div class="header-search-container">
+          <form class="search-form" role="search" method="get">
+            <input type="text" name="s" placeholder="Enter your text..." />
+          </form>
+          <a href="#" class="search-close">
+            <i class="fas fa-times"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- ***custom search field html*** -->
+    <!-- ***custom top bar offcanvas html*** -->
+    <div id="offCanvas" class="offcanvas-container">
+      <div class="offcanvas-inner">
+        <div class="offcanvas-sidebar">
+          <aside class="widget author_widget">
+            <h3 class="widget-title">OUR PROPRIETOR</h3>
+            <div class="widget-content text-center">
+              <div class="profile">
+                <figure class="avatar">
+                  <img src="assets/images/img21.jpg" alt="" />
+                </figure>
+                <div class="text-content">
+                  <div class="name-title">
+                    <h4>Nitin Kulkarni</h4>
                   </div>
-                  <div class="socialgroup">
-                    <ul>
-                      <li>
-                        <a target="_blank" href="#">
-                          <i class="fab fa-facebook"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a target="_blank" href="#">
-                          <i class="fab fa-google"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a target="_blank" href="#">
-                          <i class="fab fa-linkedin"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a target="_blank" href="#">
-                          <i class="fab fa-instagram"></i>
-                        </a>
-                      </li>
-                      <!-- <li>
+                  <p>
+                    Safar Pick & Drop Services is proudly managed by Me. With
+                    a vision to provide safe, reliable, and affordable travel
+                    solutions, Safar has become a trusted name for daily pick
+                    & drop, airport transfers, city tours, and outstation
+                    trips.
+                  </p>
+                </div>
+                <div class="socialgroup">
+                  <ul>
+                    <li>
+                      <a target="_blank" href="#">
+                        <i class="fab fa-facebook"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a target="_blank" href="#">
+                        <i class="fab fa-google"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a target="_blank" href="#">
+                        <i class="fab fa-linkedin"></i>
+                      </a>
+                    </li>
+                    <li>
+                      <a target="_blank" href="#">
+                        <i class="fab fa-instagram"></i>
+                      </a>
+                    </li>
+                    <!-- <li>
                         <a target="_blank" href="#">
                           <i class="fab fa-pinterest"></i>
                         </a>
                       </li> -->
-                    </ul>
-                  </div>
+                  </ul>
                 </div>
               </div>
-            </aside>
-            <aside class="widget widget_text text-center">
-              <h3 class="widget-title">CONTACT US</h3>
-              <div class="textwidget widget-text">
-                <p>
-                  Feel free to contact and<br />
-                  reach us !!
-                </p>
-                <ul>
-                  <li>
-                    <a href="tel:+01988256203">
-                      <i aria-hidden="true" class="icon icon-phone1"></i>
-                      +91 (982) 305 9704
-                    </a>
-                  </li>
-                  <li>
-                    <a href="mailto:crushikesh74@gmail.com">
-                      <i aria-hidden="true" class="icon icon-envelope1"></i>
-                      crushikesh74@gmail.com
-                    </a>
-                  </li>
-                  <li>
-                    <i aria-hidden="true" class="icon icon-map-marker1"></i>
-                    Bunglow No 25 Shreeraj Society, HAL Colony Indira Nagar,
-                    Indira Nagar-422009
-                  </li>
-                </ul>
-              </div>
-            </aside>
-          </div>
-          <a href="#" class="offcanvas-close">
-            <i class="fas fa-times"></i>
-          </a>
+            </div>
+          </aside>
+          <aside class="widget widget_text text-center">
+            <h3 class="widget-title">CONTACT US</h3>
+            <div class="textwidget widget-text">
+              <p>
+                Feel free to contact and<br />
+                reach us !!
+              </p>
+              <ul>
+                <li>
+                  <a href="tel:+01988256203">
+                    <i aria-hidden="true" class="icon icon-phone1"></i>
+                    +91 (982) 305 9704
+                  </a>
+                </li>
+                <li>
+                  <a href="mailto:crushikesh74@gmail.com">
+                    <i aria-hidden="true" class="icon icon-envelope1"></i>
+                    crushikesh74@gmail.com
+                  </a>
+                </li>
+                <li>
+                  <i aria-hidden="true" class="icon icon-map-marker1"></i>
+                  Bunglow No 25 Shreeraj Society, HAL Colony Indira Nagar,
+                  Indira Nagar-422009
+                </li>
+              </ul>
+            </div>
+          </aside>
         </div>
-        <div class="overlay"></div>
+        <a href="#" class="offcanvas-close">
+          <i class="fas fa-times"></i>
+        </a>
       </div>
-      <!-- ***custom top bar offcanvas html*** -->
+      <div class="overlay"></div>
     </div>
+    <!-- ***custom top bar offcanvas html*** -->
+  </div>
 
-    <!-- JavaScript -->
-    <script src="assets/vendors/jquery/jquery.js"></script>
-    <script src="assets/vendors/waypoint/waypoints.js"></script>
-    <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/vendors/jquery-ui/jquery-ui.min.js"></script>
-    <script src="assets/vendors/countdown-date-loop-counter/loopcounter.js"></script>
-    <script src="assets/vendors/counterup/jquery.counterup.min.js"></script>
-    <script src="../../../unpkg.com/imagesloaded%404.1.4/imagesloaded.pkgd.min.js"></script>
-    <script src="assets/vendors/masonry/masonry.pkgd.min.js"></script>
-    <script src="assets/vendors/slick/slick.min.js"></script>
-    <script src="assets/vendors/fancybox/dist/jquery.fancybox.min.js"></script>
-    <script src="assets/vendors/slick-nav/jquery.slicknav.js"></script>
-    <script src="assets/js/custom.min.js"></script>
-  </body>
+  <!-- JavaScript -->
+  <script src="assets/vendors/jquery/jquery.js"></script>
+  <script src="assets/vendors/waypoint/waypoints.js"></script>
+  <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/vendors/jquery-ui/jquery-ui.min.js"></script>
+  <script src="assets/vendors/countdown-date-loop-counter/loopcounter.js"></script>
+  <script src="assets/vendors/counterup/jquery.counterup.min.js"></script>
+  <script src="../../../unpkg.com/imagesloaded%404.1.4/imagesloaded.pkgd.min.js"></script>
+  <script src="assets/vendors/masonry/masonry.pkgd.min.js"></script>
+  <script src="assets/vendors/slick/slick.min.js"></script>
+  <script src="assets/vendors/fancybox/dist/jquery.fancybox.min.js"></script>
+  <script src="assets/vendors/slick-nav/jquery.slicknav.js"></script>
+  <script src="assets/js/custom.min.js"></script>
+</body>
+
 </html>

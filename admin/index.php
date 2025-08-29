@@ -29,7 +29,7 @@ if (isset($_POST['login'])) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-	<title>Mahalaxmi Construction - Login</title>
+	<title>Safar - Login</title>
 
 	<!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
@@ -53,13 +53,13 @@ if (isset($_POST['login'])) {
 <body>
 
 	<!-- Main Wrapper -->
-	<div class="page-wrappers login-body" style="background: url('assets/img/banner.png') no-repeat center center; background-size: cover; position: relative; width: 100%; height: 100vh;">
+	<div class="page-wrappers login-body" style="background: url('assets/img/Packages Banner Image.png') no-repeat center center; background-size: cover; position: relative; width: 100%; height: 100vh;">
 		<div class="login-wrapper">
 			<div class="container">
 				<div class="loginbox">
 					<div class="login-right">
 						<div class="login-right-wrap">
-							<img src="assets/img/logo.png" class="img-fluid mb-4" alt="Logo" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
+							<img src="assets/img/Safar Logo.png" class="img-fluid mb-4" alt="Logo" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
 							<h1>Admin Login Panel</h1>
 							<p class="account-subtitle">Access to our dashboard</p>
 							<p style="color:red;"><?php echo $error; ?></p>

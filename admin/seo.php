@@ -52,7 +52,7 @@ if (isset($_POST['update_seo'])) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-	<title>Mahalaxmi Construction | SEO Settings</title>
+	<title>Safar | SEO Settings</title>
 
 	<!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
@@ -124,7 +124,7 @@ if (isset($_POST['update_seo'])) {
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
-									<table class="table table-bordered table-hover dt-responsive nowrap">
+									<table id="datatable-buttons" class="table table-bordered table-hover dt-responsive nowrap">
 										<thead class="text-center">
 											<tr style="white-space: nowrap;">
 												<th>#</th>
@@ -137,7 +137,7 @@ if (isset($_POST['update_seo'])) {
 										</thead>
 										<tbody class="text-center">
 											<?php
-											$query = mysqli_query($con, "SELECT * FROM seo_settings ORDER BY page_type");
+											$query = mysqli_query($con, "SELECT * FROM seo_settings ORDER BY id");
 											$row_count = mysqli_num_rows($query);
 
 											if ($row_count > 0) {
@@ -207,10 +207,8 @@ if (isset($_POST['update_seo'])) {
 								<option value="">Select Page Type</option>
 								<option value="home">Home</option>
 								<option value="about">About Us</option>
-								<option value="sectors">Sectors</option>
-								<option value="projects">Projects</option>
-								<option value="careers">Careers</option>
-								<option value="contact">Contact</option>
+								<option value="packages">Packages</option>
+								<option value="contact">Contact Us</option>
 							</select>
 						</div>
 						<div class="form-group">
@@ -254,10 +252,8 @@ if (isset($_POST['update_seo'])) {
 								<option value="">Select Page Type</option>
 								<option value="home">Home</option>
 								<option value="about">About Us</option>
-								<option value="sectors">Sectors</option>
-								<option value="projects">Projects</option>
-								<option value="careers">Careers</option>
-								<option value="contact">Contact</option>
+								<option value="packages">Packages</option>
+								<option value="contact">Contact Us</option>
 							</select>
 						</div>
 						<div class="form-group">

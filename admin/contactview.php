@@ -13,7 +13,7 @@ if (!isset($_SESSION['auser'])) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-	<title>Mahalaxmi Construction | Admin</title>
+	<title>Safar | Admin</title>
 
 	<!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
@@ -60,10 +60,10 @@ if (!isset($_SESSION['auser'])) {
 				<div class="page-header">
 					<div class="row">
 						<div class="col">
-							<h3 class="page-title">Contact</h3>
+							<h3 class="page-title">Enquiries</h3>
 							<ul class="breadcrumb">
 								<li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
-								<li class="breadcrumb-item active">Contact</li>
+								<li class="breadcrumb-item active">Enquiries</li>
 							</ul>
 						</div>
 					</div>
@@ -74,7 +74,7 @@ if (!isset($_SESSION['auser'])) {
 					<div class="col-sm-12">
 						<div class="card">
 							<div class="card-header">
-								<h4 class="card-title mb-3">Contact List</h4>
+								<h4 class="card-title mb-3">Enquiries List</h4>
 								<?php
 								if (isset($_GET['msg']))
 									echo $_GET['msg'];
@@ -87,15 +87,15 @@ if (!isset($_SESSION['auser'])) {
 											<tr>
 												<th>#</th>
 												<th>Name</th>
-												<th>Email</th>
-												<th>Phone</th>
+												<th>Email ID</th>
+												<th>Mobile Number</th>
 												<th>Message</th>
 												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
 											<?php
-											$query = mysqli_query($con, "select * from contact");
+											$query = mysqli_query($con, "select * from contacts");
 											$cnt = 1;
 											while ($row = mysqli_fetch_row($query)) {
 											?>

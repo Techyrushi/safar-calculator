@@ -1,3 +1,14 @@
+<?php
+session_start();
+include("config.php");
+
+$seo_query = mysqli_query($con, "SELECT * FROM seo_settings WHERE page_type='packages' LIMIT 1");
+$seo_data = mysqli_fetch_assoc($seo_query);
+
+$page_title = isset($seo_data['title']) ? $seo_data['title'] : "Mahalaxmi Construction | Building Your Dreams";
+$meta_keywords = isset($seo_data['keywords']) ? $seo_data['keywords'] : "construction, building, real estate, mahalaxmi, home builders";
+$meta_description = isset($seo_data['description']) ? $seo_data['description'] : "Mahalaxmi Construction is a leading construction company specializing in residential and commercial projects.";
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,7 +18,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-
+ <meta name="keywords" content="<?php echo htmlspecialchars($meta_keywords); ?>">
+  <meta name="description" content="<?php echo htmlspecialchars($meta_description); ?>">
     <!-- favicon -->
     <link rel="icon" type="image/ico" href="assets/images/favicon.ico" />
     <!-- Bootstrap CSS -->
@@ -59,7 +71,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet" type="text/css" href="footer-styles.css" />
-    <title>Packages | Safar – Pickup & Drop Services</title>
+    <title><?php echo htmlspecialchars($page_title); ?></title>
   </head>
   <body>
     <div id="siteLoader" class="site-loader">
@@ -137,7 +149,7 @@
                       <a href="index">Home</a>
                     </li>
                     <li>
-                      <a href="about">about us</a>
+                      <a href="about">About Us</a>
                     </li>
                     <li class="menu-active">
                       <a href="package">Packages</a>
@@ -223,7 +235,7 @@
                       </ul>
                     </li> -->
                     <li>
-                      <a href="contact">contact us</a>
+                      <a href="contact">Contact Us</a>
                     </li>
                   </ul>
                 </nav>
@@ -244,7 +256,7 @@
           <div class="inner-banner-wrap">
             <div
               class="inner-baner-container"
-              style="background-image: url(assets/images/img7.jpg)"
+              style="background-image: url(assets/images/Packages_Banner_Image.png)"
             >
               <div class="container">
                 <div class="inner-banner-content">

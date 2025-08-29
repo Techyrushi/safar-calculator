@@ -258,6 +258,62 @@ body {
   body {
     font-size: 14px;
   }
+  
+  .package-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  
+  .package-item .package-image {
+    width: 100% !important;
+    max-width: 100% !important;
+    object-fit: cover !important;
+  }
+  
+  .car-selector {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 10px !important;
+  }
+  
+  .car-option {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Fix for desktop site view on mobile devices */
+@media screen and (max-width: 1200px) {
+  .package-item {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .package-item .package-image {
+    width: 100%;
+    max-width: 100%;
+    object-fit: cover;
+  }
+  
+  .car-selector {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: visible;
+  }
+  
+  .car-option {
+    width: 100%;
+    min-width: 250px;
+    max-width: 100%;
+    flex: 1 1 300px;
+  }
 }
 
 p {
@@ -3542,7 +3598,7 @@ body.home .home-banner {
 
 @media screen and (max-width: 991px) {
   .home-banner {
-    min-height: 700px;
+    min-height: 630px;
     padding-top: 100px;
     -webkit-background-size: 100% 100%;
     -moz-background-size: 100% 100%;
@@ -3560,7 +3616,7 @@ body.home .home-banner {
 
 @media screen and (max-width: 767px) {
   .home-banner {
-    min-height: 400px;
+    min-height: 340px;
     padding-top: 100px;
     margin-top: 0;
     -webkit-background-size: 100% 100%;
@@ -3579,7 +3635,7 @@ body.home .home-banner {
 
 @media screen and (max-width: 575px) {
   .home-banner {
-    min-height: 280px;
+    min-height: 230px;
     padding-top: 80px;
     margin-top: 0;
     -webkit-background-size: 100% 100%;
@@ -4044,6 +4100,9 @@ body.home .home-banner {
 /* Vehicle Selection and Results Styling */
 #vehicleSelection,
 #result {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 20px;
@@ -4058,6 +4117,9 @@ body.home .home-banner {
   flex-wrap: wrap;
   gap: 15px;
   justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: visible;
 }
 
 .result-card {
@@ -4321,6 +4383,8 @@ body.home .home-banner {
   animation: fadeInUp 0.8s ease-out forwards;
   opacity: 0;
   border: 1px solid rgba(58, 120, 201, 0.1);
+  width: 100%;
+  max-width: 100%;
 }
 
 .package-item:hover {
@@ -4337,6 +4401,17 @@ body.home .home-banner {
   position: relative;
   overflow: hidden;
   height: 100%;
+  width: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+.package-item .package-image img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .package-item:hover .package-image {
@@ -9485,6 +9560,10 @@ body.home .home-banner {
   border: 2px solid transparent;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  min-width: 250px;
+  max-width: 100%;
+  flex: 1 1 300px;
 }
 
 .car-option:hover {

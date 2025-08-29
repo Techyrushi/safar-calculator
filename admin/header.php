@@ -11,10 +11,10 @@ if (!isset($_SESSION['auser'])) {
 	<!-- Logo -->
 	<div class="header-left">
 		<a href="dashboard" class="logo">
-			<img src="assets/img/logo.png" alt="Logo">
+			<img src="assets/img/Safar_Logo-removebg-preview.png" alt="Logo">
 		</a>
 		<a href="dashboard" class="logo logo-small">
-			<img src="assets/img/logo.png" alt="Logo" width="30" height="30">
+			<img src="assets/img/Safar_Logo-removebg-preview.png" alt="Logo" width="30" height="30">
 		</a>
 	</div>
 	<!-- /Logo -->
@@ -99,10 +99,20 @@ if (!isset($_SESSION['auser'])) {
 				<li class="submenu">
 					<a href="#" style="font-size: 18px;"><i class="fe fe-browser"></i> <span> Home Page </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href="homeadd" style="font-size: 16px;"> Add Home Content</a></li>
-						<li><a href="industry_view" style="font-size: 16px;"> View Industries Served</a></li>
-						<li><a href="construction_view" style="font-size: 16px;">View Mahalaxmi Work</a></li>
-						<li><a href="projects_view" style="font-size: 16px;"> View Featured Projects</a></li>
+						<li><a href="homeadd" style="font-size: 16px;">Home CMS</a></li>
+						<li><a href="vehicle_manage" style="font-size: 16px;"> Vehicles Manage</a></li>
+						<!-- <li><a href="construction_view" style="font-size: 16px;">View Mahalaxmi Work</a></li>
+						<li><a href="projects_view" style="font-size: 16px;"> View Featured Projects</a></li> -->
+					</ul>
+				</li>
+
+				<li class="menu-title">
+					<span>Packages</span>
+				</li>
+				<li class="submenu">
+					<a href="#" style="font-size: 18px;"><i class="fe fe-map"></i> <span> Packages Page</span> <span class="menu-arrow"></span></a>
+					<ul style="display: none;">
+						<li><a href="add-package" style="font-size: 16px;"> Packages CMS</a></li>
 					</ul>
 				</li>
 
@@ -112,74 +122,30 @@ if (!isset($_SESSION['auser'])) {
 				<li class="submenu">
 					<a href="#" style="font-size: 18px;"><i class="fe fe-activity"></i> <span> About Page </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href="aboutadd" style="font-size: 16px;"> Add About Content </a></li>
-						<li><a href="aboutview" style="font-size: 16px;"> View About </a></li>
+						<li><a href="aboutadd" style="font-size: 16px;"> About CMS </a></li>
 					</ul>
 				</li>
 
-				<!-- <li class="menu-title">
-					<span>State & City</span>
-				</li> -->
-
-				<!-- <li class="submenu">
-					<a href="#"><i class="fe fe-location"></i> <span>State & City</span> <span class="menu-arrow"></span></a>
-					<ul style="display: none;">
-						<li><a href="stateadd"> State </a></li>
-						<li><a href="cityadd"> City </a></li>
-					</ul>
-				</li> -->
 
 				<li class="menu-title">
-					<span>Projects Manage</span>
+					<span>Contact</span>
 				</li>
 				<li class="submenu">
-					<a href="#" style="font-size: 18px;"><i class="fe fe-map"></i> <span> Featured Projects</span> <span class="menu-arrow"></span></a>
+					<a href="#" style="font-size: 18px;"><i class="fe fe-comment"></i> <span> Contact Page</span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href="propertyadd" style="font-size: 16px;"> Add Projects</a></li>
-						<li><a href="propertyview" style="font-size: 16px;"> View Projects </a></li>
+						<li><a href="add-contact" style="font-size: 16px;"> Contact CMS</a></li>
+						<li><a href="contactview" style="font-size: 16px;"> Enquiries </a></li>
 					</ul>
 				</li>
 
 				<li class="menu-title">
-					<span>Sectors</span>
+					<span>Settings</span>
 				</li>
 				<li class="submenu">
-					<a href="#" style="font-size: 18px;"><i class="fe fe-bookmark"></i> <span> Sectors Page </span> <span class="menu-arrow"></span></a>
+					<a href="#" style="font-size: 18px;"><i class="fe fe-globe"></i> <span> Settings </span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
-						<li><a href="aboutadd" style="font-size: 16px;"> Add Sectors Content </a></li>
-						<li><a href="aboutview" style="font-size: 16px;"> View Sectors </a></li>
-					</ul>
-				</li>
-
-				<li class="menu-title">
-					<span>Careers</span>
-				</li>
-				<li class="submenu">
-					<a href="#" style="font-size: 18px;"><i class="fe fe-folder"></i> <span> Careers Page </span> <span class="menu-arrow"></span></a>
-					<ul style="display: none;">
-						<li><a href="careerview" style="font-size: 16px;"> View Career Details </a></li>
-						<li><a href="applicants" style="font-size: 16px;"> View Applications </a></li>
-					</ul>
-				</li>
-
-				<li class="menu-title">
-					<span>Query</span>
-				</li>
-				<li class="submenu">
-					<a href="#" style="font-size: 18px;"><i class="fe fe-comment"></i> <span> Contact  Manage</span> <span class="menu-arrow"></span></a>
-					<ul style="display: none;">
-						<li><a href="contactview" style="font-size: 16px;"> Contact</a></li>
-						<!-- <li><a href="feedbackview" style="font-size: 16px;"> Feedback </a></li> -->
-					</ul>
-				</li>
-
-				<li class="menu-title">
-					<span>SEO Settings</span>
-				</li>
-				<li class="submenu">
-					<a href="#" style="font-size: 18px;"><i class="fe fe-globe"></i> <span> SEO Settings </span> <span class="menu-arrow"></span></a>
-					<ul style="display: none;">
-						<li><a href="seo" style="font-size: 16px;"> Add SEO Data</a></li>
+						<li><a href="seo" style="font-size: 16px;"> SEO Manage</a></li>
+						<li><a href="footer_manage" style="font-size: 16px;"> Footer Manage</a></li>
 					</ul>
 				</li>
 
