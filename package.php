@@ -5,9 +5,9 @@ include("config.php");
 $seo_query = mysqli_query($con, "SELECT * FROM seo_settings WHERE page_type='packages' LIMIT 1");
 $seo_data = mysqli_fetch_assoc($seo_query);
 
-$page_title = isset($seo_data['title']) ? $seo_data['title'] : "Mahalaxmi Construction | Building Your Dreams";
-$meta_keywords = isset($seo_data['keywords']) ? $seo_data['keywords'] : "construction, building, real estate, mahalaxmi, home builders";
-$meta_description = isset($seo_data['description']) ? $seo_data['description'] : "Mahalaxmi Construction is a leading construction company specializing in residential and commercial projects.";
+$page_title = isset($seo_data['title']) ? $seo_data['title'] : "Safar - Pick and Drop Services";
+$meta_keywords = isset($seo_data['keywords']) ? $seo_data['keywords'] : "safar, pick and drop, services, transport, delivery";
+$meta_description = isset($seo_data['description']) ? $seo_data['description'] : "Safar is a leading pick and drop service provider specializing in transport and delivery.";
 ?>
 <!DOCTYPE html>
 <html lang="en">
