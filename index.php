@@ -332,12 +332,15 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
                   <button class="whatsapp-btn" id="whatsappBookBtn">
                     <i class="fab fa-whatsapp"></i> Book on WhatsApp
                   </button>
-                  <div class="disclaimer mt-3">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <strong>Note:</strong> Extra charges like toll, parking,
-                    driver allowance, permit, and state taxes will be added
-                    separately if applicable.
-                  </div>
+                  <?php
+                  $query = mysqli_query($con, "SELECT * FROM vehicles ORDER BY created_at DESC LIMIT 1");
+                  while ($row = mysqli_fetch_array($query)) {
+                  ?>
+                    <div class="disclaimer mt-3">
+                      <i class="fas fa-exclamation-circle"></i>
+                      <strong>Note:</strong> <?php echo $row['note']; ?>
+                    </div>
+                  <?php } ?>
                 </div>
               </div>
             </div>
@@ -1112,7 +1115,7 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
                   Feel free to contact and<br />
                   reach us !!
                 </p>
-                 <ul>
+                <ul>
                   <li>
                     <i aria-hidden="true" class="icon icon-phone1"></i>
                     <?php
