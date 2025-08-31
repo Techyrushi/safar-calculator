@@ -206,7 +206,7 @@ if (isset($_POST['update'])) {
         .detail-value {
             color: #212529;
         }
-        
+
         .logo-preview {
             max-width: 300px;
             height: auto;
@@ -315,7 +315,7 @@ if (isset($_POST['update'])) {
                                                 <div class="col-md-6">
                                                     <div class="form-group mb-3">
                                                         <label>Contact Banner Image</label>
-                                                        <input type="file" class="form-control" name="contact_banner" accept="image/*">
+                                                        <input type="file" class="form-control" name="contact_banner" accept="image/*" >
                                                         <small class="form-text text-muted">Recommended size: 9238x3950 pixels (JPG, PNG, SVG)</small>
                                                         <?php if (!empty($contact_info['contact_banner'])): ?>
                                                             <div class="logo-preview-container">
@@ -325,15 +325,15 @@ if (isset($_POST['update'])) {
                                                         <?php endif; ?>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <label>Title *</label>
+                                                        <label>Contact Section Title *</label>
                                                         <input type="text" class="form-control" name="title" value="<?php echo isset($contact_info['title']) ? $contact_info['title'] : ''; ?>" required>
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label>Mobile Number *</label>
-                                                        <input type="text" class="form-control" name="mobile_number" value="<?php echo isset($contact_info['mobile_number']) ? $contact_info['mobile_number'] : ''; ?>" required>
+                                                        <textarea class="form-control" name="mobile_number" rows="2" required><?php echo isset($contact_info['mobile_number']) ? $contact_info['mobile_number'] : ''; ?></textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <label>Description *</label>
+                                                        <label>Contact Section Description *</label>
                                                         <textarea class="form-control" name="description" rows="5" required><?php echo isset($contact_info['description']) ? $contact_info['description'] : ''; ?></textarea>
                                                     </div>
                                                 </div>
@@ -350,12 +350,12 @@ if (isset($_POST['update'])) {
                                                         <?php endif; ?>
                                                     </div>
                                                     <div class="form-group mb-3">
-                                                        <label>Email *</label>
-                                                        <input type="email" class="form-control" name="email" value="<?php echo isset($contact_info['email']) ? $contact_info['email'] : ''; ?>" required>
-                                                    </div>
-                                                    <div class="form-group mb-3">
                                                         <label>Location URL (Google Maps) *</label>
                                                         <input type="url" class="form-control" name="location_url" value="<?php echo isset($contact_info['location_url']) ? $contact_info['location_url'] : ''; ?>" required>
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label>Email *</label>
+                                                        <textarea class="form-control" name="email" rows="2" required><?php echo isset($contact_info['email']) ? $contact_info['email'] : ''; ?></textarea>
                                                     </div>
                                                     <div class="form-group mb-3">
                                                         <label>Address *</label>
@@ -376,20 +376,20 @@ if (isset($_POST['update'])) {
                                         <div class="contact-info-card">
                                             <?php if (!empty($contact_info)): ?>
                                                 <?php if (!empty($contact_info['contact_banner'])): ?>
-                                                <div class="contact-detail">
-                                                    <div class="detail-label">Contact Banner</div>
-                                                    <div class="detail-value">
-                                                        <img src="packages/<?php echo $contact_info['contact_banner']; ?>" class="logo-preview">
+                                                    <div class="contact-detail">
+                                                        <div class="detail-label">Contact Banner</div>
+                                                        <div class="detail-value">
+                                                            <img src="packages/<?php echo $contact_info['contact_banner']; ?>" class="logo-preview">
+                                                        </div>
                                                     </div>
-                                                </div>
                                                 <?php endif; ?>
                                                 <?php if (!empty($contact_info['package_banner'])): ?>
-                                                <div class="contact-detail">
-                                                    <div class="detail-label">Package Banner</div>
-                                                    <div class="detail-value">
-                                                        <img src="packages/<?php echo $contact_info['package_banner']; ?>" class="logo-preview">
+                                                    <div class="contact-detail">
+                                                        <div class="detail-label">Package Banner</div>
+                                                        <div class="detail-value">
+                                                            <img src="packages/<?php echo $contact_info['package_banner']; ?>" class="logo-preview">
+                                                        </div>
                                                     </div>
-                                                </div>
                                                 <?php endif; ?>
                                                 <div class="contact-detail">
                                                     <div class="detail-label">Title</div>

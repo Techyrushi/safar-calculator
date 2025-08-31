@@ -55,10 +55,78 @@ if (isset($_POST['updateStatistics'])) {
     $excellence_year_title = ($_POST['support_title'] ?? '');
     $machinery_units_title = ($_POST['services_title'] ?? '');
 
+    $newImage = null;
+
+    // Handle image upload if a new file is provided
+    if (!empty($_FILES['stat_image']['name'])) {
+        $filename = $_FILES['stat_image']['name'];
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+
+        if (in_array($ext, $allowed)) {
+            $unique_name = uniqid() . '.' . $ext;
+            $upload_path = "upload/" . $unique_name;
+
+            if (move_uploaded_file($_FILES['stat_image']['tmp_name'], $upload_path)) {
+                $newImage = $unique_name;
+
+                // Delete old image if exists
+                $oldImageQuery = mysqli_query($con, "SELECT image_path FROM statistics WHERE id = 1");
+                if ($oldImageRow = mysqli_fetch_assoc($oldImageQuery)) {
+                    if (!empty($oldImageRow['image_path']) && file_exists("upload/" . $oldImageRow['image_path'])) {
+                        unlink("upload/" . $oldImageRow['image_path']);
+                    }
+                }
+            }
+        }
+    }
+
     // Update Query
-    $stmt = $con->prepare("UPDATE statistics SET title=?, description=?, video_url=?, rides_count=?, city_covered_count=?, support_count=?, services_count=? ,
-    rides_title=?, city_covered_title=?, support_title=?, services_title=? WHERE id=1");
-    $stmt->bind_param("sssiiiissss", $title, $description, $video, $road_built, $ongoing_projects, $excellence_year, $machinery_units, $road_built_title, $ongoing_projects_title, $excellence_year_title, $machinery_units_title);
+    if ($newImage) {
+        // With image
+        $stmt = $con->prepare("UPDATE statistics 
+            SET title=?, description=?, video_url=?, rides_count=?, city_covered_count=?, 
+                support_count=?, services_count=?, rides_title=?, city_covered_title=?, 
+                support_title=?, services_title=?, image_path=? 
+            WHERE id=1");
+        $stmt->bind_param(
+            "ssssssssssss",
+            $title,
+            $description,
+            $video,
+            $road_built,
+            $ongoing_projects,
+            $excellence_year,
+            $machinery_units,
+            $road_built_title,
+            $ongoing_projects_title,
+            $excellence_year_title,
+            $machinery_units_title,
+            $newImage
+        );
+    } else {
+        // Without image
+        $stmt = $con->prepare("UPDATE statistics 
+            SET title=?, description=?, video_url=?, rides_count=?, city_covered_count=?, 
+                support_count=?, services_count=?, rides_title=?, city_covered_title=?, 
+                support_title=?, services_title=? 
+            WHERE id=1");
+        $stmt->bind_param(
+            "sssssssssss",
+            $title,
+            $description,
+            $video,
+            $road_built,
+            $ongoing_projects,
+            $excellence_year,
+            $machinery_units,
+            $road_built_title,
+            $ongoing_projects_title,
+            $excellence_year_title,
+            $machinery_units_title
+        );
+    }
+
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Statistics Data Updated Successfully";
         $_SESSION['active_tab'] = 'statistics';
@@ -67,8 +135,10 @@ if (isset($_POST['updateStatistics'])) {
     } else {
         $error1 = "<p class='alert alert-warning msg-box'>* Error updating data: " . $con->error . "</p>";
     }
+
     $stmt->close();
 }
+
 
 // Handle Service Submission
 if (isset($_POST['addService'])) {
@@ -127,11 +197,12 @@ if (isset($_POST['addTestimonial'])) {
     $testi_desc = ($_POST['testi_desc'] ?? '');
     $client_name = ($_POST['name'] ?? '');
     $testi_content = ($_POST['testi_content'] ?? '');
+    $profile = ($_POST['profile'] ?? '');
     $rating = ($_POST['rating'] ?? 5);
 
     // Prepared statement for testimonials
-    $stmt = $con->prepare("INSERT INTO testimonials (testi_title, testi_desc, name, testi_content, rating) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssi", $testi_title, $testi_desc, $client_name, $testi_content, $rating);
+    $stmt = $con->prepare("INSERT INTO testimonials (testi_title, testi_desc, name, testi_content, rating, profiles) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssi", $testi_title, $testi_desc, $client_name, $testi_content, $rating, $profile);
 
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Testimonials Added Successfully";
@@ -350,11 +421,12 @@ if (isset($_POST['editTestimonial'])) {
     $testi_desc = ($_POST['testi_desc'] ?? '');
     $client_name = ($_POST['name'] ?? '');
     $testi_content = ($_POST['testi_content'] ?? '');
+    $profile = ($_POST['profile'] ?? '');
     $rating = intval($_POST['rating'] ?? 5);
 
     // Update Query
-    $stmt = $con->prepare("UPDATE testimonials SET testi_title = ?, testi_desc = ?, name = ?, testi_content = ?, rating = ? WHERE id = ?");
-    $stmt->bind_param("ssssii", $testi_title, $testi_desc, $client_name, $testi_content, $rating, $testimonial_id);
+    $stmt = $con->prepare("UPDATE testimonials SET testi_title = ?, testi_desc = ?, name = ?, testi_content = ?, rating = ? , profiles = ? WHERE id = ?");
+    $stmt->bind_param("ssssisi", $testi_title, $testi_desc, $client_name, $testi_content, $rating, $profile, $testimonial_id);
 
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Testimonials Updated Successfully";
@@ -541,6 +613,15 @@ if (isset($_POST['active_tab'])) {
         .alert-ok-btn:hover {
             background-color: #0069d9;
         }
+
+        .logo-preview {
+            max-width: 300px;
+            height: auto;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 
@@ -697,7 +778,7 @@ if (isset($_POST['active_tab'])) {
                                                                         <th>#</th>
                                                                         <th>Icon</th>
                                                                         <th>Service Title</th>
-                                                                        <th>Description</th>
+                                                                        <th>Service Description</th>
                                                                         <th>Image</th>
                                                                         <th>Actions</th>
                                                                     </tr>
@@ -708,8 +789,8 @@ if (isset($_POST['active_tab'])) {
                                                                             <tr>
                                                                                 <td><?php echo $index + 1; ?></td>
                                                                                 <td><i class="fa <?php echo $service['icon']; ?> fa-2x"></i></td>
-                                                                                <td><?php echo $service['service_title']; ?></td>
-                                                                                <td><?php echo strlen($service['service_desc']) > 50 ? substr($service['service_desc'], 0, 50) . '...' : $service['service_desc']; ?></td>
+                                                                                <td><?php echo $service['title']; ?></td>
+                                                                                <td><?php echo strlen($service['description']) > 50 ? substr($service['description'], 0, 50) . '...' : $service['description']; ?></td>
                                                                                 <td>
                                                                                     <?php if (!empty($service['image_path'])): ?>
                                                                                         <img src="upload/<?php echo $service['image_path']; ?>" height="40">
@@ -757,14 +838,14 @@ if (isset($_POST['active_tab'])) {
                                         <?php echo $error1; ?>
                                         <?php echo $msg1; ?>
 
-                                        <form method="post">
+                                        <form method="post" enctype="multipart/form-data">
                                             <input type="hidden" name="active_tab" value="statistics">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="stats-counter">
                                                         <div class="form-group">
                                                             <label for="rides_count">Rides Count</label>
-                                                            <input type="number" class="form-control" name="rides_count" value="<?php echo $road_built; ?>" required>
+                                                            <input type="text" class="form-control" name="rides_count" value="<?php echo $road_built; ?>" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="rides_title">Rides Title</label>
@@ -775,7 +856,7 @@ if (isset($_POST['active_tab'])) {
                                                     <div class="stats-counter">
                                                         <div class="form-group">
                                                             <label for="city_covered_count">Cities Covered Count</label>
-                                                            <input type="number" class="form-control" name="city_covered_count" value="<?php echo $ongoing_projects; ?>" required>
+                                                            <input type="text" class="form-control" name="city_covered_count" value="<?php echo $ongoing_projects; ?>" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="city_covered_title">Cities Covered Title</label>
@@ -788,7 +869,7 @@ if (isset($_POST['active_tab'])) {
                                                     <div class="stats-counter">
                                                         <div class="form-group">
                                                             <label for="support_count">Support Count</label>
-                                                            <input type="number" class="form-control" name="support_count" value="<?php echo $excellence_year; ?>" required>
+                                                            <input type="text" class="form-control" name="support_count" value="<?php echo $excellence_year; ?>" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="support_title">Support Title</label>
@@ -799,7 +880,7 @@ if (isset($_POST['active_tab'])) {
                                                     <div class="stats-counter">
                                                         <div class="form-group">
                                                             <label for="services_count">Services Count</label>
-                                                            <input type="number" class="form-control" name="services_count" value="<?php echo $machinery_units; ?>" required>
+                                                            <input type="text" class="form-control" name="services_count" value="<?php echo $machinery_units; ?>" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="services_title">Services Title</label>
@@ -811,7 +892,7 @@ if (isset($_POST['active_tab'])) {
 
                                             <div class="form-group">
                                                 <label for="title">Statistics Section Title</label>
-                                                <input type="text" class="form-control" name="title" value="<?php echo $title; ?>" required>
+                                                <input type="text" class="form-control" name="title" value="<?php echo $title; ?>">
                                             </div>
 
                                             <div class="form-group">
@@ -824,6 +905,17 @@ if (isset($_POST['active_tab'])) {
                                                 <input type="text" class="form-control" name="video_url" value="<?php echo $video; ?>">
                                             </div>
 
+                                            <div class="form-group">
+                                                <label for="stat_image">Statistics Image</label>
+                                                <input type="file" class="form-control" name="stat_image" accept="image/*">
+                                                <small class="form-text text-muted">Statistics image 1500x1000 Pixels(JPG, PNG, WebP)</small>
+                                                <?php if (!empty($statsData['image_path'])): ?>
+                                                    <div class="logo-preview-container mt-2">
+                                                        <p>Current Statistics Image:</p>
+                                                        <img src="upload/<?php echo $statsData['image_path']; ?>" class="logo-preview">
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
                                             <div class="text-center mt-4">
                                                 <button type="submit" class="btn btn-primary btn-section" name="updateStatistics">Update Statistics</button>
                                             </div>
@@ -851,9 +943,9 @@ if (isset($_POST['active_tab'])) {
                                                                 <thead class="text-center">
                                                                     <tr>
                                                                         <th>#</th>
-                                                                        <th>Client</th>
-                                                                        <th>Testimonial Title</th>
-                                                                        <th>Content</th>
+                                                                        <th>Client Name</th>
+                                                                        <th>Client Profile</th>
+                                                                        <th>Reviews</th>
                                                                         <th>Rating</th>
                                                                         <th>Actions</th>
                                                                     </tr>
@@ -864,7 +956,7 @@ if (isset($_POST['active_tab'])) {
                                                                             <tr>
                                                                                 <td><?php echo $index + 1; ?></td>
                                                                                 <td><?php echo $testimonial['name']; ?></td>
-                                                                                <td><?php echo $testimonial['testi_title']; ?></td>
+                                                                                <td><?php echo $testimonial['profiles']; ?></td>
                                                                                 <td>
                                                                                     <?php echo strlen($testimonial['testi_content']) > 50
                                                                                         ? substr($testimonial['testi_content'], 0, 50) . '...'
@@ -884,6 +976,7 @@ if (isset($_POST['active_tab'])) {
                                                                                         data-testi_title="<?php echo htmlspecialchars($testimonial['testi_title']); ?>"
                                                                                         data-testi_desc="<?php echo htmlspecialchars($testimonial['testi_desc']); ?>"
                                                                                         data-name="<?php echo htmlspecialchars($testimonial['name']); ?>"
+                                                                                        data-profile="<?php echo htmlspecialchars($testimonial['profiles']); ?>"
                                                                                         data-testi_content="<?php echo htmlspecialchars($testimonial['testi_content']); ?>"
                                                                                         data-rating="<?php echo $testimonial['rating']; ?>">
                                                                                         <i class="fa fa-edit"></i>
@@ -946,11 +1039,11 @@ if (isset($_POST['active_tab'])) {
                         </div>
                         <div class="form-group">
                             <label for="banner_title">Banner Title</label>
-                            <input type="text" class="form-control" id="banner_title" name="banner_title" required>
+                            <input type="text" class="form-control" id="banner_title" name="banner_title">
                         </div>
                         <div class="form-group">
                             <label for="banner_subtitle">Banner Subtitle</label>
-                            <textarea class="form-control" id="banner_subtitle" name="banner_subtitle" rows="3" required></textarea>
+                            <textarea class="form-control" id="banner_subtitle" name="banner_subtitle" rows="3"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -1002,25 +1095,25 @@ if (isset($_POST['active_tab'])) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="serviceTitle">Main Service Title</label>
-                            <input type="text" class="form-control" id="serviceTitle" name="service_title" required>
+                            <label for="serviceTitle">Service Section Title</label>
+                            <input type="text" class="form-control" id="serviceTitle" name="service_title">
                         </div>
                         <div class="form-group">
-                            <label for="serviceDescription">Main Service Description</label>
-                            <textarea class="form-control" id="serviceDescription" name="service_desc" rows="3" required></textarea>
+                            <label for="serviceDescription">Service Section Description</label>
+                            <textarea class="form-control" id="serviceDescription" name="service_desc" rows="3"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="title">Specific Service Title</label>
-                            <input type="text" class="form-control" id="title" name="title">
+                            <input type="text" class="form-control" id="title" name="title" required>
                         </div>
                         <div class="form-group">
                             <label for="description">Specific Service Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="2"></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="2" required></textarea>
                         </div>
                         <div class="form-group">
                             <label>Service Image</label>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="service_image" name="service_image">
+                                <input type="file" class="custom-file-input" id="service_image" name="service_image" required>
                                 <label class="custom-file-label" for="service_image">Choose image</label>
                             </div>
                         </div>
@@ -1075,11 +1168,11 @@ if (isset($_POST['active_tab'])) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="edit_service_title">Main Service Title</label>
+                            <label for="edit_service_title">Service Section Title</label>
                             <input type="text" class="form-control" id="edit_service_title" name="service_title" required>
                         </div>
                         <div class="form-group">
-                            <label for="edit_service_description">Main Service Description</label>
+                            <label for="edit_service_description">Service Section Description</label>
                             <textarea class="form-control" id="edit_service_description" name="service_desc" rows="3" required></textarea>
                         </div>
                         <div class="form-group">
@@ -1122,11 +1215,11 @@ if (isset($_POST['active_tab'])) {
                     <input type="hidden" name="active_tab" value="testimonials">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="testi_title">Testimonial Title</label>
-                            <input type="text" class="form-control" id="testi_title" name="testi_title" required>
+                            <label for="testi_title">Testimonial Section Title</label>
+                            <input type="text" class="form-control" id="testi_title" name="testi_title">
                         </div>
                         <div class="form-group">
-                            <label for="testi_desc">Testimonial Description</label>
+                            <label for="testi_desc">Testimonial Section Description</label>
                             <textarea class="form-control" id="testi_desc" name="testi_desc" rows="2"></textarea>
                         </div>
                         <div class="form-group">
@@ -1134,12 +1227,16 @@ if (isset($_POST['active_tab'])) {
                             <input type="text" class="form-control" id="clientName" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="testimonialText">Testimonial Content</label>
+                            <label for="profile">Client Profile</label>
+                            <input type="text" class="form-control" id="profile" name="profile" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="testimonialText">Client Reviews</label>
                             <textarea class="form-control" id="testimonialText" name="testi_content" rows="3" required></textarea>
                         </div>
                         <div class="form-group">
                             <label for="testimonialRating">Rating</label>
-                            <select class="form-control" id="testimonialRating" name="rating">
+                            <select class="form-control" id="testimonialRating" name="rating" required>
                                 <option value="5">★★★★★ (5 Stars)</option>
                                 <option value="4">★★★★☆ (4 Stars)</option>
                                 <option value="3">★★★☆☆ (3 Stars)</option>
@@ -1186,11 +1283,11 @@ if (isset($_POST['active_tab'])) {
                     <input type="hidden" name="testimonial_id" id="edit_testimonial_id">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="edit_testi_title">Testimonial Title</label>
-                            <input type="text" class="form-control" id="edit_testi_title" name="testi_title" required>
+                            <label for="edit_testi_title">Testimonial Section Title</label>
+                            <input type="text" class="form-control" id="edit_testi_title" name="testi_title">
                         </div>
                         <div class="form-group">
-                            <label for="edit_testi_desc">Testimonial Description</label>
+                            <label for="edit_testi_desc">Testimonial Section Description</label>
                             <textarea class="form-control" id="edit_testi_desc" name="testi_desc" rows="2"></textarea>
                         </div>
                         <div class="form-group">
@@ -1198,12 +1295,16 @@ if (isset($_POST['active_tab'])) {
                             <input type="text" class="form-control" id="edit_client_name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="edit_testimonial_content">Testimonial Content</label>
+                            <label for="edit_client_profile">Client Profile</label>
+                            <input type="text" class="form-control" id="edit_client_profile" name="profile" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit_testimonial_content">Reviews</label>
                             <textarea class="form-control" id="edit_testimonial_content" name="testi_content" rows="3" required></textarea>
                         </div>
                         <div class="form-group">
                             <label for="edit_testimonial_rating">Rating</label>
-                            <select class="form-control" id="edit_testimonial_rating" name="rating">
+                            <select class="form-control" id="edit_testimonial_rating" name="rating" required>
                                 <option value="5">★★★★★ (5 Stars)</option>
                                 <option value="4">★★★★☆ (4 Stars)</option>
                                 <option value="3">★★★☆☆ (3 Stars)</option>
@@ -1319,6 +1420,7 @@ if (isset($_POST['active_tab'])) {
             var testi_title = button.data('testi_title');
             var testi_desc = button.data('testi_desc');
             var name = button.data('name');
+            var profile = button.data('profile');
             var testi_content = button.data('testi_content');
             var rating = button.data('rating');
 
@@ -1327,8 +1429,10 @@ if (isset($_POST['active_tab'])) {
             modal.find('#edit_testi_title').val(testi_title);
             modal.find('#edit_testi_desc').val(testi_desc);
             modal.find('#edit_client_name').val(name);
+            modal.find('#edit_client_profile').val(profile);
             modal.find('#edit_testimonial_content').val(testi_content);
-            modal.find('#edit_testimonial_rating').val(rating);
+            rating = Math.round(parseFloat(rating));
+            modal.find('#edit_testimonial_rating').val(rating.toString());
         });
 
         // Store active tab in session when a tab is shown

@@ -355,19 +355,19 @@ if (isset($_POST['update'])) {
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group mb-3">
-														<label>Package Title *</label>
+														<label>Package Section Title *</label>
 														<input type="text" class="form-control" name="pkg_title" value="<?php echo htmlspecialchars($package['pkg_title']); ?>" required>
 													</div>
 													<div class="form-group mb-3">
-														<label>Package Description *</label>
+														<label>Package Section Description *</label>
 														<textarea class="form-control" name="pkg_desc" rows="3" required><?php echo htmlspecialchars($package['pkg_desc']); ?></textarea>
 													</div>
 													<div class="form-group mb-3">
-														<label>Title *</label>
+														<label>Single Package Title *</label>
 														<input type="text" class="form-control" name="title" value="<?php echo htmlspecialchars($package['title']); ?>" required>
 													</div>
 													<div class="form-group mb-3">
-														<label>Description *</label>
+														<label>Single Package Description *</label>
 														<textarea class="form-control" name="description" rows="3"><?php echo htmlspecialchars($package['description']); ?></textarea>
 													</div>
 													<div class="form-group mb-3">
@@ -382,7 +382,7 @@ if (isset($_POST['update'])) {
 												</div>
 												<div class="col-md-6">
 													<div class="form-group mb-3">
-														<label>Price *</label>
+														<label>Discounted Price *</label>
 														<input type="number" class="form-control" name="price" value="<?php echo htmlspecialchars($package['price']); ?>" step="0.01" required>
 													</div>
 
@@ -393,7 +393,7 @@ if (isset($_POST['update'])) {
 
 
 													<div class="form-group mb-3">
-														<label>MRP Price *</label>
+														<label>Before Discounted Price *</label>
 														<input type="number" class="form-control" name="mrpPrice" value="<?php echo htmlspecialchars($package['mrpPrice']); ?>" step="0.01">
 													</div>
 													<div class="form-group mb-3">
@@ -450,7 +450,7 @@ if (isset($_POST['update'])) {
 												</div>
 												<div class="col-md-6">
 													<div class="form-group mb-3">
-														<label>PDF Itinerary *</label>
+														<label>Itinerary PDF *</label>
 														<input type="file" class="form-control" name="pdf_path" accept=".pdf">
 														<?php if (!empty($package['pdf_path'])): ?>
 															<div class="current-file">

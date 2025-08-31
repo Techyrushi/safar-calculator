@@ -3652,6 +3652,103 @@ body.home .home-banner {
   }
 }
 
+/*--------------------------------------------------------------
+>>> About Main section  
+----------------------------------------------------------------*/
+/***********************
+>>> About banner section  
+/* About banner section */
+
+.about-banner {
+  -webkit-background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
+  -ms-background-size: 100% 100%;
+  -o-background-size: 100% 100%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-top: 0;
+  padding-top: 120px;
+  min-height: 800px;
+  position: relative;
+  z-index: 1;
+  transition: all 0.5s ease;
+  display: flex;
+  align-items: center;
+}
+
+/* Special styling for index.html banner */
+body.about .about-banner {
+  margin-top: 125px;
+  padding-top: 0;
+}
+
+.about-banner .overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+@media screen and (max-width: 991px) {
+  .about-banner {
+    min-height: 610px;
+    padding-top: 100px;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -ms-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    width: 100%;
+  }
+
+  body.about .about-banner {
+    margin-top: 175px;
+    padding-top: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about-banner {
+    min-height: 320px;
+    padding-top: 100px;
+    margin-top: 0;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -ms-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    width: 100%;
+  }
+
+  body.about .about-banner {
+    margin-top: 180px;
+    padding-top: 0;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .about-banner {
+    min-height: 230px;
+    padding-top: 80px;
+    margin-top: 0;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -ms-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
+    width: 100%;
+  }
+
+  body.about .about-banner {
+    margin-top: 197px;
+    padding-top: 0;
+  }
+}
+
 .banner-content {
   position: relative;
   padding: 60px 0 15px;

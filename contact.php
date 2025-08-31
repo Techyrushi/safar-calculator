@@ -39,8 +39,8 @@ if (isset($_POST['submit'])) {
   <meta charset="utf-8" />
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1, shrink-to-fit=no" />
- <meta name="keywords" content="<?php echo htmlspecialchars($meta_keywords); ?>">
+    content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0" />
+  <meta name="keywords" content="<?php echo htmlspecialchars($meta_keywords); ?>">
   <meta name="description" content="<?php echo htmlspecialchars($meta_description); ?>">
   <!-- favicon -->
   <link rel="icon" type="image/ico" href="assets/images/favicon.ico" />
@@ -88,7 +88,7 @@ if (isset($_POST['submit'])) {
   <title><?php echo htmlspecialchars($page_title); ?></title>
 </head>
 
-<body>
+<body class="about">
   <div id="siteLoader" class="site-loader">
     <div class="preloader-content">
       <img src="assets/images/loader1.gif" alt="" />
@@ -102,34 +102,53 @@ if (isset($_POST['submit'])) {
       <div class="top-header">
         <div class="container">
           <div class="top-header-inner">
-            <div class="header-contact text-left">
-              <a href="tel:+919823059704">
-                <i aria-hidden="true" class="icon icon-phone-call2"></i>
+            <?php
+            $query = mysqli_query($con, "SELECT * FROM contact_cms");
+            while ($row = mysqli_fetch_array($query)) {
+            ?>
+              <div class="header-contact text-left d-flex align-items-center">
+                <i aria-hidden="true" class="icon icon-phone-call2 mr-2"></i>
                 <div class="header-contact-details d-none d-sm-block">
                   <span class="contact-label">For Further Inquires :</span>
-                  <h5 class="header-contact-no">+91 (982) 305 9704</h5>
+                  <h5 class="header-contact-no">
+                    <?php
+                    $phones = preg_split('/<br\s*\/?>|\r\n|\n/', $row['mobile_number']);
+                    if (!empty($phones[0])) {
+                      echo '<a href="tel:+91' . trim($phones[0]) . '">+91 ' . trim($phones[0]) . '</a>';
+                    }
+                    ?>
+                  </h5>
                 </div>
-              </a>
-            </div>
-            <div class="site-logo text-center">
-              <h1 class="site-title">
-                <a href="index">
-                  <img src="assets/images/Safar_Logo_White-removebg-preview.png" style="mix-blend-mode: color-burn" alt="Logo" />
-                </a>
-              </h1>
-            </div>
-            <div class="header-icon text-right">
-              <!-- <div class="header-search-icon d-inline-block">
+              </div>
+            <?php } ?>
+
+            <?php
+            $query = mysqli_query($con, "SELECT * FROM footer_cms");
+            while ($row = mysqli_fetch_array($query)) {
+            ?>
+              <div class="site-logo text-center">
+                <h1 class="site-title">
+                  <a href="index">
+                    <img
+                      src="admin/packages/<?php echo $row['logo_path']; ?>"
+                      style="mix-blend-mode: color-burn"
+                      alt="Logo" />
+                  </a>
+                </h1>
+              </div>
+
+              <div class="header-icon text-right">
+                <!-- <div class="header-search-icon d-inline-block">
                   <a href="#">
                     <i aria-hidden="true" class="fas fa-search"></i>
                   </a>
                 </div> -->
-              <div class="offcanvas-menu d-inline-block">
-                <a href="#">
-                  <i aria-hidden="true" class="icon icon-burger-menu"></i>
-                </a>
+                <div class="offcanvas-menu d-inline-block">
+                  <a href="#">
+                    <i aria-hidden="true" class="icon icon-burger-menu"></i>
+                  </a>
+                </div>
               </div>
-            </div>
           </div>
         </div>
       </div>
@@ -140,43 +159,44 @@ if (isset($_POST['submit'])) {
             <div class="header-social social-icon">
               <ul>
                 <li>
-                  <a href="https://www.facebook.com/" target="_blank">
+                  <a href="<?php echo $row['facebook_url']; ?>" target="_blank">
                     <i class="fab fa-facebook-f" aria-hidden="true"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com/" target="_blank">
+                  <a href="<?php echo $row['linkedin_url']; ?>" target="_blank">
                     <i class="fab fa-linkedin" aria-hidden="true"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com/" target="_blank">
+                  <a href="<?php echo $row['instagram_url']; ?>" target="_blank">
                     <i class="fab fa-instagram" aria-hidden="true"></i>
                   </a>
                 </li>
               </ul>
             </div>
-            <div class="navigation-container d-none d-lg-block">
-              <nav id="navigation" class="navigation">
-                <ul>
-                  <li>
-                    <a href="index">Home</a>
-                  </li>
-                  <li>
-                    <a href="about">About Us</a>
-                  </li>
-                  <li>
-                    <a href="package">Packages</a>
-                  </li>
-                  <li class="menu-active">
-                    <a href="contact">Contact Us</a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div class="header-btn">
-              <a href="#" class="round-btn">Book My Safar</a>
-            </div>
+          <?php } ?>
+          <div class="navigation-container d-none d-lg-block">
+            <nav id="navigation" class="navigation">
+              <ul>
+                <li>
+                  <a href="index">Home</a>
+                </li>
+                <li>
+                  <a href="about">About Us</a>
+                </li>
+                <li>
+                  <a href="package">Packages</a>
+                </li>
+                <li class="menu-active">
+                  <a href="contact">Contact Us</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="header-btn">
+            <a href="contact" class="round-btn">Book My Safar</a>
+          </div>
           </div>
         </div>
       </div>
@@ -188,72 +208,105 @@ if (isset($_POST['submit'])) {
       <section class="contact-inner-page">
         <!-- ***Inner Banner html start form here*** -->
         <div class="inner-banner-wrap">
-          <div
-            class="inner-baner-container"
-            style="background-image: url(assets/images/Contact_Banner_Image.png)">
-            <div class="container">
-              <div class="inner-banner-content">
-                <h1 class="page-title">Contact US</h1>
+          <?php
+          // Fetch all banners ordered by display_order
+          $banners = mysqli_query($con, "SELECT * FROM contact_cms");
+
+          if ($banners && mysqli_num_rows($banners) > 0) {
+            while ($banner = mysqli_fetch_assoc($banners)) {
+          ?>
+              <div
+                class="about-banner"
+                style="background-image: url('admin/packages/<?php echo $banner['contact_banner']; ?>');">
+                <div class="container">
+                  <div class="inner-banner-content">
+                    <!-- <h1 class="page-title">About Us</h1> -->
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+          <?php
+            }
+          }
+          ?>
         </div>
         <!-- ***Inner Banner html end here*** -->
         <!-- ***contact section html start form here*** -->
         <div class="inner-contact-wrap">
           <div class="container">
             <div class="row">
-              <div class="col-lg-6">
-                <div class="section-heading">
-                  <h5 class="sub-title">GET IN TOUCH</h5>
-                  <h2 class="section-title">REACH & CONTACT US!</h2>
-                  <p>
-                    Have questions or want to book your ride? We’re here to
-                    help! Reach out to Safar Pick & Drop Services for
-                    bookings, inquiries, or customized tour plans. Our team is
-                    just a call or message away – ready to make your journey
-                    smooth and hassle-free.
-                  </p>
-                  <div class="social-icon">
-                    <ul>
-                      <li>
-                        <a href="https://www.facebook.com/" target="_blank">
-                          <i class="fab fa-facebook-f" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://www.linkedin.com/" target="_blank">
-                          <i class="fab fa-linkedin" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://www.youtube.com/" target="_blank">
-                          <i class="fab fa-youtube" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="https://www.instagram.com/" target="_blank">
-                          <i class="fab fa-instagram" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                      <!-- <li>
-                          <a href="https://www.pinterest.com/" target="_blank">
-                            <i class="fab fa-pinterest" aria-hidden="true"></i>
-                          </a>
-                        </li> -->
-                    </ul>
+              <?php
+              $contactQuery = mysqli_query($con, "SELECT * FROM contact_cms");
+              while ($contact = mysqli_fetch_array($contactQuery)) {
+              ?>
+                <div class="col-lg-6">
+                  <div class="section-heading">
+                    <h5 class="sub-title">GET IN TOUCH</h5>
+                    <h2 class="section-title"><?php echo $contact['title']; ?></h2>
+                    <p><?php echo $contact['description']; ?></p>
+
+                    <?php
+                    $footerQuery = mysqli_query($con, "SELECT * FROM footer_cms");
+                    while ($footer = mysqli_fetch_array($footerQuery)) {
+                    ?>
+                      <div class="social-icon">
+                        <ul>
+                          <?php if ($footer['facebook_status'] == 1) { ?>
+                            <li>
+                              <a href="<?php echo $footer['facebook_url']; ?>" target="_blank">
+                                <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                              </a>
+                            </li>
+                          <?php } ?>
+
+                          <?php if ($footer['linkedin_status'] == 1) { ?>
+                            <li>
+                              <a href="<?php echo $footer['linkedin_url']; ?>" target="_blank">
+                                <i class="fab fa-linkedin" aria-hidden="true"></i>
+                              </a>
+                            </li>
+                          <?php } ?>
+
+                          <?php if ($footer['youtube_status'] == 1) { ?>
+                            <li>
+                              <a href="<?php echo $footer['youtube_url']; ?>" target="_blank">
+                                <i class="fab fa-youtube" aria-hidden="true"></i>
+                              </a>
+                            </li>
+                          <?php } ?>
+
+                          <?php if ($footer['instagram_status'] == 1) { ?>
+                            <li>
+                              <a href="<?php echo $footer['instagram_url']; ?>" target="_blank">
+                                <i class="fab fa-instagram" aria-hidden="true"></i>
+                              </a>
+                            </li>
+                          <?php } ?>
+
+                          <?php if ($footer['twitter_status'] == 1) { ?>
+                            <li>
+                              <a href="<?php echo $footer['twitter_url']; ?>" target="_blank">
+                                <i class="fab fa-twitter" aria-hidden="true"></i>
+                              </a>
+                            </li>
+                          <?php } ?>
+                        </ul>
+                      </div>
+                    <?php } // footer while 
+                    ?>
+                  </div>
+
+                  <div class="contact-map">
+                    <iframe
+                      src="<?php echo $contact['location_url']; ?>"
+                      width="600"
+                      height="450"
+                      style="border:0"
+                      allowfullscreen=""
+                      loading="lazy"></iframe>
                   </div>
                 </div>
-                <div class="contact-map">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3749.8781648134714!2d73.78179807522825!3d19.971625381426215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTnCsDU4JzE3LjkiTiA3M8KwNDcnMDMuNyJF!5e0!3m2!1sen!2sin!4v1755442590864!5m2!1sen!2sin"
-                    width="600"
-                    height="450"
-                    style="border: 0"
-                    allowfullscreen=""
-                    loading="lazy"></iframe>
-                </div>
-              </div>
+              <?php } // contact while 
+              ?>
               <div class="col-lg-6">
                 <div class="contact-from-wrap primary-bg">
                   <!-- Success Message -->
@@ -282,7 +335,7 @@ if (isset($_POST['submit'])) {
                     </div>
                   <?php } ?>
                   <form method="post" action="" enctype="multipart/form-data" class="contact-from">
-                  
+
                     <p>
                       <label>Full Name<span style="color: red">*</span></label>
                       <input
@@ -331,65 +384,67 @@ if (isset($_POST['submit'])) {
         <div class="contact-details-section bg-light-grey">
           <div class="container">
             <div class="row align-items-center">
-              <div class="col-lg-4">
-                <div class="icon-box border-icon-box">
-                  <div class="box-icon">
-                    <i
-                      aria-hidden="true"
-                      class="fas fa-envelope-open-text"></i>
-                  </div>
-                  <div class="icon-box-content">
-                    <h4>EMAIL ADDRESS</h4>
-                    <ul>
-                      <li>
-                        <a href="mailto:support@gmail.com">support@gmail.com</a>
-                      </li>
-                      <!-- <li>
-                          <a href="mailto:name@comapny.com">name@comapny.com</a>
-                        </li> -->
-                      <li>
-                        <a href="mailto:test@gmail.com">test@gmail.com</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="icon-box border-icon-box">
-                  <div class="box-icon">
-                    <i aria-hidden="true" class="fas fa-phone-alt"></i>
-                  </div>
-                  <div class="icon-box-content">
-                    <h4>PHONE NUMBER</h4>
-                    <ul>
-                      <li>
-                        <a href="tel:+919823059704">+91 (982) 305 9704</a>
-                      </li>
-                      <li>
-                        <a href="tel:+918446225859">+91 (844) 622 5859</a>
-                      </li>
-                      <!-- <li>
-                          <a href="callto:01977259912">+91 (977) 2599 12</a>
-                        </li> -->
-                    </ul>
+              <?php
+              $contactQuery = mysqli_query($con, "SELECT * FROM contact_cms");
+              while ($contact = mysqli_fetch_array($contactQuery)) {
+              ?>
+                <div class="col-lg-4">
+                  <div class="icon-box border-icon-box">
+                    <div class="box-icon">
+                      <i
+                        aria-hidden="true"
+                        class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <div class="icon-box-content">
+                      <h4>EMAIL ADDRESS</h4>
+                      <ul>
+                        <li>
+                          <a href="mailto:<?php echo $contact['email']; ?>" target="_blank"><?php echo $contact['email']; ?></a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="icon-box border-icon-box">
-                  <div class="box-icon">
-                    <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
-                  </div>
-                  <div class="icon-box-content">
-                    <h4>ADDRESS LOCATION</h4>
-                    <ul>
-                      <li>Bunglow No 25 Shreeraj Society</li>
-                      <li>HAL Colony Indira Nagar</li>
-                      <li>Nashik-422009</li>
-                    </ul>
+                <div class="col-lg-4">
+                  <div class="icon-box border-icon-box">
+                    <div class="box-icon">
+                      <i aria-hidden="true" class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="icon-box-content">
+                      <h4>PHONE NUMBER</h4>
+                      <ul>
+                        <li>
+                          <?php
+                          $phones = preg_split('/<br\s*\/?>|\r\n|\n/', $contact['mobile_number']);
+                          foreach ($phones as $phone) {
+                            $phone = trim($phone);
+                            if (!empty($phone)) {
+                              echo '<div><a href="tel:+91' . $phone . '">+91 ' . $phone . '</a></div>';
+                            }
+                          }
+                          ?>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
+                <div class="col-lg-4">
+                  <div class="icon-box border-icon-box">
+                    <div class="box-icon">
+                      <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="icon-box-content">
+                      <h4>ADDRESS LOCATION</h4>
+                      <ul>
+                        <li>
+                          <a href="<?php echo $contact['location_url']; ?>" target="_blank"><?php echo $contact['address']; ?></a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              <?php } // contact while 
+              ?>
             </div>
           </div>
         </div>
@@ -409,272 +464,365 @@ if (isset($_POST['submit'])) {
       </a>
     </main>
     <!-- ***site footer html start form here*** -->
-    <footer id="colophon" class="site-footer footer-primary">
-      <div class="top-footer">
-        <div class="container">
-          <!-- Wave decoration at top of footer -->
-          <div class="footer-wave">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
-              <path fill="#ffffff" fill-opacity="1" d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,48C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
-            </svg>
-          </div>
+    <?php
+    $query = mysqli_query($con, "SELECT * FROM footer_cms");
+    while ($row = mysqli_fetch_array($query)) {
+    ?>
+      <footer id="colophon" class="site-footer footer-primary">
+        <div class="top-footer">
+          <div class="container">
+            <!-- Wave decoration at top of footer -->
+            <div class="footer-wave">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1440 100"
+                preserveAspectRatio="none">
+                <path
+                  fill="#ffffff"
+                  fill-opacity="1"
+                  d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,48C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+              </svg>
+            </div>
 
-          <div class="upper-footer">
-            <div class="row">
-              <div class="col-lg-4 col-md-6">
-                <aside class="widget widget_text">
-                  <div class="footer-logo">
-                    <a href="index">
-                      <img src="assets/images/Safar_Logo_White-removebg-preview.png" style="mix-blend-mode: color-burn" alt="Safar Logo" class="img-fluid">
-                    </a>
-                  </div>
-                  <div class="textwidget widget-text">
-                    <p>At Safar, we make travel simple, safe, and stress-free. From daily pick & drop services and airport transfers to city tours, outstation trips, and customized tour packages, we provide reliable and affordable travel solutions for every need.</p>
-                  </div>
-                  <div class="header-social footer-social-icons">
-                    <a href="https://www.facebook.com/" target="_blank" class="social-icons">
-                      <i class="fab fa-facebook-f" aria-hidden="true"></i>
-                    </a>
-                    <!-- <a href="https://www.twitter.com/" target="_blank" class="social-icons">
-                        <i class="fab fa-twitter" aria-hidden="true"></i>
-                      </a> -->
-                    <a href="https://www.instagram.com/" target="_blank" class="social-icons">
-                      <i class="fab fa-instagram" aria-hidden="true"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/" target="_blank" class="social-icons">
-                      <i class="fab fa-linkedin" aria-hidden="true"></i>
-                    </a>
-                    <a href="https://www.youtube.com/" target="_blank" class="social-icons">
-                      <i class="fab fa-youtube" aria-hidden="true"></i>
-                    </a>
-                  </div>
-                </aside>
-              </div>
+            <div class="upper-footer">
+              <div class="row">
+                <div class="col-lg-4 col-md-6">
+                  <aside class="widget widget_text">
+                    <div class="footer-logo">
+                      <a href="index">
+                        <img
+                          src="admin/packages/<?php echo $row['logo_path']; ?>"
+                          style="mix-blend-mode: color-burn"
+                          alt="Safar Logo"
+                          class="img-fluid" />
+                      </a>
+                    </div>
+                    <div class="textwidget widget-text">
+                      <p>
+                        <?php echo $row['description']; ?>
+                      </p>
+                    </div>
+                    <div class="header-social footer-social-icons">
+                      <?php
+                      if ($row['facebook_status'] == 1) {
+                      ?>
+                        <a
+                          href="<?php echo $row['facebook_url']; ?>"
+                          target="_blank"
+                          class="social-icons">
+                          <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        </a>
+                      <?php
+                      }
+                      ?>
+                      <?php
+                      if ($row['twitter_status'] == 1) {
+                      ?>
+                        <a
+                          href="<?php echo $row['twitter_url']; ?>"
+                          target="_blank"
+                          class="social-icons">
+                          <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                      <?php
+                      }
+                      ?>
+                      <?php
+                      if ($row['instagram_status'] == 1) {
+                      ?>
+                        <a
+                          href="<?php echo $row['instagram_url']; ?>"
+                          target="_blank"
+                          class="social-icons">
+                          <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                      <?php
+                      }
+                      ?>
+                      <?php
+                      if ($row['linkedin_status'] == 1) {
+                      ?>
+                        <a
+                          href="<?php echo $row['linkedin_url']; ?>"
+                          target="_blank"
+                          class="social-icons">
+                          <i class="fab fa-linkedin" aria-hidden="true"></i>
+                        </a>
+                      <?php
+                      }
+                      ?>
+                      <?php
+                      if ($row['youtube_status'] == 1) {
+                      ?>
+                        <a
+                          href="<?php echo $row['youtube_url']; ?>"
+                          target="_blank"
+                          class="social-icons">
+                          <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                      <?php
+                      }
+                      ?>
+                    </div>
+                  </aside>
+                </div>
 
-              <div class="col-lg-4 col-md-6">
-                <aside class="widget widget_latest_post widget-post-thumb">
-                  <h3 class="widget-title">Popular Destinations</h3>
-                  <ul class="modern-post-list">
-                    <li>
-                      <figure class="post-thumb">
-                        <a href="#">
-                          <img src="assets/images/img21.jpg" alt="Peaceful Places" class="img-fluid rounded">
-                        </a>
-                      </figure>
-                      <div class="post-content">
-                        <h6>
-                          <a href="#">Journey to Peaceful Places</a>
-                        </h6>
-                        <div class="entry-meta">
-                          <span class="posted-on">
-                            <i class="far fa-calendar-alt"></i>
-                            <a href="#">February 17, 2023</a>
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <figure class="post-thumb">
-                        <a href="#">
-                          <img src="assets/images/img22.jpg" alt="Travel with Friends" class="img-fluid rounded">
-                        </a>
-                      </figure>
-                      <div class="post-content">
-                        <h6>
-                          <a href="#">Travel with Friends</a>
-                        </h6>
-                        <div class="entry-meta">
-                          <span class="posted-on">
-                            <i class="far fa-calendar-alt"></i>
-                            <a href="#">March 5, 2023</a>
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </aside>
-              </div>
+                <div class="col-lg-4 col-md-6">
+                  <aside class="widget widget_latest_post widget-post-thumb">
+                    <h3 class="widget-title">Popular Packages
 
-              <div class="col-lg-4 col-md-12">
-                <aside class="widget widget_text">
-                  <h3 class="widget-title">Get In Touch</h3>
-                  <div class="textwidget widget-text contact-info">
-                    <ul>
-                      <li>
-                        <a href="tel:+919823059704" class="contact-item">
-                          <div class="icon-wrapper">
-                            <i aria-hidden="true" class="fas fa-phone-alt"></i>
+                    </h3>
+                    <ul class="modern-post-list">
+                      <?php
+                      $query = mysqli_query($con, "SELECT * FROM packages ORDER BY created_at DESC LIMIT 3");
+                      while ($row = mysqli_fetch_array($query)) {
+                      ?>
+                        <li>
+                          <figure class="post-thumb">
+                            <a href="#">
+                              <img
+                                src="admin/packages/<?php echo $row['image_path']; ?>"
+                                alt="Peaceful Places"
+                                class="img-fluid rounded" />
+                            </a>
+                          </figure>
+                          <div class="post-content">
+                            <h6>
+                              <a href="#"><?php echo $row['title']; ?></a>
+                            </h6>
+                            <div class="entry-meta">
+                              <span class="posted-on">
+                                <i class="far fa-calendar-alt"></i>
+                                <a href="#">
+                                  <?php echo date("F d, Y", strtotime($row['created_at'])); ?>
+                                </a>
+                              </span>
+                            </div>
                           </div>
-                          <div class="contact-text">
-                            <span>Call Us</span>
-                            +91 (982) 305 9704
-                          </div>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="mailto:crushikesh74@gmail.com" class="contact-item">
-                          <div class="icon-wrapper">
-                            <i aria-hidden="true" class="fas fa-envelope"></i>
-                          </div>
-                          <div class="contact-text">
-                            <span>Email Us</span>
-                            crushikesh74@gmail.com
-                          </div>
-                        </a>
-                      </li>
-                      <li class="contact-item">
-                        <div class="icon-wrapper">
-                          <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="contact-text">
-                          <span>Visit Us</span>
-                          Bunglow No 25 Shreeraj Society, HAL Colony Indira Nagar, Nashik-422009
-                        </div>
-                      </li>
+                        </li>
+                      <?php
+                      }
+                      ?>
                     </ul>
+                  </aside>
+                </div>
+                <?php
+                $query = mysqli_query($con, "SELECT * FROM contact_cms");
+                while ($row = mysqli_fetch_array($query)) {
+                ?>
+                  <div class="col-lg-4 col-md-12">
+                    <aside class="widget widget_text">
+                      <h3 class="widget-title">Get In Touch</h3>
+                      <div class="textwidget widget-text contact-info">
+                        <ul>
+                          <!-- Phone -->
+                          <li>
+                            <div class="contact-item">
+                              <div class="icon-wrapper">
+                                <i aria-hidden="true" class="fas fa-phone-alt"></i>
+                              </div>
+                              <div class="contact-text">
+                                <span>Call Us</span>
+                                <?php
+                                $phones = preg_split('/<br\s*\/?>|\r\n|\n/', $row['mobile_number']);
+                                foreach ($phones as $phone) {
+                                  $phone = trim($phone);
+                                  if (!empty($phone)) {
+                                    echo '<div><a href="tel:+91' . $phone . '">+91 ' . $phone . '</a></div>';
+                                  }
+                                }
+                                ?>
+                              </div>
+                            </div>
+                          </li>
+
+                          <!-- Email -->
+                          <li>
+                            <div class="contact-item">
+                              <div class="icon-wrapper">
+                                <i aria-hidden="true" class="fas fa-envelope"></i>
+                              </div>
+                              <div class="contact-text">
+                                <span>Email Us</span>
+                                <?php
+                                $emails = preg_split('/<br\s*\/?>|\r\n|\n/', $row['email']);
+                                foreach ($emails as $email) {
+                                  $email = trim($email);
+                                  if (!empty($email)) {
+                                    echo '<div><a href="mailto:' . $email . '">' . $email . '</a></div>';
+                                  }
+                                }
+                                ?>
+                              </div>
+                            </div>
+                          </li>
+
+                          <!-- Address -->
+                          <li class="contact-item">
+                            <div class="icon-wrapper">
+                              <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                              <span>Visit Us</span>
+                              <?php echo nl2br($row['address']); ?>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </aside>
                   </div>
-                </aside>
+                <?php } ?>
               </div>
             </div>
-          </div>
 
-          <div class="lower-footer">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="footer-menu quick-links">
-                  <h4>Quick Links</h4>
-                  <ul>
-                    <li><a href="index">Home</a></li>
-                    <li><a href="about">About Us</a></li>
-                    <li><a href="package">Packages</a></li>
-                    <li><a href="contact">Contact Us</a></li>
-                    <!-- <li><a href="#">FAQ</a></li>
+            <div class="lower-footer">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="footer-menu quick-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                      <li><a href="index">Home</a></li>
+                      <li><a href="about">About Us</a></li>
+                      <li><a href="package">Packages</a></li>
+                      <li><a href="contact">Contact Us</a></li>
+                      <!-- <li><a href="#">FAQ</a></li>
                       <li><a href="#">Privacy Policy</a></li> -->
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="bottom-footer">
-        <div class="container">
-          <div class="copy-right text-center">
-            <p>Copyright &copy; 2023 Safar. All rights reserved. | Designed with <i class="fas fa-heart"></i> for travelers</p>
+        <div class="bottom-footer">
+          <div class="container">
+            <div class="copy-right text-center">
+              <p>
+                Copyright &copy; 2025 Safar. All rights reserved. | Designed
+                with <i class="fas fa-heart"></i> for travelers
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    <?php } ?>
     <!-- ***site footer html end*** -->
     <a id="backTotop" href="#" class="to-top-icon">
       <i class="fas fa-chevron-up"></i>
     </a>
-    <!-- ***custom search field html*** -->
-    <div class="header-search-form">
-      <div class="container">
-        <div class="header-search-container">
-          <form class="search-form" role="search" method="get">
-            <input type="text" name="s" placeholder="Enter your text..." />
-          </form>
-          <a href="#" class="search-close">
-            <i class="fas fa-times"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-    <!-- ***custom search field html*** -->
+
     <!-- ***custom top bar offcanvas html*** -->
-    <div id="offCanvas" class="offcanvas-container">
-      <div class="offcanvas-inner">
-        <div class="offcanvas-sidebar">
-          <aside class="widget author_widget">
-            <h3 class="widget-title">OUR PROPRIETOR</h3>
-            <div class="widget-content text-center">
-              <div class="profile">
-                <figure class="avatar">
-                  <img src="assets/images/img21.jpg" alt="" />
-                </figure>
-                <div class="text-content">
-                  <div class="name-title">
-                    <h4>Nitin Kulkarni</h4>
+    <?php
+    $query = mysqli_query($con, "SELECT * FROM footer_cms");
+    while ($row = mysqli_fetch_array($query)) {
+    ?>
+      <div id="offCanvas" class="offcanvas-container">
+        <div class="offcanvas-inner">
+          <div class="offcanvas-sidebar">
+            <aside class="widget author_widget">
+              <h3 class="widget-title">OUR PROPRIETOR</h3>
+              <div class="widget-content text-center">
+                <div class="profile">
+                  <figure class="avatar">
+                    <img src="assets/images/img21.jpg" alt="" />
+                  </figure>
+                  <div class="text-content">
+                    <div class="name-title">
+                      <h4>Nitin Kulkarni</h4>
+                    </div>
+                    <p>
+                      <?php echo $row['description']; ?>
+                    </p>
                   </div>
-                  <p>
-                    Safar Pick & Drop Services is proudly managed by Me. With
-                    a vision to provide safe, reliable, and affordable travel
-                    solutions, Safar has become a trusted name for daily pick
-                    & drop, airport transfers, city tours, and outstation
-                    trips.
-                  </p>
-                </div>
-                <div class="socialgroup">
-                  <ul>
-                    <li>
-                      <a target="_blank" href="#">
-                        <i class="fab fa-facebook"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a target="_blank" href="#">
-                        <i class="fab fa-google"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a target="_blank" href="#">
-                        <i class="fab fa-linkedin"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a target="_blank" href="#">
-                        <i class="fab fa-instagram"></i>
-                      </a>
-                    </li>
-                    <!-- <li>
+                  <div class="socialgroup">
+                    <ul>
+                      <li>
+                        <a target="_blank" href="<?php echo $row['facebook_url']; ?>">
+                          <i class="fab fa-facebook"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a target="_blank" href="https://share.google/9bXDkYn3acIVhP8ay">
+                          <i class="fab fa-google"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a target="_blank" href="<?php echo $row['linkedin_url']; ?>">
+                          <i class="fab fa-linkedin"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a target="_blank" href="<?php echo $row['instagram_url']; ?>">
+                          <i class="fab fa-instagram"></i>
+                        </a>
+                      </li>
+                      <!-- <li>
                         <a target="_blank" href="#">
                           <i class="fab fa-pinterest"></i>
                         </a>
                       </li> -->
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
-          </aside>
-          <aside class="widget widget_text text-center">
-            <h3 class="widget-title">CONTACT US</h3>
-            <div class="textwidget widget-text">
-              <p>
-                Feel free to contact and<br />
-                reach us !!
-              </p>
-              <ul>
-                <li>
-                  <a href="tel:+01988256203">
+            </aside>
+          <?php } ?>
+          <?php
+          $query = mysqli_query($con, "SELECT * FROM contact_cms");
+          while ($row = mysqli_fetch_array($query)) {
+          ?>
+            <aside class="widget widget_text text-center">
+              <h3 class="widget-title">CONTACT US</h3>
+              <div class="textwidget widget-text">
+                <p>
+                  Feel free to contact and<br />
+                  reach us !!
+                </p>
+                <ul>
+                  <li>
                     <i aria-hidden="true" class="icon icon-phone1"></i>
-                    +91 (982) 305 9704
-                  </a>
-                </li>
-                <li>
-                  <a href="mailto:crushikesh74@gmail.com">
+                    <?php
+                    $phones = preg_split('/<br\s*\/?>|\r\n|\n/', $row['mobile_number']);
+                    foreach ($phones as $phone) {
+                      $phone = trim($phone);
+                      if (!empty($phone)) {
+                        echo '<div><a href="tel:+91' . $phone . '">+91 ' . $phone . '</a></div>';
+                      }
+                    }
+                    ?>
+
+                  </li>
+                  <li>
                     <i aria-hidden="true" class="icon icon-envelope1"></i>
-                    crushikesh74@gmail.com
-                  </a>
-                </li>
-                <li>
-                  <i aria-hidden="true" class="icon icon-map-marker1"></i>
-                  Bunglow No 25 Shreeraj Society, HAL Colony Indira Nagar,
-                  Indira Nagar-422009
-                </li>
-              </ul>
-            </div>
-          </aside>
+                    <?php
+                    $emails = preg_split('/<br\s*\/?>|\r\n|\n/', $row['email']);
+                    foreach ($emails as $email) {
+                      $email = trim($email);
+                      if (!empty($email)) {
+                        echo '<div><a href="mailto:' . $email . '">' . $email . '</a></div>';
+                      }
+                    }
+                    ?>
+                  </li>
+                  <li>
+                    <a href="<?php echo $row['location_url']; ?>">
+                      <i aria-hidden="true" class="icon icon-map-marker1"></i>
+                      <?php echo $row['address']; ?>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </aside>
+          <?php } ?>
+          </div>
+          <a href="#" class="offcanvas-close">
+            <i class="fas fa-times"></i>
+          </a>
         </div>
-        <a href="#" class="offcanvas-close">
-          <i class="fas fa-times"></i>
-        </a>
+        <div class="overlay"></div>
       </div>
-      <div class="overlay"></div>
-    </div>
-    <!-- ***custom top bar offcanvas html*** -->
+      <!-- ***custom top bar offcanvas html*** -->
   </div>
 
   <!-- JavaScript -->

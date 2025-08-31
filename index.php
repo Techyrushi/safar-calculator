@@ -81,37 +81,53 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
       <div class="top-header">
         <div class="container">
           <div class="top-header-inner">
-            <div class="header-contact text-left">
-              <a href="tel:+919823059704">
-                <i aria-hidden="true" class="icon icon-phone-call2"></i>
+            <?php
+            $query = mysqli_query($con, "SELECT * FROM contact_cms");
+            while ($row = mysqli_fetch_array($query)) {
+            ?>
+              <div class="header-contact text-left d-flex align-items-center">
+                <i aria-hidden="true" class="icon icon-phone-call2 mr-2"></i>
                 <div class="header-contact-details d-none d-sm-block">
                   <span class="contact-label">For Further Inquires :</span>
-                  <h5 class="header-contact-no">+91 9823059704</h5>
+                  <h5 class="header-contact-no">
+                    <?php
+                    $phones = preg_split('/<br\s*\/?>|\r\n|\n/', $row['mobile_number']);
+                    if (!empty($phones[0])) {
+                      echo '<a href="tel:+91' . trim($phones[0]) . '">+91 ' . trim($phones[0]) . '</a>';
+                    }
+                    ?>
+                  </h5>
                 </div>
-              </a>
-            </div>
-            <div class="site-logo text-center">
-              <h1 class="site-title">
-                <a href="index">
-                  <img
-                    src="assets/images/Safar_Logo_White-removebg-preview.png"
-                    style="mix-blend-mode: color-burn"
-                    alt="Logo" />
-                </a>
-              </h1>
-            </div>
-            <div class="header-icon text-right">
-              <!-- <div class="header-search-icon d-inline-block">
+              </div>
+            <?php } ?>
+
+            <?php
+            $query = mysqli_query($con, "SELECT * FROM footer_cms");
+            while ($row = mysqli_fetch_array($query)) {
+            ?>
+              <div class="site-logo text-center">
+                <h1 class="site-title">
+                  <a href="index">
+                    <img
+                      src="admin/packages/<?php echo $row['logo_path']; ?>"
+                      style="mix-blend-mode: color-burn"
+                      alt="Logo" />
+                  </a>
+                </h1>
+              </div>
+
+              <div class="header-icon text-right">
+                <!-- <div class="header-search-icon d-inline-block">
                   <a href="#">
                     <i aria-hidden="true" class="fas fa-search"></i>
                   </a>
                 </div> -->
-              <div class="offcanvas-menu d-inline-block">
-                <a href="#">
-                  <i aria-hidden="true" class="icon icon-burger-menu"></i>
-                </a>
+                <div class="offcanvas-menu d-inline-block">
+                  <a href="#">
+                    <i aria-hidden="true" class="icon icon-burger-menu"></i>
+                  </a>
+                </div>
               </div>
-            </div>
           </div>
         </div>
       </div>
@@ -122,123 +138,44 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
             <div class="header-social social-icon">
               <ul>
                 <li>
-                  <a href="https://www.facebook.com/" target="_blank">
+                  <a href="<?php echo $row['facebook_url']; ?>" target="_blank">
                     <i class="fab fa-facebook-f" aria-hidden="true"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.linkedin.com/" target="_blank">
+                  <a href="<?php echo $row['linkedin_url']; ?>" target="_blank">
                     <i class="fab fa-linkedin" aria-hidden="true"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com/" target="_blank">
+                  <a href="<?php echo $row['instagram_url']; ?>" target="_blank">
                     <i class="fab fa-instagram" aria-hidden="true"></i>
                   </a>
                 </li>
               </ul>
             </div>
-            <div class="navigation-container d-none d-lg-block">
-              <nav id="navigation" class="navigation">
-                <ul>
-                  <li class="menu-active">
-                    <a href="index">Home</a>
-                  </li>
-                  <li>
-                    <a href="about">About Us</a>
-                  </li>
-                  <li>
-                    <a href="package">Packages</a>
-                  </li>
-                  <!-- <li class="menu-item-has-children">
-                      <a href="index">packages</a>
-                      <ul>
-                        <li>
-                          <a href="package">Packages</a>
-                        </li>
-                        <li>
-                          <a href="package-offer">Package offer</a>
-                        </li>
-                        <li>
-                          <a href="package">Package detail</a>
-                        </li>
-                        <li>
-                          <a href="cart">Cart page</a>
-                        </li>
-                        <li>
-                          <a href="#">Booking page</a>
-                        </li>
-                        <li>
-                          <a href="confirmation">Confirmation</a>
-                        </li>
-                      </ul>
-                    </li> -->
-                  <!-- <li class="menu-item-has-children">
-                      <a href="index">Pages</a>
-                      <ul>
-                        <li>
-                          <a href="home-banner">Home Banner</a>
-                        </li>
-                        <li>
-                          <a href="service">Service</a>
-                        </li>
-                        <li class="menu-item-has-children">
-                          <a href="#">Career</a>
-                          <ul>
-                            <li>
-                              <a href="career">Career</a>
-                            </li>
-                            <li>
-                              <a href="career-detail">Career detail</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li>
-                          <a href="team">Tour guide</a>
-                        </li>
-                        <li>
-                          <a href="gallery">Gallery page</a>
-                        </li>
-                        <li class="menu-item-has-children">
-                          <a href="#">Blog</a>
-                          <ul>
-                            <li>
-                              <a href="#">Blog archive</a>
-                            </li>
-                            <li>
-                              <a href="#">blog single</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li>
-                          <a href="single-page">Single Page</a>
-                        </li>
-                        <li>
-                          <a href="testimonial">Testimonial</a>
-                        </li>
-                        <li>
-                          <a href="faq">Faq Page</a>
-                        </li>
-                        <li>
-                          <a href="search-page">Search Page</a>
-                        </li>
-                        <li>
-                          <a href="404">404 Page</a>
-                        </li>
-                        <li>
-                          <a href="comming-soon">Comming Soon Page</a>
-                        </li>
-                      </ul>
-                    </li> -->
-                  <li>
-                    <a href="contact">Contact Us</a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div class="header-btn">
-              <a href="#" class="round-btn">Book My Safar</a>
-            </div>
+          <?php } ?>
+          <div class="navigation-container d-none d-lg-block">
+            <nav id="navigation" class="navigation">
+              <ul>
+                <li class="menu-active">
+                  <a href="index">Home</a>
+                </li>
+                <li>
+                  <a href="about">About Us</a>
+                </li>
+                <li>
+                  <a href="package">Packages</a>
+                </li>
+                <li>
+                  <a href="contact">Contact Us</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="header-btn">
+            <a href="contact" class="round-btn">Book My Safar</a>
+          </div>
           </div>
         </div>
       </div>
@@ -248,31 +185,24 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
     <main id="content" class="site-main">
       <!-- ***home banner html start form here*** -->
       <section class="home-banner-section home-banner-slider">
-        <!-- Slide 1 -->
-        <div
-          class="home-banner d-flex flex-wrap align-items-center"
-          style="
-              background-image: url(assets/images/SAFAR\ HOME\ BANNER\ 1.png);
-            ">
-          <div class="container"></div>
-        </div>
-        <!-- Slide 2 -->
-        <div
-          class="home-banner d-flex flex-wrap align-items-center"
-          style="
-              background-image: url(assets/images/SAFAR\ HOME\ BANNER\ 2.png);
-            ">
-          <div class="container"></div>
-        </div>
-        <!-- Slide 3 -->
-        <div
-          class="home-banner d-flex flex-wrap align-items-center"
-          style="
-              background-image: url(assets/images/SAFAR\ HOME\ BANNER\ 3.png);
-            ">
-          <div class="container"></div>
-        </div>
+        <?php
+        // Fetch all banners ordered by display_order
+        $banners = mysqli_query($con, "SELECT * FROM banners");
+
+        if ($banners && mysqli_num_rows($banners) > 0) {
+          while ($banner = mysqli_fetch_assoc($banners)) {
+        ?>
+            <div
+              class="home-banner d-flex flex-wrap align-items-center"
+              style="background-image: url('admin/upload/<?php echo $banner['image_path']; ?>');">
+              <div class="container"></div>
+            </div>
+        <?php
+          }
+        }
+        ?>
       </section>
+
       <!-- ***home banner html end here*** -->
       <!-- ***Home search field html start from here*** -->
       <div class="home-trip-search primary-bg">
@@ -423,119 +353,41 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
             <div class="col-lg-8 offset-lg-2 text-sm-center">
               <div class="section-heading">
                 <h5 class="sub-title">WHAT WE OFFER</h5>
-                <h2 class="section-title">On-Time Service</h2>
-                <p>
-                  From daily travel to customized tours, we ensure on-time
-                  rides, comfortable vehicles, and trusted drivers for all
-                  your needs.
-                </p>
+                <?php
+                $query = mysqli_query($con, "SELECT * FROM services ORDER BY created_at DESC LIMIT 1");
+                while ($row = mysqli_fetch_array($query)) {
+                ?>
+
+                  <h2 class="section-title"><?php echo $row['service_title']; ?></h2>
+                  <p>
+                    <?php echo $row['service_desc']; ?>
+                  </p>
               </div>
+            <?php } ?>
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-4 col-sm-6">
-              <div
-                class="icon-box bg-img-box"
-                style="background-image: url(assets/images/img4.jpg)">
-                <div class="box-icon">
-                  <i class="fas fa-hotel"></i>
-                </div>
-                <div class="icon-box-content">
-                  <h3>DAILY PICK & DROP</h3>
-                  <p>
-                    Convenient and reliable rides for school, office, or
-                    personal travel – always on time, every time.
-                  </p>
-                  <!-- <a href="#" class="round-btn">Learn More</a> -->
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-              <div
-                class="icon-box bg-img-box"
-                style="background-image: url(assets/images/img17.jpg)">
-                <div class="box-icon">
-                  <i class="fas fa-bus"></i>
-                </div>
-                <div class="icon-box-content">
-                  <h3>OUTSTATION TRIPS</h3>
-                  <p>
-                    Affordable and safe long-distance travel for vacations,
-                    family functions, and weekend getaways.
-                  </p>
-                  <!-- <a href="#" class="round-btn">Learn More</a>   -->
+            <?php
+            $query = mysqli_query($con, "SELECT * FROM services");
+            while ($row = mysqli_fetch_array($query)) {
+            ?>
+              <div class="col-lg-4 col-sm-6">
+                <div
+                  class="icon-box bg-img-box"
+                  style="background-image: url(admin/upload/<?php echo $row['image_path']; ?>)">
+                  <div class="box-icon">
+                    <i class="fas <?php echo $row['icon']; ?>"></i>
+                  </div>
+                  <div class="icon-box-content">
+                    <h3 style="text-transform: uppercase;letter-spacing: 1px;"><?php echo $row['title']; ?></h3>
+                    <p>
+                      <?php echo $row['description']; ?>
+                    </p>
+                    <!-- <a href="#" class="round-btn">Learn More</a> -->
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div class="col-lg-4 col-sm-6">
-              <div
-                class="icon-box bg-img-box"
-                style="background-image: url(assets/images/img12.jpg)">
-                <div class="box-icon">
-                  <i class="fas fa-store"></i>
-                </div>
-                <div class="icon-box-content">
-                  <h3>CORPORATE TRAVEL</h3>
-                  <p>
-                    Professional transport solutions for business meetings,
-                    staff pick-up & drop, and client transfers.
-                  </p>
-                  <!-- <a href="#" class="round-btn">Learn More</a>   -->
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-              <div
-                class="icon-box bg-img-box"
-                style="background-image: url(assets/images/img13.jpg)">
-                <div class="box-icon">
-                  <i class="fas fa-file-alt"></i>
-                </div>
-                <div class="icon-box-content">
-                  <h3>CITY TOURS</h3>
-                  <p>
-                    Explore your city’s attractions with guided tours and
-                    comfortable vehicles for families & groups.
-                  </p>
-                  <!-- <a href="#" class="round-btn">Learn More</a>   -->
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-              <div
-                class="icon-box bg-img-box"
-                style="background-image: url(assets/images/img28.jpg)">
-                <div class="box-icon">
-                  <i class="fas fa-plane-departure"></i>
-                </div>
-                <div class="icon-box-content">
-                  <h3>AIRPORT TRANSFERS</h3>
-                  <p>
-                    Hassle-free airport pick-up & drop with punctual drivers
-                    and comfortable rides – never miss a flight.
-                  </p>
-                  <!-- <a href="#" class="round-btn">Learn More</a>   -->
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-              <div
-                class="icon-box bg-img-box"
-                style="background-image: url(assets/images/img10.jpg)">
-                <div class="box-icon">
-                  <i class="fas fa-headset"></i>
-                </div>
-                <div class="icon-box-content">
-                  <h3>CUSTOMIZED TOUR PACKAGES</h3>
-                  <p>
-                    Plan your own journey with tailor-made tour packages that
-                    suit your budget and travel needs.
-                  </p>
-                  <!-- <a href="#" class="round-btn">Learn More</a>   -->
-                </div>
-              </div>
-            </div>
+            <?php } ?>
           </div>
         </div>
       </div>
@@ -548,20 +400,33 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
             <div class="col-lg-8 offset-lg-2 text-sm-center">
               <div class="section-heading">
                 <h5 class="sub-title">POPULAR PACKAGES</h5>
-                <h2 class="section-title">CHECKOUT OUR PACKAGES</h2>
-                <p>
-                  Discover exciting destinations with Safar’s carefully
-                  planned trips – from weekend getaways to long adventures.
-                </p>
+                <?php
+                $query = mysqli_query($con, "SELECT * FROM packages ORDER BY created_at DESC LIMIT 1");
+                while ($row = mysqli_fetch_array($query)) {
+                ?>
+                  <h2 class="section-title"><?php echo $row['pkg_title']; ?></h2>
+                  <p>
+                    <?php echo $row['pkg_desc']; ?>
+                  </p>
+                <?php } ?>
               </div>
             </div>
           </div>
           <div class="package-section">
-            <article class="package-item">
-              <figure
-                class="package-image"
-                style="
-                    background-image: url('assets/images/Package\ Tour\ 1.png');
+            <?php
+            $query = mysqli_query($con, "SELECT * FROM packages ORDER BY display_order LIMIT 3");
+            while ($row = mysqli_fetch_array($query)) {
+              $rating = isset($row['rating']) ? (float)$row['rating'] : 0;
+              $fullStars = floor($rating);
+              $halfStar  = ($rating - $fullStars) >= 0.5 ? 1 : 0;
+              $emptyStars = 5 - ($fullStars + $halfStar);
+              $modalId = "packageModal" . $row['id'];
+            ?>
+              <article class="package-item">
+                <figure
+                  class="package-image"
+                  style="
+                    background-image: url('admin/packages/<?php echo $row['image_path']; ?>');
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-position: center;
@@ -571,232 +436,92 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
                     overflow: hidden;
                     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
                   "></figure>
-              <div class="package-content">
-                <h3>
-                  <a
-                    href="javascript:void(0)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#packageModal">
-                    MAHABALESHWAR WEEKEND GETAWAY
-                  </a>
-                </h3>
-                <p>
-                  Escape the city and enjoy cool weather, strawberry farms,
-                  and scenic viewpoints. Perfect for families and friends
-                  looking for a short, refreshing trip.
-                </p>
-                <div class="package-meta">
-                  <ul>
-                    <li>
-                      <i class="fas fa-clock"></i>
-                      2D/1N
-                    </li>
-                    <li>
-                      <i class="fas fa-user-friends"></i>
-                      pax: 6
-                    </li>
-                    <li>
-                      <i class="fas fa-map-marker-alt"></i>
-                      Mahabaleshwar
-                    </li>
-                  </ul>
-                </div>
-                <!-- ✅ PDF Download Button -->
-                <div class="package-meta">
-                  <a href="assets/pdfs/mahabaleshwar.pdf" download>
-                    <i class="fas fa-file-pdf"></i> Download Itinerary
-                  </a>
-                </div>
-              </div>
-              <div class="package-price">
-                <div class="review-area">
-                  <!-- <span class="review-text">(25 reviews)</span> -->
-                  <div class="rating-start-wrap d-inline-block">
-                    <div class="rating-start">
-                      <span style="width: 80%"></span>
-                    </div>
-                  </div>
-                </div>
-                <h6 class="price-list">
-                  <span>₹750</span>
-                  / per person
-                </h6>
-
-                <div class="trip-start-label">Let's Start your trip</div>
-                <a href="#" class="outline-btn outline-btn-white">Book now</a>
-              </div>
-            </article>
-            <!-- ✅ Modal Popup -->
-            <div class="modal fade" id="packageModal" tabindex="-1">
-              <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div
-                  class="modal-content"
-                  style="border-radius: 12px; overflow: hidden">
-                  <div
-                    class="modal-header"
-                    style="background: #f9ab30; color: #fff">
-                    <h5 class="modal-title">Mahabaleshwar Weekend Getaway</h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body" style="padding: 20px">
-                    <p>
-                      🌿 Escape to the hills of Mahabaleshwar for a refreshing
-                      weekend getaway. Enjoy strawberry picking, scenic
-                      viewpoints, boating at Venna Lake, and the cool mountain
-                      breeze.
-                    </p>
+                <div class="package-content">
+                  <h3>
+                    <a
+                      href="javascript:void(0)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#<?php echo $modalId; ?>">
+                      <?php echo $row['title']; ?>
+                    </a>
+                  </h3>
+                  <p>
+                    <?php echo $row['description']; ?>
+                  </p>
+                  <div class="package-meta">
                     <ul>
-                      <li>Duration: 2 Days / 1 Night</li>
-                      <li>Inclusions: Stay, Meals, Sightseeing</li>
-                      <li>Best Season: October – June</li>
+                      <li>
+                        <i class="fas fa-clock"></i>
+                        <?php echo $row['duration']; ?>
+                      </li>
+                      <li>
+                        <i class="fas fa-user-friends"></i>
+                        pax: <?php echo $row['group_size']; ?>
+                      </li>
+                      <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <?php echo $row['location']; ?>
+                      </li>
                     </ul>
                   </div>
-                  <div
-                    class="modal-footer"
-                    style="padding: 15px; border-top: 1px solid #eee">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal">
-                      Close
-                    </button>
-                    <a href="#" class="btn btn-primary">Book Now</a>
+                  <!-- ✅ PDF Download Button -->
+                  <div class="package-meta">
+                    <a href="admin/packages/pdf/<?php echo $row['pdf_path']; ?>" download>
+                      <i class="fas fa-file-pdf"></i> Download Itinerary
+                    </a>
                   </div>
                 </div>
-              </div>
-            </div>
-            <article class="package-item">
-              <figure
-                class="package-image"
-                style="
-                    background-image: url(assets/images/Package\ Tour\ 2.png);
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    aspect-ratio: 1/1; /* makes it a square box */
-                    width: 100%;
-                    border-radius: 16px;
-                    overflow: hidden;
-                    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-                  "></figure>
-              <div class="package-content">
-                <h3>
-                  <a href="package"> GOA BEACH HOLIDAY </a>
-                </h3>
-                <p>
-                  Relax on sandy beaches, explore vibrant nightlife, and enjoy
-                  water sports. A perfect blend of adventure and leisure for
-                  groups and couples.
-                </p>
-                <div class="package-meta">
-                  <ul>
-                    <li>
-                      <i class="fas fa-clock"></i>
-                      5D/4N
-                    </li>
-                    <li>
-                      <i class="fas fa-user-friends"></i>
-                      pax: 12
-                    </li>
-                    <li>
-                      <i class="fas fa-map-marker-alt"></i>
-                      Goa
-                    </li>
-                  </ul>
+                <div class="package-price">
+                  <div class="review-area">
+                    <!-- <span class="review-text">(25 reviews)</span> -->
+                    <div class="rating-start-wrap d-inline-block">
+                      <div class="rating-starts">
+                        <span style="width: 80%">
+                          <?php
+                          for ($i = 0; $i < $fullStars; $i++) {
+                            echo '<i class="fas fa-star text-warning"></i>';
+                          }
+                          // Half star
+                          if ($halfStar) {
+                            echo '<i class="fas fa-star-half-alt text-warning"></i>';
+                          }
+                          // Empty stars
+                          for ($i = 0; $i < $emptyStars; $i++) {
+                            echo '<i class="far fa-star text-warning"></i>'; // empty star
+                          }
+                          ?>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <h6 class="price-list">
+                    <span>₹<?php echo $row['price']; ?></span>
+                    / <?php echo $row['price_unit']; ?>
+                  </h6>
+
+                  <div class="trip-start-label">Let's Start your trip</div>
+                  <a href="https://wa.me/919823059704?text=Hi%20Safar%2C%20I%27d%20like%20to%20book%20a%20ride." class="outline-btn outline-btn-white" target="_blank">Book now</a>
                 </div>
-                <!-- PDF Download Button -->
-                <div class="package-meta">
-                  <a href="assets/pdfs/goa.pdf" download>
-                    <i class="fas fa-file-pdf"></i> Download Itinerary
-                  </a>
-                </div>
-              </div>
-              <div class="package-price">
-                <div class="review-area">
-                  <!-- <span class="review-text">(12 reviews)</span> -->
-                  <div class="rating-start-wrap d-inline-block">
-                    <div class="rating-start">
-                      <span style="width: 80%"></span>
+              </article>
+              <!-- ✅ Modal Popup -->
+              <div class="modal fade" id="<?php echo $modalId; ?>" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                  <div class="modal-content" style="border-radius: 12px; overflow: hidden">
+                    <div class="modal-header" style="background: #f9ab30; color: #fff">
+                      <h5 class="modal-title"><?php echo $row['title']; ?></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" style="padding: 20px">
+                      <?php echo $row['modal_content']; ?>
+                    </div>
+                    <div class="modal-footer" style="padding: 15px; border-top: 1px solid #eee">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <a href="https://wa.me/919823059704?text=Hi%20Safar%2C%20I%27d%20like%20to%20book%20a%20ride." class="btn btn-primary" target="_blank">Book Now</a>
                     </div>
                   </div>
                 </div>
-                <h6 class="price-list">
-                  <span>₹5200</span>
-                  / per person
-                </h6>
-                <div class="trip-start-label">Let's Start your trip</div>
-                <a href="#" class="outline-btn outline-btn-white">Book now</a>
               </div>
-            </article>
-            <article class="package-item">
-              <figure
-                class="package-image"
-                style="
-                    background-image: url(assets/images/Package\ Tour\ 3.png);
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    aspect-ratio: 1/1; /* makes it a square box */
-                    width: 100%;
-                    border-radius: 16px;
-                    overflow: hidden;
-                    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-                  "></figure>
-              <div class="package-content">
-                <h3>
-                  <a href="package">
-                    SHIRDI & SHANI SHINGNAPUR PILGRIMAGE TOUR
-                  </a>
-                </h3>
-                <p>
-                  A soulful journey to the holy towns of Shirdi and Shani
-                  Shingnapur, including temple visits and peaceful stays for a
-                  divine experience.
-                </p>
-                <div class="package-meta">
-                  <ul>
-                    <li>
-                      <i class="fas fa-clock"></i>
-                      2D/1N
-                    </li>
-                    <li>
-                      <i class="fas fa-user-friends"></i>
-                      pax: 10
-                    </li>
-                    <li>
-                      <i class="fas fa-map-marker-alt"></i>
-                      Shirdi
-                    </li>
-                  </ul>
-                </div>
-                <!-- PDF Download Button -->
-                <div class="package-meta">
-                  <a href="assets/pdfs/shirdi.pdf" download>
-                    <i class="fas fa-file-pdf"></i> Download Itinerary
-                  </a>
-                </div>
-              </div>
-              <div class="package-price">
-                <div class="review-area">
-                  <!-- <span class="review-text">(43 reviews)</span> -->
-                  <div class="rating-start-wrap d-inline-block">
-                    <div class="rating-start">
-                      <span style="width: 80%"></span>
-                    </div>
-                  </div>
-                </div>
-                <h6 class="price-list">
-                  <span>₹660</span>
-                  / per person
-                </h6>
-                <div class="trip-start-label">Let's Start your trip</div>
-                <a href="#" class="outline-btn outline-btn-white">Book now</a>
-              </div>
-            </article>
+            <?php } ?>
             <div class="section-btn-wrap text-center">
               <a href="package" class="round-btn">VIEW ALL PACKAGES</a>
             </div>
@@ -805,71 +530,90 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
       </section>
       <!-- ***Home package html end here*** -->
       <!-- ***Home callback html start from here*** -->
-      <section
-        class="home-callback bg-img-fullcallback"
-        style="background-image: url(assets/images/img7.jpg)">
-        <div class="overlay"></div>
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-8 offset-lg-2 text-center">
-              <div class="callback-content">
-                <div class="video-button">
-                  <a
-                    id="video-container"
-                    data-fancybox="video-gallery"
-                    href="https://www.youtube.com/watch?v=2OYar8OHEOU">
-                    <i class="fas fa-play"></i>
-                  </a>
-                </div>
-                <h2 class="section-title">
-                  ARE YOU READY TO TRAVEL? REMEMBER US !!
-                </h2>
-                <p>
-                  Plan your next journey with Safar Pick & Drop Services –
-                  from daily rides to unforgettable tours. Safe, reliable, and
-                  affordable travel made just for you.
-                </p>
-                <div class="callback-btn">
-                  <a href="package" class="round-btn">View Packages</a>
-                  <a href="about" class="round-btn">Learn More</a>
+      <?php
+      $query = mysqli_query($con, "SELECT * FROM statistics");
+      while ($row = mysqli_fetch_array($query)) {
+      ?>
+        <section
+          class="home-callback bg-img-fullcallback"
+          style="background-image: url(admin/upload/<?php echo $row['image_path']; ?>)">
+          <div class="overlay"></div>
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="callback-content">
+                  <div class="video-button">
+                    <a
+                      id="video-container"
+                      data-fancybox="video-gallery"
+                      href="<?php echo $row['video_url']; ?>">
+                      <i class="fas fa-play"></i>
+                    </a>
+                  </div>
+                  <h2 class="section-title">
+                    <?php echo $row['title']; ?>
+                  </h2>
+                  <p>
+                    <?php echo $row['description']; ?>
+                  </p>
+                  <div class="callback-btn">
+                    <a href="package" class="round-btn">View Packages</a>
+                    <a href="about" class="round-btn">Learn More</a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-      <!-- ***Home callback html end here*** -->
-      <!-- ***Home counter html start from here*** -->
-      <div class="home-counter">
-        <div class="container">
-          <div class="counter-wrap">
-            <div class="counter-item">
-              <span class="counter-no">
-                <span class="counter">50</span>K+
-              </span>
-              <span class="counter-desc"> SUCCESSFUL RIDES </span>
-            </div>
-            <div class="counter-item">
-              <span class="counter-no">
-                <span class="counter">100</span>+
-              </span>
-              <span class="counter-desc"> CITIES COVERED </span>
-            </div>
-            <div class="counter-item">
-              <span class="counter-no">
-                <span class="counter">24</span>/7
-              </span>
-              <span class="counter-desc"> CUSTOMER SUPPORT </span>
-            </div>
-            <div class="counter-item">
-              <span class="counter-no">
-                <span class="counter">99</span>%
-              </span>
-              <span class="counter-desc"> ON-TIME SERVICE </span>
+        </section>
+        <!-- ***Home callback html end here*** -->
+        <!-- ***Home counter html start from here*** -->
+        <div class="home-counter">
+          <div class="container">
+            <div class="counter-wrap">
+              <div class="counter-item">
+                <span class="counter-no">
+                  <span class="counter"><?php echo preg_replace('/\D/', '', $row['rides_count']); ?></span><?php echo preg_replace('/\d+/', '', $row['rides_count']); ?>
+                </span>
+                <span class="counter-desc"> <?php echo $row['rides_title']; ?> </span>
+              </div>
+              <div class="counter-item">
+                <span class="counter-no">
+                  <span class="counter"><?php echo preg_replace('/\D/', '', $row['city_covered_count']); ?></span><?php echo preg_replace('/\d+/', '', $row['city_covered_count']); ?>
+                </span>
+                <span class="counter-desc"> <?php echo $row['city_covered_title']; ?> </span>
+              </div>
+              <div class="counter-item">
+                <span class="counter-no">
+                  <?php
+                  $value = $row['support_count'];
+
+                  if (strpos($value, '/') !== false) {
+                    // Split at "/" → animate first part, keep rest static
+                    $parts = explode('/', $value, 2);
+                    echo '<span class="counter">' . preg_replace('/\D/', '', $parts[0]) . '</span>/' . htmlspecialchars($parts[1]);
+                  } else {
+                    // Normal case like 11k+, 500M, etc.
+                    $number = preg_replace('/\D/', '', $value);
+                    $suffix = preg_replace('/\d+/', '', $value);
+
+                    echo '<span class="counter">' . $number . '</span>' . $suffix;
+                  }
+                  ?>
+                </span>
+                <span class="counter-desc"> <?php echo $row['support_title']; ?> </span>
+              </div>
+
+              <div class="counter-item">
+                <span class="counter-no">
+                  <span class="counter"><?php echo preg_replace('/\D/', '', $row['services_count']); ?></span><?php echo preg_replace('/\d+/', '', $row['services_count']); ?>
+                </span>
+                <span class="counter-desc"> <?php echo $row['services_title']; ?> </span>
+              </div>
+
             </div>
           </div>
         </div>
-      </div>
+      <?php } ?>
       <!-- ***Home counter html end here*** -->
       <!-- ***Home offer html start from here*** -->
       <section class="home-offer">
@@ -890,83 +634,48 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
           </div>
           <div class="offer-section">
             <div class="row">
-              <div class="col-md-6">
-                <article
-                  class="offer-item"
-                  style="background-image: url(assets/images/img8.jpg)">
-                  <div class="offer-badge">UPTO <span>25%</span> off</div>
-                  <div class="offer-content">
-                    <div class="package-meta">
-                      <ul>
-                        <li>
-                          <i class="fas fa-clock"></i>
-                          7D/6N
-                        </li>
-                        <li>
-                          <i class="fas fa-user-friends"></i>
-                          pax: 10
-                        </li>
-                        <li>
-                          <i class="fas fa-map-marker-alt"></i>
-                          Goa
-                        </li>
-                      </ul>
+              <?php
+              $query = mysqli_query($con, "SELECT * FROM packages ORDER BY display_order LIMIT 2");
+              while ($row = mysqli_fetch_array($query)) {
+              ?>
+                <div class="col-md-6">
+                  <article
+                    class="offer-item"
+                    style="background-image: url(admin/packages/<?php echo $row['image_path']; ?>)">
+                    <div class="offer-badge">UPTO <span><?php echo $row['discount']; ?>%</span> off</div>
+                    <div class="offer-content">
+                      <div class="package-meta">
+                        <ul>
+                          <li>
+                            <i class="fas fa-clock"></i>
+                            <?php echo $row['duration']; ?>
+                          </li>
+                          <li>
+                            <i class="fas fa-user-friends"></i>
+                            pax: <?php echo $row['group_size']; ?>
+                          </li>
+                          <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <?php echo $row['location']; ?>
+                          </li>
+                        </ul>
+                      </div>
+                      <h3>
+                        <a href="package"><?php echo $row['title']; ?></a>
+                      </h3>
+                      <p>
+                        <?php echo $row['description']; ?>
+                      </p>
+                      <div class="price-list">
+                        price:
+                        <del>₹<?php echo $row['mrpPrice']; ?> </del>
+                        <ins>₹<?php echo $row['price']; ?></ins>
+                      </div>
+                      <a href="https://wa.me/919823059704?text=Hi%20Safar%2C%20I%27d%20like%20to%20book%20a%20ride." class="round-btn" target="_blank">Book Now</a>
                     </div>
-                    <h3>
-                      <a href="package">GOA SPECIAL ESCAPE</a>
-                    </h3>
-                    <p>
-                      Enjoy sandy beaches, vibrant nightlife, and thrilling
-                      water sports. A perfect mix of fun, relaxation, and
-                      adventure.
-                    </p>
-                    <div class="price-list">
-                      price:
-                      <del>₹1300 </del>
-                      <ins>₹1105</ins>
-                    </div>
-                    <a href="#" class="round-btn">Book Now</a>
-                  </div>
-                </article>
-              </div>
-              <div class="col-md-6">
-                <article
-                  class="offer-item"
-                  style="background-image: url(assets/images/img9.jpg)">
-                  <div class="offer-badge">UPTO <span>17%</span> off</div>
-                  <div class="offer-content">
-                    <div class="package-meta">
-                      <ul>
-                        <li>
-                          <i class="fas fa-clock"></i>
-                          5D/4N
-                        </li>
-                        <li>
-                          <i class="fas fa-user-friends"></i>
-                          pax: 10
-                        </li>
-                        <li>
-                          <i class="fas fa-map-marker-alt"></i>
-                          Nashik
-                        </li>
-                      </ul>
-                    </div>
-                    <h3>
-                      <a href="package">NASHIK PILGRIMAGE & WINE TOUR</a>
-                    </h3>
-                    <p>
-                      A soulful journey to Trimbakeshwar temple followed by a
-                      relaxing vineyard experience in Nashik.
-                    </p>
-                    <div class="price-list">
-                      price:
-                      <del>₹1100 </del>
-                      <ins>₹900</ins>
-                    </div>
-                    <a href="#" class="round-btn">Book Now</a>
-                  </div>
-                </article>
-              </div>
+                  </article>
+                </div>
+              <?php } ?>
             </div>
             <div class="section-btn-wrap text-center">
               <a href="package" class="round-btn">VIEW ALL PACKAGES</a>
@@ -984,120 +693,64 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
             <div class="col-lg-8 offset-lg-2 text-center">
               <div class="section-heading">
                 <h5 class="sub-title">CLIENT'S REVIEWS</h5>
-                <h2 class="section-title">TRAVELLER'S TESTIMONIAL</h2>
-                <p>
-                  Hear from our happy customers who trusted Safar for their
-                  pick & drop services, airport transfers, and unforgettable
-                  tours. Real experiences. Real journeys. Real smiles.
-                </p>
+                <?php
+                $query = mysqli_query($con, "SELECT * FROM testimonials ORDER BY created_at DESC LIMIT 1");
+                while ($row = mysqli_fetch_array($query)) {
+                ?>
+                  <h2 class="section-title"><?php echo $row['testi_title']; ?></h2>
+                  <p>
+                    <?php echo $row['testi_desc']; ?>
+                  </p>
+                <?php } ?>
               </div>
             </div>
           </div>
           <div class="testimonial-section testimonial-slider">
-            <div class="testimonial-item">
-              <div class="testimonial-content">
-                <div class="rating-start-wrap">
-                  <div class="rating-start">
-                    <span style="width: 80%"></span>
+            <?php
+            $query = mysqli_query($con, "SELECT * FROM testimonials ORDER BY created_at DESC LIMIT 1");
+            while ($row = mysqli_fetch_array($query)) {
+              $rating = isset($row['rating']) ? (float)$row['rating'] : 0;
+              $fullStars = floor($rating);
+              $halfStar  = ($rating - $fullStars) >= 0.5 ? 1 : 0;
+              $emptyStars = 5 - ($fullStars + $halfStar);
+            ?>
+              <div class="testimonial-item">
+                <div class="testimonial-content">
+                  <div class="rating-start-wrap">
+                    <div class="rating-starts">
+                      <?php
+                      for ($i = 0; $i < $fullStars; $i++) {
+                        echo '<i class="fas fa-star text-warning"></i>';
+                      }
+                      // Half star
+                      if ($halfStar) {
+                        echo '<i class="fas fa-star-half-alt text-warning"></i>';
+                      }
+                      // Empty stars
+                      for ($i = 0; $i < $emptyStars; $i++) {
+                        echo '<i class="far fa-star text-warning"></i>'; // empty star
+                      }
+                      ?>
+                    </div>
                   </div>
-                </div>
-                <p>
-                  Very reliable daily pick & drop service. They are always on
-                  time and I never have to worry about delays. Great
-                  experience!
-                </p>
-                <div class="author-content">
-                  <!-- <figure class="testimonial-img">
+                  <p>
+                    <?php echo $row['testi_content']; ?>
+                  </p>
+                  <div class="author-content">
+                    <!-- <figure class="testimonial-img">
                       <img src="assets/images/img18.jpg" alt="" />
                     </figure> -->
-                  <div class="author-name">
-                    <h5>MAHESH SONAWANE</h5>
-                    <span>TRAVELLERS</span>
+                    <div class="author-name">
+                      <h5> <?php echo $row['name']; ?></h5>
+                      <span><?php echo $row['profiles']; ?></span>
+                    </div>
                   </div>
-                </div>
-                <div class="testimonial-icon">
-                  <i aria-hidden="true" class="fas fa-quote-left"></i>
+                  <div class="testimonial-icon">
+                    <i aria-hidden="true" class="fas fa-quote-left"></i>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="testimonial-item">
-              <div class="testimonial-content">
-                <div class="rating-start-wrap">
-                  <div class="rating-start">
-                    <span style="width: 80%"></span>
-                  </div>
-                </div>
-                <p>
-                  Our family city tour was perfectly organized by Safar. The
-                  driver knew all the best spots and made the trip enjoyable
-                  for everyone.
-                </p>
-                <div class="author-content">
-                  <!-- <figure class="testimonial-img">
-                      <img src="assets/images/img19.jpg" alt="" />
-                    </figure> -->
-                  <div class="author-name">
-                    <h5>MADHURI GANDHE</h5>
-                    <span>TRAVELLERS</span>
-                  </div>
-                </div>
-                <div class="testimonial-icon">
-                  <i aria-hidden="true" class="fas fa-quote-left"></i>
-                </div>
-              </div>
-            </div>
-            <div class="testimonial-item">
-              <div class="testimonial-content">
-                <div class="rating-start-wrap">
-                  <div class="rating-start">
-                    <span style="width: 80%"></span>
-                  </div>
-                </div>
-                <p>
-                  I booked an outstation trip with Safar and it was the best
-                  decision. Clean car, safe driving, and affordable rates.
-                  Will definitely travel again!
-                </p>
-                <div class="author-content">
-                  <!-- <figure class="testimonial-img">
-                      <img src="assets/images/img20.jpg" alt="" />
-                    </figure> -->
-                  <div class="author-name">
-                    <h5>SHASHANK DEODHAR</h5>
-                    <span>TRAVELLERS</span>
-                  </div>
-                </div>
-                <div class="testimonial-icon">
-                  <i aria-hidden="true" class="fas fa-quote-left"></i>
-                </div>
-              </div>
-            </div>
-            <div class="testimonial-item">
-              <div class="testimonial-content">
-                <div class="rating-start-wrap">
-                  <div class="rating-start">
-                    <span style="width: 80%"></span>
-                  </div>
-                </div>
-                <p>
-                  Safar made my airport transfer stress-free. The driver was
-                  punctual, polite, and the ride was super comfortable. Highly
-                  recommended!
-                </p>
-                <div class="author-content">
-                  <!-- <figure class="testimonial-img">
-                      <img src="assets/images/img19.jpg" alt="" />
-                    </figure> -->
-                  <div class="author-name">
-                    <h5>NILESH SAMBAREKAR</h5>
-                    <span>TRAVELLERS</span>
-                  </div>
-                </div>
-                <div class="testimonial-icon">
-                  <i aria-hidden="true" class="fas fa-quote-left"></i>
-                </div>
-              </div>
-            </div>
+            <?php } ?>
           </div>
         </div>
       </section>
@@ -1144,316 +797,366 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
       <!-- ***Home callback html end here*** -->
     </main>
     <!-- ***site footer html start form here*** -->
-    <footer id="colophon" class="site-footer footer-primary">
-      <div class="top-footer">
-        <div class="container">
-          <!-- Wave decoration at top of footer -->
-          <div class="footer-wave">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 1440 100"
-              preserveAspectRatio="none">
-              <path
-                fill="#ffffff"
-                fill-opacity="1"
-                d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,48C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
-            </svg>
-          </div>
+    <?php
+    $query = mysqli_query($con, "SELECT * FROM footer_cms");
+    while ($row = mysqli_fetch_array($query)) {
+    ?>
+      <footer id="colophon" class="site-footer footer-primary">
+        <div class="top-footer">
+          <div class="container">
+            <!-- Wave decoration at top of footer -->
+            <div class="footer-wave">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1440 100"
+                preserveAspectRatio="none">
+                <path
+                  fill="#ffffff"
+                  fill-opacity="1"
+                  d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,48C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+              </svg>
+            </div>
 
-          <div class="upper-footer">
-            <div class="row">
-              <div class="col-lg-4 col-md-6">
-                <aside class="widget widget_text">
-                  <div class="footer-logo">
-                    <a href="index">
-                      <img
-                        src="assets/images/Safar_Logo_White-removebg-preview.png"
-                        style="mix-blend-mode: color-burn"
-                        alt="Safar Logo"
-                        class="img-fluid" />
-                    </a>
-                  </div>
-                  <div class="textwidget widget-text">
-                    <p>
-                      At Safar, we make travel simple, safe, and stress-free.
-                      From daily pick & drop services and airport transfers to
-                      city tours, outstation trips, and customized tour
-                      packages, we provide reliable and affordable travel
-                      solutions for every need.
-                    </p>
-                  </div>
-                  <div class="header-social footer-social-icons">
-                    <a
-                      href="https://www.facebook.com/"
-                      target="_blank"
-                      class="social-icons">
-                      <i class="fab fa-facebook-f" aria-hidden="true"></i>
-                    </a>
-                    <!-- <a href="https://www.twitter.com/" target="_blank" class="social-icons">
-                        <i class="fab fa-twitter" aria-hidden="true"></i>
-                      </a> -->
-                    <a
-                      href="https://www.instagram.com/"
-                      target="_blank"
-                      class="social-icons">
-                      <i class="fab fa-instagram" aria-hidden="true"></i>
-                    </a>
-                    <a
-                      href="https://www.linkedin.com/"
-                      target="_blank"
-                      class="social-icons">
-                      <i class="fab fa-linkedin" aria-hidden="true"></i>
-                    </a>
-                    <a
-                      href="https://www.youtube.com/"
-                      target="_blank"
-                      class="social-icons">
-                      <i class="fab fa-youtube" aria-hidden="true"></i>
-                    </a>
-                  </div>
-                </aside>
-              </div>
-
-              <div class="col-lg-4 col-md-6">
-                <aside class="widget widget_latest_post widget-post-thumb">
-                  <h3 class="widget-title">Popular Destinations</h3>
-                  <ul class="modern-post-list">
-                    <li>
-                      <figure class="post-thumb">
-                        <a href="#">
-                          <img
-                            src="assets/images/img21.jpg"
-                            alt="Peaceful Places"
-                            class="img-fluid rounded" />
-                        </a>
-                      </figure>
-                      <div class="post-content">
-                        <h6>
-                          <a href="#">Journey to Peaceful Places</a>
-                        </h6>
-                        <div class="entry-meta">
-                          <span class="posted-on">
-                            <i class="far fa-calendar-alt"></i>
-                            <a href="#">February 17, 2023</a>
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <figure class="post-thumb">
-                        <a href="#">
-                          <img
-                            src="assets/images/img22.jpg"
-                            alt="Travel with Friends"
-                            class="img-fluid rounded" />
-                        </a>
-                      </figure>
-                      <div class="post-content">
-                        <h6>
-                          <a href="#">Travel with Friends</a>
-                        </h6>
-                        <div class="entry-meta">
-                          <span class="posted-on">
-                            <i class="far fa-calendar-alt"></i>
-                            <a href="#">March 5, 2023</a>
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </aside>
-              </div>
-
-              <div class="col-lg-4 col-md-12">
-                <aside class="widget widget_text">
-                  <h3 class="widget-title">Get In Touch</h3>
-                  <div class="textwidget widget-text contact-info">
-                    <ul>
-                      <li>
-                        <a href="tel:+919823059704" class="contact-item">
-                          <div class="icon-wrapper">
-                            <i
-                              aria-hidden="true"
-                              class="fas fa-phone-alt"></i>
-                          </div>
-                          <div class="contact-text">
-                            <span>Call Us</span>
-                            +91 (982) 305 9704
-                          </div>
-                        </a>
-                      </li>
-                      <li>
+            <div class="upper-footer">
+              <div class="row">
+                <div class="col-lg-4 col-md-6">
+                  <aside class="widget widget_text">
+                    <div class="footer-logo">
+                      <a href="index">
+                        <img
+                          src="admin/packages/<?php echo $row['logo_path']; ?>"
+                          style="mix-blend-mode: color-burn"
+                          alt="Safar Logo"
+                          class="img-fluid" />
+                      </a>
+                    </div>
+                    <div class="textwidget widget-text">
+                      <p>
+                        <?php echo $row['description']; ?>
+                      </p>
+                    </div>
+                    <div class="header-social footer-social-icons">
+                      <?php
+                      if ($row['facebook_status'] == 1) {
+                      ?>
                         <a
-                          href="mailto:crushikesh74@gmail.com"
-                          class="contact-item">
-                          <div class="icon-wrapper">
-                            <i aria-hidden="true" class="fas fa-envelope"></i>
-                          </div>
-                          <div class="contact-text">
-                            <span>Email Us</span>
-                            crushikesh74@gmail.com
-                          </div>
+                          href="<?php echo $row['facebook_url']; ?>"
+                          target="_blank"
+                          class="social-icons">
+                          <i class="fab fa-facebook-f" aria-hidden="true"></i>
                         </a>
-                      </li>
-                      <li class="contact-item">
-                        <div class="icon-wrapper">
-                          <i
-                            aria-hidden="true"
-                            class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="contact-text">
-                          <span>Visit Us</span>
-                          Bunglow No 25 Shreeraj Society, HAL Colony Indira
-                          Nagar, Nashik-422009
-                        </div>
-                      </li>
+                      <?php
+                      }
+                      ?>
+                      <?php
+                      if ($row['twitter_status'] == 1) {
+                      ?>
+                        <a
+                          href="<?php echo $row['twitter_url']; ?>"
+                          target="_blank"
+                          class="social-icons">
+                          <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                      <?php
+                      }
+                      ?>
+                      <?php
+                      if ($row['instagram_status'] == 1) {
+                      ?>
+                        <a
+                          href="<?php echo $row['instagram_url']; ?>"
+                          target="_blank"
+                          class="social-icons">
+                          <i class="fab fa-instagram" aria-hidden="true"></i>
+                        </a>
+                      <?php
+                      }
+                      ?>
+                      <?php
+                      if ($row['linkedin_status'] == 1) {
+                      ?>
+                        <a
+                          href="<?php echo $row['linkedin_url']; ?>"
+                          target="_blank"
+                          class="social-icons">
+                          <i class="fab fa-linkedin" aria-hidden="true"></i>
+                        </a>
+                      <?php
+                      }
+                      ?>
+                      <?php
+                      if ($row['youtube_status'] == 1) {
+                      ?>
+                        <a
+                          href="<?php echo $row['youtube_url']; ?>"
+                          target="_blank"
+                          class="social-icons">
+                          <i class="fab fa-youtube" aria-hidden="true"></i>
+                        </a>
+                      <?php
+                      }
+                      ?>
+                    </div>
+                  </aside>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                  <aside class="widget widget_latest_post widget-post-thumb">
+                    <h3 class="widget-title">Popular Packages
+
+                    </h3>
+                    <ul class="modern-post-list">
+                      <?php
+                      $query = mysqli_query($con, "SELECT * FROM packages ORDER BY created_at DESC LIMIT 3");
+                      while ($row = mysqli_fetch_array($query)) {
+                      ?>
+                        <li>
+                          <figure class="post-thumb">
+                            <a href="#">
+                              <img
+                                src="admin/packages/<?php echo $row['image_path']; ?>"
+                                alt="Peaceful Places"
+                                class="img-fluid rounded" />
+                            </a>
+                          </figure>
+                          <div class="post-content">
+                            <h6>
+                              <a href="#"><?php echo $row['title']; ?></a>
+                            </h6>
+                            <div class="entry-meta">
+                              <span class="posted-on">
+                                <i class="far fa-calendar-alt"></i>
+                                <a href="#">
+                                  <?php echo date("F d, Y", strtotime($row['created_at'])); ?>
+                                </a>
+                              </span>
+                            </div>
+                          </div>
+                        </li>
+                      <?php
+                      }
+                      ?>
                     </ul>
+                  </aside>
+                </div>
+                <?php
+                $query = mysqli_query($con, "SELECT * FROM contact_cms");
+                while ($row = mysqli_fetch_array($query)) {
+                ?>
+                  <div class="col-lg-4 col-md-12">
+                    <aside class="widget widget_text">
+                      <h3 class="widget-title">Get In Touch</h3>
+                      <div class="textwidget widget-text contact-info">
+                        <ul>
+                          <!-- Phone -->
+                          <li>
+                            <div class="contact-item">
+                              <div class="icon-wrapper">
+                                <i aria-hidden="true" class="fas fa-phone-alt"></i>
+                              </div>
+                              <div class="contact-text">
+                                <span>Call Us</span>
+                                <?php
+                                $phones = preg_split('/<br\s*\/?>|\r\n|\n/', $row['mobile_number']);
+                                foreach ($phones as $phone) {
+                                  $phone = trim($phone);
+                                  if (!empty($phone)) {
+                                    echo '<div><a href="tel:+91' . $phone . '">+91 ' . $phone . '</a></div>';
+                                  }
+                                }
+                                ?>
+                              </div>
+                            </div>
+                          </li>
+
+                          <!-- Email -->
+                          <li>
+                            <div class="contact-item">
+                              <div class="icon-wrapper">
+                                <i aria-hidden="true" class="fas fa-envelope"></i>
+                              </div>
+                              <div class="contact-text">
+                                <span>Email Us</span>
+                                <?php
+                                $emails = preg_split('/<br\s*\/?>|\r\n|\n/', $row['email']);
+                                foreach ($emails as $email) {
+                                  $email = trim($email);
+                                  if (!empty($email)) {
+                                    echo '<div><a href="mailto:' . $email . '">' . $email . '</a></div>';
+                                  }
+                                }
+                                ?>
+                              </div>
+                            </div>
+                          </li>
+
+                          <!-- Address -->
+                          <li class="contact-item">
+                            <div class="icon-wrapper">
+                              <i aria-hidden="true" class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                              <span>Visit Us</span>
+                              <?php echo nl2br($row['address']); ?>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </aside>
                   </div>
-                </aside>
+                <?php } ?>
               </div>
             </div>
-          </div>
 
-          <div class="lower-footer">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="footer-menu quick-links">
-                  <h4>Quick Links</h4>
-                  <ul>
-                    <li><a href="index">Home</a></li>
-                    <li><a href="about">About Us</a></li>
-                    <li><a href="package">Packages</a></li>
-                    <li><a href="contact">Contact Us</a></li>
-                    <!-- <li><a href="#">FAQ</a></li>
+            <div class="lower-footer">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="footer-menu quick-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                      <li><a href="index">Home</a></li>
+                      <li><a href="about">About Us</a></li>
+                      <li><a href="package">Packages</a></li>
+                      <li><a href="contact">Contact Us</a></li>
+                      <!-- <li><a href="#">FAQ</a></li>
                       <li><a href="#">Privacy Policy</a></li> -->
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="bottom-footer">
-        <div class="container">
-          <div class="copy-right text-center">
-            <p>
-              Copyright &copy; 2023 Safar. All rights reserved. | Designed
-              with <i class="fas fa-heart"></i> for travelers
-            </p>
+        <div class="bottom-footer">
+          <div class="container">
+            <div class="copy-right text-center">
+              <p>
+                Copyright &copy; 2025 Safar. All rights reserved. | Designed
+                with <i class="fas fa-heart"></i> for travelers
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    <?php } ?>
     <!-- ***site footer html end*** -->
     <a id="backTotop" href="#" class="to-top-icon">
       <i class="fas fa-chevron-up"></i>
     </a>
-    <!-- ***custom search field html*** -->
-    <div class="header-search-form">
-      <div class="container">
-        <div class="header-search-container">
-          <form class="search-form" role="search" method="get">
-            <input type="text" name="s" placeholder="Enter your text..." />
-          </form>
-          <a href="#" class="search-close">
-            <i class="fas fa-times"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-    <!-- ***custom search field html*** -->
+
     <!-- ***custom top bar offcanvas html*** -->
-    <div id="offCanvas" class="offcanvas-container">
-      <div class="offcanvas-inner">
-        <div class="offcanvas-sidebar">
-          <aside class="widget author_widget">
-            <h3 class="widget-title">OUR PROPRIETOR</h3>
-            <div class="widget-content text-center">
-              <div class="profile">
-                <figure class="avatar">
-                  <img src="assets/images/img21.jpg" alt="" />
-                </figure>
-                <div class="text-content">
-                  <div class="name-title">
-                    <h4>Nitin Kulkarni</h4>
+    <?php
+    $query = mysqli_query($con, "SELECT * FROM footer_cms");
+    while ($row = mysqli_fetch_array($query)) {
+    ?>
+      <div id="offCanvas" class="offcanvas-container">
+        <div class="offcanvas-inner">
+          <div class="offcanvas-sidebar">
+            <aside class="widget author_widget">
+              <h3 class="widget-title">OUR PROPRIETOR</h3>
+              <div class="widget-content text-center">
+                <div class="profile">
+                  <figure class="avatar">
+                    <img src="assets/images/img21.jpg" alt="" />
+                  </figure>
+                  <div class="text-content">
+                    <div class="name-title">
+                      <h4>Nitin Kulkarni</h4>
+                    </div>
+                    <p>
+                      <?php echo $row['description']; ?>
+                    </p>
                   </div>
-                  <p>
-                    Safar Pick & Drop Services is proudly managed by Me. With
-                    a vision to provide safe, reliable, and affordable travel
-                    solutions, Safar has become a trusted name for daily pick
-                    & drop, airport transfers, city tours, and outstation
-                    trips.
-                  </p>
-                </div>
-                <div class="socialgroup">
-                  <ul>
-                    <li>
-                      <a target="_blank" href="#">
-                        <i class="fab fa-facebook"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a target="_blank" href="#">
-                        <i class="fab fa-google"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a target="_blank" href="#">
-                        <i class="fab fa-linkedin"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a target="_blank" href="#">
-                        <i class="fab fa-instagram"></i>
-                      </a>
-                    </li>
-                    <!-- <li>
+                  <div class="socialgroup">
+                    <ul>
+                      <li>
+                        <a target="_blank" href="<?php echo $row['facebook_url']; ?>">
+                          <i class="fab fa-facebook"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a target="_blank" href="https://share.google/9bXDkYn3acIVhP8ay">
+                          <i class="fab fa-google"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a target="_blank" href="<?php echo $row['linkedin_url']; ?>">
+                          <i class="fab fa-linkedin"></i>
+                        </a>
+                      </li>
+                      <li>
+                        <a target="_blank" href="<?php echo $row['instagram_url']; ?>">
+                          <i class="fab fa-instagram"></i>
+                        </a>
+                      </li>
+                      <!-- <li>
                         <a target="_blank" href="#">
                           <i class="fab fa-pinterest"></i>
                         </a>
                       </li> -->
-                  </ul>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
-          </aside>
-          <aside class="widget widget_text text-center">
-            <h3 class="widget-title">CONTACT US</h3>
-            <div class="textwidget widget-text">
-              <p>
-                Feel free to contact and<br />
-                reach us !!
-              </p>
-              <ul>
-                <li>
-                  <a href="tel:+01988256203">
+            </aside>
+          <?php } ?>
+          <?php
+          $query = mysqli_query($con, "SELECT * FROM contact_cms");
+          while ($row = mysqli_fetch_array($query)) {
+          ?>
+            <aside class="widget widget_text text-center">
+              <h3 class="widget-title">CONTACT US</h3>
+              <div class="textwidget widget-text">
+                <p>
+                  Feel free to contact and<br />
+                  reach us !!
+                </p>
+                 <ul>
+                  <li>
                     <i aria-hidden="true" class="icon icon-phone1"></i>
-                    +91 (982) 305 9704
-                  </a>
-                </li>
-                <li>
-                  <a href="mailto:crushikesh74@gmail.com">
+                    <?php
+                    $phones = preg_split('/<br\s*\/?>|\r\n|\n/', $row['mobile_number']);
+                    foreach ($phones as $phone) {
+                      $phone = trim($phone);
+                      if (!empty($phone)) {
+                        echo '<div><a href="tel:+91' . $phone . '">+91 ' . $phone . '</a></div>';
+                      }
+                    }
+                    ?>
+
+                  </li>
+                  <li>
                     <i aria-hidden="true" class="icon icon-envelope1"></i>
-                    crushikesh74@gmail.com
-                  </a>
-                </li>
-                <li>
-                  <i aria-hidden="true" class="icon icon-map-marker1"></i>
-                  Bunglow No 25 Shreeraj Society, HAL Colony Indira Nagar,
-                  Nashik-422009
-                </li>
-              </ul>
-            </div>
-          </aside>
+                    <?php
+                    $emails = preg_split('/<br\s*\/?>|\r\n|\n/', $row['email']);
+                    foreach ($emails as $email) {
+                      $email = trim($email);
+                      if (!empty($email)) {
+                        echo '<div><a href="mailto:' . $email . '">' . $email . '</a></div>';
+                      }
+                    }
+                    ?>
+                  </li>
+                  <li>
+                    <a href="<?php echo $row['location_url']; ?>">
+                      <i aria-hidden="true" class="icon icon-map-marker1"></i>
+                      <?php echo $row['address']; ?>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </aside>
+          <?php } ?>
+          </div>
+          <a href="#" class="offcanvas-close">
+            <i class="fas fa-times"></i>
+          </a>
         </div>
-        <a href="#" class="offcanvas-close">
-          <i class="fas fa-times"></i>
-        </a>
+        <div class="overlay"></div>
       </div>
-      <div class="overlay"></div>
-    </div>
-    <!-- ***custom top bar offcanvas html*** -->
+
+      <!-- ***custom top bar offcanvas html*** -->
   </div>
 
   <!-- JavaScript -->
