@@ -1137,6 +1137,7 @@ if (isset($_POST['active_tab'])) {
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="service_image" name="service_image" required>
                                 <label class="custom-file-label" for="service_image">Choose image</label>
+                                <small class="form-text text-muted">Service image 500x570 Pixels(JPG, PNG, WebP)</small>
                             </div>
                         </div>
                     </div>
@@ -1210,6 +1211,7 @@ if (isset($_POST['active_tab'])) {
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="edit_service_image" name="service_image">
                                 <label class="custom-file-label" for="edit_service_image">Choose new image (leave blank to keep current)</label>
+                                <small class="form-text text-muted">Service image 500x570 Pixels(JPG, PNG, WebP)</small>
                             </div>
                             <div id="current_image_preview" class="mt-2"></div>
                         </div>
