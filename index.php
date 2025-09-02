@@ -759,32 +759,34 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
       </section>
       <!-- ***Home testimonial html end here*** -->
       <!-- ***Home callback html start from here*** -->
-      <section
-        class="home-callback bg-color-callback home-trip-search primary-bg">
-        <div class="decorative-car"></div>
-        <div
-          class="decorative-car"
-          style="left: auto; right: 5%; transform: scaleX(-1)"></div>
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-md-8">
-              <h5 class="sub-title">CALL TO ACTION</h5>
-              <h2 class="section-title">
-                READY FOR AN UNFORGETTABLE JOURNEY? CHOOSE SAFAR!
-              </h2>
-              <p>
-                Experience safe, reliable, and comfortable pick & drop
-                services, airport transfers, and customized tours with Safar –
-                your trusted travel partner. Book your ride today and make
-                every journey memorable with us!
-              </p>
-            </div>
-            <div class="col-md-4 text-md-end">
-              <a href="contact" class="outline-btn outline-btn-white">Contact Us !</a>
+      <?php
+      $query = mysqli_query($con, "SELECT * FROM statistics");
+      while ($row = mysqli_fetch_array($query)) {
+      ?>
+        <section
+          class="home-callback bg-color-callback home-trip-search primary-bg">
+          <div class="decorative-car"></div>
+          <div
+            class="decorative-car"
+            style="left: auto; right: 5%; transform: scaleX(-1)"></div>
+          <div class="container">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <h5 class="sub-title">CALL TO ACTION</h5>
+                <h2 class="section-title">
+                  <?php echo $row['action_title']; ?>
+                </h2>
+                <p>
+                  <?php echo $row['action_description']; ?>
+                </p>
+              </div>
+              <div class="col-md-4 text-md-end">
+                <a href="contact" class="outline-btn outline-btn-white">Contact Us !</a>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      <?php } ?>
       <a
         href="https://wa.me/919823059704?text=Hi%20Safar%2C%20I%27d%20like%20to%20book%20a%20ride."
         class="whatsapp-float"
@@ -1061,7 +1063,7 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
               <div class="widget-content text-center">
                 <div class="profile">
                   <figure class="avatar">
-                    <img src="assets/images/img21.jpg" alt="" />
+                    <img src="admin/packages/<?php echo $row['profile_path']; ?>" alt="" />
                   </figure>
                   <div class="text-content">
                     <div class="name-title">

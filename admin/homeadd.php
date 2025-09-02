@@ -32,6 +32,8 @@ $statsData = mysqli_fetch_assoc($resultStats);
 
 $title = $statsData['title'] ?? '';
 $description = $statsData['description'] ?? '';
+$action_title = $statsData['action_title'] ?? '';
+$action_description = $statsData['action_description'] ?? '';
 $video = $statsData['video_url'] ?? '';
 $road_built = $statsData['rides_count'] ?? '';
 $ongoing_projects = $statsData['city_covered_count'] ?? '';
@@ -45,6 +47,8 @@ $machinery_units_title = $statsData['services_title'] ?? '';
 if (isset($_POST['updateStatistics'])) {
     $title = ($_POST['title'] ?? '');
     $description = ($_POST['description'] ?? '');
+    $action_title = ($_POST['action_title'] ?? '');
+    $action_description = ($_POST['action_description'] ?? '');
     $video = ($_POST['video_url'] ?? '');
     $road_built = ($_POST['rides_count'] ?? '');
     $ongoing_projects = ($_POST['city_covered_count'] ?? '');
@@ -85,14 +89,16 @@ if (isset($_POST['updateStatistics'])) {
     if ($newImage) {
         // With image
         $stmt = $con->prepare("UPDATE statistics 
-            SET title=?, description=?, video_url=?, rides_count=?, city_covered_count=?, 
+            SET title=?, description=?, action_title=?, action_description=?, video_url=?, rides_count=?, city_covered_count=?, 
                 support_count=?, services_count=?, rides_title=?, city_covered_title=?, 
                 support_title=?, services_title=?, image_path=? 
             WHERE id=1");
         $stmt->bind_param(
-            "ssssssssssss",
+            "ssssssssssssss",
             $title,
             $description,
+            $action_title,
+            $action_description,
             $video,
             $road_built,
             $ongoing_projects,
@@ -107,14 +113,16 @@ if (isset($_POST['updateStatistics'])) {
     } else {
         // Without image
         $stmt = $con->prepare("UPDATE statistics 
-            SET title=?, description=?, video_url=?, rides_count=?, city_covered_count=?, 
+            SET title=?, description=?, action_title=?, action_description=?,video_url=?, rides_count=?, city_covered_count=?, 
                 support_count=?, services_count=?, rides_title=?, city_covered_title=?, 
-                support_title=?, services_title=? 
+                support_title=?, services_title=?
             WHERE id=1");
         $stmt->bind_param(
-            "sssssssssss",
+            "sssssssssssss",
             $title,
             $description,
+            $action_title,
+            $action_description,
             $video,
             $road_built,
             $ongoing_projects,
@@ -890,14 +898,28 @@ if (isset($_POST['active_tab'])) {
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label for="title">Statistics Section Title</label>
-                                                <input type="text" class="form-control" name="title" value="<?php echo $title; ?>">
-                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="title">Statistics Section Title</label>
+                                                        <input type="text" class="form-control" name="title" value="<?php echo $title; ?>">
+                                                    </div>
 
-                                            <div class="form-group">
-                                                <label for="description">Statistics Section Description</label>
-                                                <textarea class="form-control" name="description" rows="3"><?php echo $description; ?></textarea>
+                                                    <div class="form-group">
+                                                        <label for="description">Statistics Section Description</label>
+                                                        <textarea class="form-control" name="description" rows="3"><?php echo $description; ?></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="action_title">Call to Action Section Title</label>
+                                                        <input type="text" class="form-control" name="action_title" value="<?php echo $action_title; ?>">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="action_description">Call to Action Section Description</label>
+                                                        <textarea class="form-control" name="action_description" rows="3"><?php echo $action_description; ?></textarea>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div class="form-group">

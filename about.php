@@ -761,7 +761,7 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
               <div class="widget-content text-center">
                 <div class="profile">
                   <figure class="avatar">
-                    <img src="assets/images/img21.jpg" alt="" />
+                    <img src="admin/packages/<?php echo $row['profile_path']; ?>" alt="" />
                   </figure>
                   <div class="text-content">
                     <div class="name-title">

@@ -1,6 +1,13 @@
 <?php
 session_start();
 include("config.php");
+// Load PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
 
 $seo_query = mysqli_query($con, "SELECT * FROM seo_settings WHERE page_type='contact' LIMIT 1");
 $seo_data = mysqli_fetch_assoc($seo_query);
@@ -12,25 +19,136 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
 $msg = "";
 $error = "";
 
-// Check if form is submitted
 if (isset($_POST['submit'])) {
-  // Retrieve and sanitize form data
   $name = mysqli_real_escape_string($con, $_POST['name']);
   $email = mysqli_real_escape_string($con, $_POST['email']);
   $number = mysqli_real_escape_string($con, $_POST['number']);
   $message = mysqli_real_escape_string($con, $_POST['message']);
-  $redirectPage = $_POST['redirectPage'];
+  // $redirectPage = $_POST['redirectPage'];
 
-  // Insert data into database
-  $query1 = mysqli_query($con, "INSERT INTO contacts (name,email,phone,message) VALUES ('$name','$email','$number','$message')");
+  // Setup PHPMailer
+  $mail = new PHPMailer(true);
 
-  if ($query1) {
-    $msg = "Enquiry Details successfully submitted!";
-  } else {
-    $error = "Something went wrong. Please try again.";
+  // Validate reCAPTCHA
+  // $recaptchaSecretKey = "addsecretkey";
+  // $recaptchaResponse = $_POST['g-recaptcha-response'];
+
+  // $recaptchaUrl = "https://www.google.com/recaptcha/api/siteverify?secret={$recaptchaSecretKey}&response={$recaptchaResponse}";
+  // $recaptchaResponseData = json_decode(file_get_contents($recaptchaUrl));
+
+  // if (!$recaptchaResponseData->success) {
+  //   $error = "reCAPTCHA verification failed. Please try again.";
+  // } else {
+  try {
+    // SMTP settings
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';     // Change if using hosting SMTP
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'safartravelservices9@gmail.com'; // Your SMTP email
+    $mail->Password   = 'etda cujh ebdu iraa';   // App Password or SMTP password
+    $mail->SMTPSecure = 'tls';                // Encryption (ssl or tls)
+    $mail->Port       = 587;                  // Port: 465 (SSL) or 587 (TLS)
+
+    // Sender & recipient
+    $mail->setFrom($email, $name);
+    $mail->addAddress("safartravelservices9@gmail.com", "Admin"); // Admin email
+
+    // Email content
+    $mail->isHTML(true);
+    $mail->Subject = "New Enquiry Received - Safar Services";
+
+    $mail->Body = '
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>New Enquiry</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              background-color: #f8f9fa;
+              margin: 0;
+              padding: 0;
+            }
+            .container {
+              max-width: 600px;
+              background: #ffffff;
+              margin: 30px auto;
+              padding: 25px;
+              border-radius: 12px;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+              border-top: 6px solid #4CAF50;
+            }
+            .header {
+              text-align: center;
+              padding-bottom: 15px;
+              border-bottom: 1px solid #eee;
+            }
+            .header h2 {
+              margin: 0;
+              color: #333;
+            }
+            .details {
+              margin-top: 20px;
+            }
+            .details p {
+              font-size: 15px;
+              color: #444;
+              margin: 8px 0;
+            }
+            .details strong {
+              color: #222;
+            }
+            .footer {
+              margin-top: 25px;
+              text-align: center;
+              font-size: 13px;
+              color: #777;
+              border-top: 1px solid #eee;
+              padding-top: 15px;
+            }
+            .highlight {
+              color: #4CAF50;
+              font-weight: bold;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h2>📩 New Enquiry Details</h2>
+              <p class="highlight">Safar Pick & Drop Services</p>
+            </div>
+            <div class="details">
+              <p><strong>👤 Name:</strong> ' . $name . '</p>
+              <p><strong>📧 Email:</strong> ' . $email . '</p>
+              <p><strong>📱 Mobile:</strong> ' . $number . '</p>
+              <p><strong>📝 Message:</strong> ' . $message . '</p>
+            </div>
+            <div class="footer">
+              <p>✅ This enquiry was submitted via the Safar website contact form.</p>
+              <p>&copy; ' . date("Y") . ' Safar Pick & Drop Services</p>
+            </div>
+          </div>
+        </body>
+        </html>
+        ';
+
+    // Send email
+    if ($mail->send()) {
+      $query1 = mysqli_query($con, "INSERT INTO contacts (name,email,phone,message) VALUES ('$name','$email','$number','$message')");
+      if ($query1) {
+        $msg = "Enquiry successfully submitted.";
+      } else {
+        $error = "Database error. Please try again.";
+      }
+    }
+  } catch (Exception $e) {
+    $error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
   }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -85,6 +203,7 @@ if (isset($_POST['submit'])) {
   <!-- Custom CSS -->
   <link rel="stylesheet" type="text/css" href="style.css" />
   <link rel="stylesheet" type="text/css" href="footer-styles.css" />
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <title><?php echo htmlspecialchars($page_title); ?></title>
 </head>
 
@@ -335,7 +454,7 @@ if (isset($_POST['submit'])) {
                     </div>
                   <?php } ?>
                   <form method="post" action="" enctype="multipart/form-data" class="contact-from">
-
+                    <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
                     <p>
                       <label>Full Name<span style="color: red">*</span></label>
                       <input
@@ -367,6 +486,9 @@ if (isset($_POST['submit'])) {
                         name="message"
                         placeholder="Your Message*"></textarea>
                     </p>
+                    <!-- <p>
+                    <div class="g-recaptcha" data-sitekey="6LeWA3gpAAAAAD-uYJqwak9zB2-DA6jbKPU39Q0c"></div>
+                    </p> -->
                     <p>
                       <input
                         type="submit"
@@ -725,7 +847,7 @@ if (isset($_POST['submit'])) {
               <div class="widget-content text-center">
                 <div class="profile">
                   <figure class="avatar">
-                    <img src="assets/images/img21.jpg" alt="" />
+                    <img src="admin/packages/<?php echo $row['profile_path']; ?>" alt="" />
                   </figure>
                   <div class="text-content">
                     <div class="name-title">

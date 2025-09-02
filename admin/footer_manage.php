@@ -55,6 +55,27 @@ if (isset($_POST['update'])) {
         }
     }
 
+    // Handle profile upload
+    $profile_path = '';
+    if (!empty($_FILES['profile_path']['name'])) {
+        $filename = $_FILES['profile_path']['name'];
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+
+        if (in_array($ext, $allowed)) {
+            $unique_name = uniqid() . '.' . $ext;
+            $upload_path = "packages/" . $unique_name;
+
+            if (move_uploaded_file($_FILES['profile_path']['tmp_name'], $upload_path)) {
+                $profile_path = $unique_name;
+
+                // Update profile path in database
+                $sql_profile = "UPDATE footer_cms SET profile_path = '$profile_path' WHERE id = 1";
+                mysqli_query($con, $sql_profile);
+            }
+        }
+    }
+
     // Update the footer information (assuming id=1)
     $sql = "UPDATE footer_cms SET 
             description = '$description', 
@@ -379,6 +400,19 @@ if ($resultFooter && mysqli_num_rows($resultFooter) > 0) {
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                        <label>Profile Image</label>
+                                                        <input type="file" class="form-control" name="profile_path" accept="image/*">
+                                                        <small class="form-text text-muted">Recommended size: 100x100 pixels (JPG, PNG, SVG)</small>
+                                                        <?php if (!empty($footer_info['profile_path'])): ?>
+                                                            <div class="logo-preview-container">
+                                                                <p>Current Profile:</p>
+                                                                <img src="packages/<?php echo $footer_info['profile_path']; ?>" class="logo-preview">
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
                                                     <div class="form-group mb-3">
                                                         <label>Description *</label>
                                                         <textarea class="form-control" name="description" rows="4" required><?php echo isset($footer_info['description']) ? $footer_info['description'] : ''; ?></textarea>
