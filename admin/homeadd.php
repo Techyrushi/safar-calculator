@@ -285,11 +285,6 @@ if ($resultBanners) {
 if (isset($_GET['activate_banner'])) {
     $banner_id = intval($_GET['activate_banner']);
 
-    // First deactivate all banners
-    $deactivateAll = $con->prepare("UPDATE banners SET is_active = 0");
-    $deactivateAll->execute();
-    $deactivateAll->close();
-
     // Activate the selected banner
     $activateStmt = $con->prepare("UPDATE banners SET is_active = 0 WHERE id = ?");
     $activateStmt->bind_param("i", $banner_id);
@@ -308,11 +303,6 @@ if (isset($_GET['activate_banner'])) {
 // Handle Banner Activation
 if (isset($_GET['deactivate_banner'])) {
     $banner_id = intval($_GET['deactivate_banner']);
-
-    // First deactivate all banners
-    $deactivateAll = $con->prepare("UPDATE banners SET is_active = 1");
-    $deactivateAll->execute();
-    $deactivateAll->close();
 
     // Activate the selected banner
     $activateStmt = $con->prepare("UPDATE banners SET is_active = 1 WHERE id = ?");

@@ -187,7 +187,7 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
       <section class="home-banner-section home-banner-slider">
         <?php
         // Fetch all banners ordered by display_order
-        $banners = mysqli_query($con, "SELECT * FROM banners");
+        $banners = mysqli_query($con, "SELECT * FROM banners WHERE is_active = 1");
 
         if ($banners && mysqli_num_rows($banners) > 0) {
           while ($banner = mysqli_fetch_assoc($banners)) {
@@ -1178,8 +1178,8 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
   <script src="assets/vendors/slick-nav/jquery.slicknav.js"></script>
   <script src="assets/js/custom.min.js"></script>
   <script>
-    const orsApiKey =
-      "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjRlZTQ1ZjExMzI2NzRmMTE5YmUwMTMxZWVkNDkwODY4IiwiaCI6Im11cm11cjY0In0=";
+    // Google API Key from PHP config
+    const googleApiKey = "<?php echo $google_api_key; ?>";
 
     // Car data with all details
     let carData = [];
@@ -1264,42 +1264,74 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
           calculateJourney(carId, rate, carName, carCapacity);
         });
       });
-
-      // Auto-select first car if needed
-      // const firstCar = document.querySelector(".car-option");
-      // if (firstCar) {
-      //   setTimeout(() => {
-      //     firstCar.click(); // Trigger click to select first car and calculate
-      //   }, 300);
-      // }
     }
 
+    // Google Geocoding API - Get coordinates from place name
     async function getCoordinates(place) {
-      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
-          place
-        )}&format=json&limit=1`;
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data.length === 0) throw new Error(`Location not found: ${place}`);
-      return [parseFloat(data[0].lon), parseFloat(data[0].lat)];
+      // Use proxy for geocoding
+      try {
+        const response = await fetch(`proxy.php?action=geocode&place=${encodeURIComponent(place)}`);
+        const data = await response.json();
+
+        if (data.status === "OK" && data.results.length > 0) {
+          const location = data.results[0].geometry.location;
+          return [location.lng, location.lat];
+        } else {
+          throw new Error(`Location not found: ${place}`);
+        }
+      } catch (error) {
+        console.error("Geocoding error:", error);
+        throw error;
+      }
     }
 
+    // Get driving distance between two place names using proxy
+    async function getDistanceByPlaceName(fromPlace, toPlace) {
+      try {
+        const response = await fetch(`proxy.php?action=distance&origin=${encodeURIComponent(fromPlace)}&destination=${encodeURIComponent(toPlace)}`);
+        const data = await response.json();
+
+        if (data.status === "OK" && data.rows.length > 0 && data.rows[0].elements.length > 0) {
+          const element = data.rows[0].elements[0];
+          if (element.status === "OK") {
+            // Distance is returned in meters, convert to kilometers
+            return element.distance.value / 1000;
+          } else {
+            throw new Error(`Distance calculation failed: ${element.status}`);
+          }
+        } else {
+          throw new Error(`Distance Matrix API failed: ${data.status}`);
+        }
+      } catch (error) {
+        console.error("Distance calculation error:", error);
+        throw error;
+      }
+    }
+
+    // Get driving distance between two coordinate points using proxy
     async function getDistance(fromCoords, toCoords) {
-      const url =
-        "https://api.openrouteservice.org/v2/directions/driving-car/geojson";
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: orsApiKey,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          coordinates: [fromCoords, toCoords],
-        }),
-      });
-      const data = await response.json();
-      const distanceInMeters = data.features[0].properties.summary.distance;
-      return distanceInMeters / 1000;
+      try {
+        const [fromLng, fromLat] = fromCoords;
+        const [toLng, toLat] = toCoords;
+
+        const response = await fetch(`proxy.php?action=distance&origin=${fromLat},${fromLng}&destination=${toLat},${toLng}`);
+        const data = await response.json();
+
+        if (data.status === "OK" && data.rows.length > 0 && data.rows[0].elements.length > 0) {
+          const element = data.rows[0].elements[0];
+          if (element.status === "OK") {
+            // Distance is returned in meters, convert to kilometers
+            return element.distance.value / 1000;
+          } else {
+            throw new Error(`Distance calculation failed: ${element.status}`);
+          }
+        } else {
+          throw new Error(`Distance Matrix API failed: ${data.status}`);
+        }
+      } catch (error) {
+        console.error("Distance calculation error:", error);
+        throw error;
+      }
     }
 
     // Format date for display
@@ -1466,19 +1498,19 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
             journeyDetailsDiv.innerHTML = `<div class="text-center py-4"><div class="spinner-border text-primary"></div><p class="mt-2">Calculating your journey...</p></div>`;
 
             try {
-              const fromCoords = await getCoordinates(pickup);
-              const toCoords = await getCoordinates(drop);
+              let distance;
 
-              let distance = await getDistance(fromCoords, toCoords);
-              // Round off the distance first
+              // Use proxy for distance calculation
+              console.log("Using proxy for distance calculation...");
+              distance = await getDistanceByPlaceName(pickup, drop);
               distance = Math.round(distance);
-              // console.log(`One-way distance: ${distance} km`);
+              console.log(`Distance: ${distance} km`);
+
               let tripTypeText = "One-way journey";
 
               if (tripType === "round") {
                 distance *= 2;
                 tripTypeText = "Round trip";
-                // console.log(`Round trip distance: ${distance} km`);
               }
 
               // Calculate days
@@ -1515,7 +1547,6 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
                 // ROUND TRIP LOGIC (new daily km rules)
                 const roundTripDistance = distance; // Calculate full round trip distance
                 tripTypeText = "Round trip";
-                // console.log(`Round trip distance: ${roundTripDistance} km`);
 
                 // Apply minimum 300km rule for round trips
                 const effectiveRoundTripDistance =
@@ -1546,12 +1577,6 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
 
               // Calculate total price based on distance and days
               const total = finalDistance * rate;
-              // console.log(
-              //   `Total price (${finalDistance} km × ₹${rate}): ₹${Math.round(
-              //     total
-              //   )}`
-              // );
-              // console.log(`Pricing logic: ${pricingExplanation}`);
 
               // Format dates
               const formattedStartDate = formatDate(startDate);
@@ -1624,6 +1649,7 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
             }
           });
       });
+
     // WhatsApp Booking Functionality
     document
       .getElementById("whatsappBookBtn")
