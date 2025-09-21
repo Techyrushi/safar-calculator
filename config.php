@@ -1,7 +1,5 @@
 <?php
 include 'vendor/autoload.php';
-
-
 // Load environment variables
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -19,4 +17,7 @@ if (mysqli_connect_errno()) {
 
 // Google API Configuration
 $google_api_key = $_ENV['GOOGLE_API_KEY'];
+$mail_user = $_ENV['MAIL_USER'];
+$mail_pass = $_ENV['MAIL_PASS'];
+
 

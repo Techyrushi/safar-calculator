@@ -44,14 +44,14 @@ if (isset($_POST['submit'])) {
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';     // Change if using hosting SMTP
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'safartravelservices9@gmail.com'; // Your SMTP email
-    $mail->Password   = 'etda cujh ebdu iraa';   // App Password or SMTP password
+    $mail->Username   = $mail_user; // Your SMTP email
+    $mail->Password   = $mail_pass;   // App Password or SMTP password
     $mail->SMTPSecure = 'tls';                // Encryption (ssl or tls)
     $mail->Port       = 587;                  // Port: 465 (SSL) or 587 (TLS)
 
     // Sender & recipient
     $mail->setFrom($email, $name);
-    $mail->addAddress("safartravelservices9@gmail.com", "Admin"); // Admin email
+    $mail->addAddress("rushikeshchavan815@gmail.com", "Admin"); // Admin email
 
     // Email content
     $mail->isHTML(true);
