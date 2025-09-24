@@ -580,8 +580,11 @@ if (isset($_POST['submit'])) {
         </div>
         <!-- ***iconbox section html end here*** -->
       </section>
-      <div class="feedbackFormDiv">
-        <button onclick="toggleFeedbackForm()">Feedback <i class="fas fa-comment" aria-hidden="true"></i></button>
+      <div class="feedbackFormDiv fab-style">
+        <button onclick="toggleFeedbackForm()" title="Feedback">
+          <span class="button-text">Feedback</span>
+          <i class="fas fa-comment" aria-hidden="true"></i>
+        </button>
       </div>
       <section>
         <div class="bgFeedBack">
