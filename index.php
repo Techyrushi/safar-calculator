@@ -48,14 +48,8 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
     type="text/css"
     href="assets/vendors/elementskit-icon-pack/assets/css/ekiticons.css" />
   <!-- slick slider css -->
-  <link
-    rel="stylesheet"
-    type="text/css"
-    href="assets/vendors/slick/slick.css" />
-  <link
-    rel="stylesheet"
-    type="text/css"
-    href="assets/vendors/slick/slick-theme.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
   <!-- google fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&amp;family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&amp;display=swap"
@@ -86,7 +80,14 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
             while ($row = mysqli_fetch_array($query)) {
             ?>
               <div class="header-contact text-left d-flex align-items-center">
-                <i aria-hidden="true" class="icon icon-phone-call2 mr-2"></i>
+                <?php
+                $phones = preg_split('/<br\s*\/?>|\r\n|\n/', $row['mobile_number']);
+                if (!empty($phones[0])) {
+                  echo '<a href="tel:+91' . trim($phones[0]) . '">
+          <i aria-hidden="true" class="icon icon-phone-call2 mr-2"></i>
+        </a>';
+                }
+                ?>
                 <div class="header-contact-details d-none d-sm-block">
                   <span class="contact-label">For Further Inquires :</span>
                   <h5 class="header-contact-no">
@@ -395,7 +396,9 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
         </div>
       </div>
       <!-- ***service section end here*** -->
-
+      <div class="feedbackFormDiv">
+        <button onclick="toggleFeedbackForm()">Feedback <i class="fas fa-comment" aria-hidden="true"></i></button>
+      </div>
       <!-- ***Home package html start from here*** -->
       <section class="home-package mt-5">
         <div class="container">
@@ -688,6 +691,68 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
       </section>
       <!-- ***Home offer html end here*** -->
 
+
+      <section>
+        <div class="bgFeedBack">
+          <div class="app">
+            <div class="formTopHead mb-4">
+              <i class="fa fa-times-circle" onclick="toggleFeedbackForm()"></i>
+              <h3 class="mt-3"><i class="fa fa-compass"></i> Ready to <span class="orange-color">explore more</span></h3>
+              <h5 class="gray-color">Help us craft better travel experiences by sharing your journey with us. Your feedback guides our next destination!</h5>
+            </div>
+
+            <div class="container">
+              <form action="submit_feedback.php" method="POST">
+                <!-- 📧 Email -->
+                <div class="row justify-content-center mb-3">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="feature-email">
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="✉ Enter Your Email"
+                        required
+                        class="email-input">
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- ⭐ Star Rating -->
+            <div class="row justify-content-center mb-3">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <label><strong>Your Rating</strong></label>
+                <div class="star-rating">
+                  <input type="radio" name="rating" id="star5" value="5" required>
+                  <label for="star5" title="5 stars">★</label>
+                  <input type="radio" name="rating" id="star4" value="4">
+                  <label for="star4" title="4 stars">★</label>
+                  <input type="radio" name="rating" id="star3" value="3">
+                  <label for="star3" title="3 stars">★</label>
+                  <input type="radio" name="rating" id="star2" value="2">
+                  <label for="star2" title="2 stars">★</label>
+                  <input type="radio" name="rating" id="star1" value="1">
+                  <label for="star1" title="1 star">★</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- 📝 Review/Suggestion -->
+            <div class="row justify-content-center mb-4">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <label for="review"><strong>Your Review or Suggestion</strong></label>
+                <textarea id="review" name="review" rows="5" placeholder="Write your feedback here..." style="border: 2px solid #f58634;" required></textarea>
+              </div>
+            </div>
+
+            <!-- 📤 Submit Button -->
+            <div class="row justify-content-center">
+              <button type="submit" class="upgrade-btn">Submit</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </section>
 
       <!-- ***Home testimonial html start from here*** -->
       <section class="home-testimonial">
@@ -1293,6 +1358,11 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
 
         if (data.status === "OK" && data.rows.length > 0 && data.rows[0].elements.length > 0) {
           const element = data.rows[0].elements[0];
+          const origin = localStorage.setItem("origin_addresses", data.origin_addresses);
+          const destination = localStorage.setItem("destination_addresses", data.destination_addresses);
+
+          console.log("Origin:", origin);
+          console.log("Destination:", destination);
           if (element.status === "OK") {
             // Distance is returned in meters, convert to kilometers
             return element.distance.value / 1000;
@@ -1309,30 +1379,35 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
     }
 
     // Get driving distance between two coordinate points using proxy
-    async function getDistance(fromCoords, toCoords) {
-      try {
-        const [fromLng, fromLat] = fromCoords;
-        const [toLng, toLat] = toCoords;
+    // async function getDistance(fromCoords, toCoords) {
+    //   try {
+    //     const [fromLng, fromLat] = fromCoords;
+    //     const [toLng, toLat] = toCoords;
 
-        const response = await fetch(`proxy.php?action=distance&origin=${fromLat},${fromLng}&destination=${toLat},${toLng}`);
-        const data = await response.json();
+    //     const response = await fetch(`proxy.php?action=distance&origin=${fromLat},${fromLng}&destination=${toLat},${toLng}`);
+    //     const data = await response.json();
 
-        if (data.status === "OK" && data.rows.length > 0 && data.rows[0].elements.length > 0) {
-          const element = data.rows[0].elements[0];
-          if (element.status === "OK") {
-            // Distance is returned in meters, convert to kilometers
-            return element.distance.value / 1000;
-          } else {
-            throw new Error(`Distance calculation failed: ${element.status}`);
-          }
-        } else {
-          throw new Error(`Distance Matrix API failed: ${data.status}`);
-        }
-      } catch (error) {
-        console.error("Distance calculation error:", error);
-        throw error;
-      }
-    }
+    //     if (data.status === "OK" && data.rows.length > 0 && data.rows[0].elements.length > 0) {
+    //       const element = data.rows[0].elements[0];
+    //       const origin = localStorage.setItem("origin_addresses", data.origin_addresses);
+    //       const destination = localStorage.setItem("destination_addresses", data.destination_addresses);
+
+    //       console.log("Origin:", origin);
+    //       console.log("Destination:", destination);
+    //       if (element.status === "OK") {
+    //         // Distance is returned in meters, convert to kilometers
+    //         return element.distance.value / 1000;
+    //       } else {
+    //         throw new Error(`Distance calculation failed: ${element.status}`);
+    //       }
+    //     } else {
+    //       throw new Error(`Distance Matrix API failed: ${data.status}`);
+    //     }
+    //   } catch (error) {
+    //     console.error("Distance calculation error:", error);
+    //     throw error;
+    //   }
+    // }
 
     // Format date for display
     function formatDate(dateString) {
@@ -1599,13 +1674,13 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
             <span class="detail-label">Journey Type</span>
             <span class="detail-value">${tripTypeText}</span>
           </div>
-          <div class="detail-row">
+            <div class="detail-row">
             <span class="detail-label">From</span>
-            <span class="detail-value">${pickup}</span>
+            <span class="detail-value">${localStorage.getItem("origin_addresses")}</span>
           </div>
           <div class="detail-row">
             <span class="detail-label">To</span>
-            <span class="detail-value">${drop}</span>
+            <span class="detail-value">${localStorage.getItem("destination_addresses")}</span>
           </div>
           <div class="detail-row">
             <span class="detail-label">Start Date</span>
@@ -1680,8 +1755,8 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
         // Create WhatsApp message
         const message =
           `Hi, I'd like to book a cab:\n\n` +
-          `*From: ${pickup}\n` +
-          `*To: ${drop}\n` +
+          `*From: ${localStorage.getItem("origin_addresses")}\n` +
+          `*To: ${localStorage.getItem("destination_addresses")}\n` +
           `*Trip Type: ${tripType}\n` +
           `*Dates: ${formattedStartDate} to ${formattedEndDate}\n` +
           `*Passengers: ${persons}\n` +
@@ -1701,6 +1776,50 @@ $meta_description = isset($seo_data['description']) ? $seo_data['description'] :
           "_blank"
         );
       });
+  </script>
+  <script>
+    function toggleFeedbackForm() {
+      const feedbackForm = document.querySelector('.bgFeedBack');
+      feedbackForm.classList.toggle('show');
+    }
+  </script>
+  <!-- Include SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const status = urlParams.get('status');
+
+      if (status === 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thank you!',
+          text: 'Feedback submitted successfully.',
+          confirmButtonColor: '#ff6f00'
+        }).then(() => {
+          window.location.href = 'index';
+        });
+      } else if (status === 'email_exists') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'You have already given feedback with this email.',
+          confirmButtonColor: '#ff6f00'
+        }).then(() => {
+          window.location.href = 'index';
+        });
+      } else if (status === 'missing_fields') {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Incomplete!',
+          text: 'Please fill all required fields.',
+          confirmButtonColor: '#ff6f00'
+        }).then(() => {
+          window.location.href = 'index';
+        });
+      }
+    });
   </script>
 </body>
 

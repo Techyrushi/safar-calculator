@@ -30,34 +30,34 @@ if (isset($_POST['submit'])) {
   $mail = new PHPMailer(true);
 
   // Validate reCAPTCHA
-  // $recaptchaSecretKey = "addsecretkey";
-  // $recaptchaResponse = $_POST['g-recaptcha-response'];
+  $recaptchaSecretKey = $secret_key;
+  $recaptchaResponse = $_POST['g-recaptcha-response'];
 
-  // $recaptchaUrl = "https://www.google.com/recaptcha/api/siteverify?secret={$recaptchaSecretKey}&response={$recaptchaResponse}";
-  // $recaptchaResponseData = json_decode(file_get_contents($recaptchaUrl));
+  $recaptchaUrl = "https://www.google.com/recaptcha/api/siteverify?secret={$recaptchaSecretKey}&response={$recaptchaResponse}";
+  $recaptchaResponseData = json_decode(file_get_contents($recaptchaUrl));
 
-  // if (!$recaptchaResponseData->success) {
-  //   $error = "reCAPTCHA verification failed. Please try again.";
-  // } else {
-  try {
-    // SMTP settings
-    $mail->isSMTP();
-    $mail->Host       = 'smtp.gmail.com';     // Change if using hosting SMTP
-    $mail->SMTPAuth   = true;
-    $mail->Username   = $mail_user; // Your SMTP email
-    $mail->Password   = $mail_pass;   // App Password or SMTP password
-    $mail->SMTPSecure = 'tls';                // Encryption (ssl or tls)
-    $mail->Port       = 587;                  // Port: 465 (SSL) or 587 (TLS)
+  if (!$recaptchaResponseData->success) {
+    $error = "reCAPTCHA verification failed. Please try again.";
+  } else {
+    try {
+      // SMTP settings
+      $mail->isSMTP();
+      $mail->Host       = 'smtp.gmail.com';     // Change if using hosting SMTP
+      $mail->SMTPAuth   = true;
+      $mail->Username   = $mail_user; // Your SMTP email
+      $mail->Password   = $mail_pass;   // App Password or SMTP password
+      $mail->SMTPSecure = 'tls';                // Encryption (ssl or tls)
+      $mail->Port       = 587;                  // Port: 465 (SSL) or 587 (TLS)
 
-    // Sender & recipient
-    $mail->setFrom($email, $name);
-    $mail->addAddress("rushikeshchavan815@gmail.com", "Admin"); // Admin email
+      // Sender & recipient
+      $mail->setFrom($email, $name);
+      $mail->addAddress("rushikeshchavan815@gmail.com", "Admin"); // Admin email
 
-    // Email content
-    $mail->isHTML(true);
-    $mail->Subject = "New Enquiry Received - Safar Services";
+      // Email content
+      $mail->isHTML(true);
+      $mail->Subject = "New Enquiry Received - Safar Travel Solution";
 
-    $mail->Body = '
+      $mail->Body = '
         <!DOCTYPE html>
         <html>
         <head>
@@ -117,7 +117,7 @@ if (isset($_POST['submit'])) {
           <div class="container">
             <div class="header">
               <h2>📩 New Enquiry Details</h2>
-              <p class="highlight">Safar Pick & Drop Services</p>
+              <p class="highlight"> Safar Travel Solution</p>
             </div>
             <div class="details">
               <p><strong>👤 Name:</strong> ' . $name . '</p>
@@ -127,24 +127,25 @@ if (isset($_POST['submit'])) {
             </div>
             <div class="footer">
               <p>✅ This enquiry was submitted via the Safar website contact form.</p>
-              <p>&copy; ' . date("Y") . ' Safar Pick & Drop Services</p>
+              <p>&copy; ' . date("Y") . '  Safar Travel Solution. All rights reserved.</p>
             </div>
           </div>
         </body>
         </html>
         ';
 
-    // Send email
-    if ($mail->send()) {
-      $query1 = mysqli_query($con, "INSERT INTO contacts (name,email,phone,message) VALUES ('$name','$email','$number','$message')");
-      if ($query1) {
-        $msg = "Enquiry successfully submitted.";
-      } else {
-        $error = "Database error. Please try again.";
+      // Send email
+      if ($mail->send()) {
+        $query1 = mysqli_query($con, "INSERT INTO contacts (name,email,phone,message) VALUES ('$name','$email','$number','$message')");
+        if ($query1) {
+          $msg = "Enquiry successfully submitted.";
+        } else {
+          $error = "Database error. Please try again.";
+        }
       }
+    } catch (Exception $e) {
+      $error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
-  } catch (Exception $e) {
-    $error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
   }
 }
 ?>
@@ -226,7 +227,14 @@ if (isset($_POST['submit'])) {
             while ($row = mysqli_fetch_array($query)) {
             ?>
               <div class="header-contact text-left d-flex align-items-center">
-                <i aria-hidden="true" class="icon icon-phone-call2 mr-2"></i>
+                <?php
+                $phones = preg_split('/<br\s*\/?>|\r\n|\n/', $row['mobile_number']);
+                if (!empty($phones[0])) {
+                  echo '<a href="tel:+91' . trim($phones[0]) . '">
+          <i aria-hidden="true" class="icon icon-phone-call2 mr-2"></i>
+        </a>';
+                }
+                ?>
                 <div class="header-contact-details d-none d-sm-block">
                   <span class="contact-label">For Further Inquires :</span>
                   <h5 class="header-contact-no">
@@ -486,9 +494,9 @@ if (isset($_POST['submit'])) {
                         name="message"
                         placeholder="Your Message*"></textarea>
                     </p>
-                    <!-- <p>
-                    <div class="g-recaptcha" data-sitekey="6LeWA3gpAAAAAD-uYJqwak9zB2-DA6jbKPU39Q0c"></div>
-                    </p> -->
+                    <p>
+                    <div class="g-recaptcha" data-sitekey="<?php echo $site_key; ?>"></div>
+                    </p>
                     <p>
                       <input
                         type="submit"
@@ -571,6 +579,70 @@ if (isset($_POST['submit'])) {
           </div>
         </div>
         <!-- ***iconbox section html end here*** -->
+      </section>
+      <div class="feedbackFormDiv">
+        <button onclick="toggleFeedbackForm()">Feedback <i class="fas fa-comment" aria-hidden="true"></i></button>
+      </div>
+      <section>
+        <div class="bgFeedBack">
+          <div class="app">
+            <div class="formTopHead mb-4">
+              <i class="fa fa-times-circle" onclick="toggleFeedbackForm()"></i>
+              <h3 class="mt-3"><i class="fa fa-compass"></i> Ready to <span class="orange-color">explore more</span></h3>
+              <h5 class="gray-color">Help us craft better travel experiences by sharing your journey with us. Your feedback guides our next destination!</h5>
+            </div>
+
+            <div class="container">
+              <form action="submit_feedback.php" method="POST">
+                <!-- 📧 Email -->
+                <div class="row justify-content-center mb-3">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="feature-email">
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="✉ Enter Your Email"
+                        required
+                        class="email-input">
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!-- ⭐ Star Rating -->
+            <div class="row justify-content-center mb-3">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <label><strong>Your Rating</strong></label>
+                <div class="star-rating">
+                  <input type="radio" name="rating" id="star5" value="5" required>
+                  <label for="star5" title="5 stars">★</label>
+                  <input type="radio" name="rating" id="star4" value="4">
+                  <label for="star4" title="4 stars">★</label>
+                  <input type="radio" name="rating" id="star3" value="3">
+                  <label for="star3" title="3 stars">★</label>
+                  <input type="radio" name="rating" id="star2" value="2">
+                  <label for="star2" title="2 stars">★</label>
+                  <input type="radio" name="rating" id="star1" value="1">
+                  <label for="star1" title="1 star">★</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- 📝 Review/Suggestion -->
+            <div class="row justify-content-center mb-4">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <label for="review"><strong>Your Review or Suggestion</strong></label>
+                <textarea id="review" name="review" rows="5" placeholder="Write your feedback here..." style="border: 2px solid #f58634;" required></textarea>
+              </div>
+            </div>
+
+            <!-- 📤 Submit Button -->
+            <div class="row justify-content-center">
+              <button type="submit" class="upgrade-btn">Submit</button>
+            </div>
+            </form>
+          </div>
+        </div>
       </section>
       <a
         href="https://wa.me/919823059704?text=Hi%20Safar%2C%20I%27d%20like%20to%20book%20a%20ride."
@@ -960,6 +1032,49 @@ if (isset($_POST['submit'])) {
   <script src="assets/vendors/fancybox/dist/jquery.fancybox.min.js"></script>
   <script src="assets/vendors/slick-nav/jquery.slicknav.js"></script>
   <script src="assets/js/custom.min.js"></script>
+  <script>
+    function toggleFeedbackForm() {
+      const feedbackForm = document.querySelector('.bgFeedBack');
+      feedbackForm.classList.toggle('show');
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const status = urlParams.get('status');
+
+      if (status === 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thank you!',
+          text: 'Feedback submitted successfully.',
+          confirmButtonColor: '#ff6f00'
+        }).then(() => {
+          window.location.href = 'contact';
+        });
+      } else if (status === 'email_exists') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'You have already given feedback with this email.',
+          confirmButtonColor: '#ff6f00'
+        }).then(() => {
+          window.location.href = 'contact';
+        });
+      } else if (status === 'missing_fields') {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Incomplete!',
+          text: 'Please fill all required fields.',
+          confirmButtonColor: '#ff6f00'
+        }).then(() => {
+          window.location.href = 'contact';
+        });
+      }
+    });
+  </script>
 </body>
 
 </html>

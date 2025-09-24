@@ -158,19 +158,20 @@ $('#navigation').slicknav({
 
 /* Home Featured slider */
 $('.home-banner-slider').slick({
-  dots: true,
+  dots: false,
   infinite: true,
-  autoplay: true,
-  autoplaySpeed: 5000,
-  speed: 1200,
-  fade: true,
+  autoplay: true,           // enables auto-slide
+  autoplaySpeed: 3000,      // change from 1000ms to 3000ms for better visibility
+  speed: 1200,              // transition speed
+  fade: true,               // fade effect between slides
   slidesToShow: 1,
   slidesToScroll: 1,
   adaptiveHeight: true,
+  arrows: true,             // enable arrows on desktop
   responsive: [{
     breakpoint: 767,
     settings: {
-      arrows: false,
+      arrows: false,        // hide arrows on mobile
       dots: true
     }
   }]

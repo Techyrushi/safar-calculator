@@ -258,26 +258,26 @@ body {
   body {
     font-size: 14px;
   }
-  
+
   .package-item {
     width: 100% !important;
     max-width: 100% !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
-  
+
   .package-item .package-image {
     width: 100% !important;
     max-width: 100% !important;
     object-fit: cover !important;
   }
-  
+
   .car-selector {
     width: 100% !important;
     max-width: 100% !important;
     padding: 0 10px !important;
   }
-  
+
   .car-option {
     width: 100% !important;
     min-width: 100% !important;
@@ -295,19 +295,19 @@ body {
     max-width: 100%;
     box-sizing: border-box;
   }
-  
+
   .package-item .package-image {
     width: 100%;
     max-width: 100%;
     object-fit: cover;
   }
-  
+
   .car-selector {
     width: 100%;
     max-width: 100%;
     overflow-x: visible;
   }
-  
+
   .car-option {
     width: 100%;
     min-width: 250px;
@@ -1499,6 +1499,11 @@ input[type=submit]:focus {
 
   .tab-container .responsive-tabs .card .collapse {
     display: block;
+  }
+
+  .feedbackFormDiv {
+    right: 12px;
+    z-index: 200;
   }
 }
 
@@ -4720,12 +4725,12 @@ body.about .about-banner {
     justify-content: center;
     letter-spacing: 0.5px;
   }
-  
+
   .package-meta a[download] i {
     font-size: 16px;
     margin-right: 8px;
   }
-  
+
   .trip-start-label {
     font-size: 12px;
     padding: 6px 12px;
@@ -10046,6 +10051,270 @@ body.about .about-banner {
   .whatsapp-float {
     display: none !important;
   }
+}
+
+/* Feedback Form */
+.feedbackFormDiv {
+  position: fixed;
+  bottom: 160px;
+  right: -53px;
+  rotate: 90deg;
+  z-index: 200;
+}
+
+.feedbackFormDiv button {
+  background: #e02821;
+  color: white;
+  border: none;
+  padding: 13px 20px 13px 13px;
+  font-size: 22px;
+  border-bottom-right-radius: 39px;
+  border-bottom-left-radius: 10px;
+  font-weight: 500px;
+  cursor: pointer;
+}
+
+.feedbackFormDiv button i {
+  rotate: 269deg;
+}
+
+/* feedback form css */
+.bgFeedBack {
+  background: rgb(55 51 51 / 40%);
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 300;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.bgFeedBack.show {
+  transform: translateX(0);
+}
+
+.app {
+  max-width: 34%;
+  text-align: center;
+  background: #f8f8f8;
+  padding: 10px 10px 0px 10px;
+  border: 2px solid #ffba00;
+  z-index: 120;
+  float: right;
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+}
+
+.app i {
+  font-size: 80px;
+}
+
+.feature-email input {
+  width: 100%;
+  height: 38px;
+  margin: 6px 10px 5px 0px;
+  font-size: 18px;
+  border-radius: 10px;
+  color: #696565;
+  background: white;
+  border: 2px solid #f58634;
+  box-sizing: border-box;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.feature-email input:focus {
+  color: black;
+  border: 2px solid #f58634 !important;
+  border-radius: 3px;
+}
+
+.feature {
+  position: relative;
+  width: 100%;
+  height: 38px;
+  margin: 6px 10px 5px 0px;
+  font-size: 18px;
+  border-radius: 3px;
+  color: #696565;
+  background: white;
+  border: 2px solid #f58634;
+  box-sizing: border-box;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.feature div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  line-height: 25px;
+  transition: .2s ease;
+}
+
+.feature div span {
+  padding: 5px;
+}
+
+.feature input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  opacity: 0;
+  cursor: pointer;
+  background-color: #f58634;
+  color: white;
+  border-color: #f58634 !important;
+}
+
+input[type=checkbox]:checked~div {
+  background-color: #f58634;
+  color: #ffffff;
+  border: 2px solid #ffffff !important;
+  border-radius: 3px;
+}
+
+.upgrade-btn {
+  display: grid;
+  margin: 30px auto;
+  width: 145px;
+  height: inherit;
+  padding: 5px 20px;
+  border: 2px solid #f58634;
+  border-radius: 3px;
+  color: #f58634;
+  font-size: 20px;
+  text-align: center;
+  font-weight: 500;
+  text-decoration: none;
+  transition: .3s ease;
+}
+
+.upgrade-btn:hover {
+  background-color: #f58634;
+  color: white;
+}
+
+.fa-compass {
+  color: #b83f37;
+  font-size: 53px !important;
+}
+
+.orange-color {
+  color: #f3771b;
+}
+
+.gray-color {
+  color: #555;
+}
+
+.social i:before {
+  width: 14px;
+  height: 14px;
+  position: fixed;
+  color: #fff;
+  background: #0077B5;
+  padding: 10px;
+  border-radius: 50%;
+  top: 5px;
+  right: 5px;
+}
+
+.fa-times-circle {
+  font-size: 25px !important;
+  font-weight: 100;
+  color: rgb(4, 1, 0);
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.radio-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.swatch-element {
+  margin: 0;
+}
+
+.swatchLbl {
+  display: inline-block;
+  padding: 8px 12px;
+  /* Adjusted padding */
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  /* Adjusted font size */
+}
+
+.swatchLbl:hover {
+  background-color: #f0f0f0;
+}
+
+.swatchLbl input[type="radio"] {
+  display: none;
+}
+
+.swatchLbl input[type="radio"]:checked+.swatchLbl {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.green-icon {
+  color: green;
+  /* Change the color to green */
+}
+
+.star-rating {
+  direction: rtl;
+  display: inline-flex;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.star-rating input {
+  display: none;
+  cursor: pointer;
+}
+
+.star-rating label {
+  color: #ddd;
+  transition: color 0.2s ease;
+}
+
+.star-rating input:checked~label,
+.star-rating label:hover,
+.star-rating label:hover~label {
+  color: #f5a623;
+  cursor: pointer;
+}
+
+.email-input {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 30px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.email-input:focus {
+  border-color: #f5a623;
+  box-shadow: 0 0 8px rgba(245, 166, 35, 0.3);
 }
 
 /*# sourceMappingURL=style.css.map */

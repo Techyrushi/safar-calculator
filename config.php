@@ -20,4 +20,7 @@ $google_api_key = $_ENV['GOOGLE_API_KEY'];
 $mail_user = $_ENV['MAIL_USER'];
 $mail_pass = $_ENV['MAIL_PASS'];
 
+// Recaptcha Configuration
+$site_key = $_ENV['SITE_KEY'];
+$secret_key = $_ENV['SECRET_KEY'];
 
